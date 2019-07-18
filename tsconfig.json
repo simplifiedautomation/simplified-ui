@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "simplified-ui": [
+        "dist/simplified-ui"
+      ],
+      "simplified-ui/*": [
+        "dist/simplified-ui/*"
+      ]
+    }
   }
 }

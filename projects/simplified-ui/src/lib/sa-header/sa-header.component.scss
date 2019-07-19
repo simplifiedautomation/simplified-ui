@@ -1,0 +1,42 @@
+.sidenav-toggle {
+  display: none;
+  padding: 0;
+  background: transparent;
+}
+
+mat-icon {
+  font-size: 26px;
+  height: 56px;
+  width: 56px;
+  line-height: 56px;
+  color: black;
+}
+
+
+mat-toolbar {
+  padding: 0px !important;
+  background: transparent !important;
+  float: left;
+  width: fit-content;
+}
+
+.mat-toolbar-single-row {
+  padding: 0px !important;
+}
+
+.sa-base-header-content {
+  width: 100%;
+  display: flex;
+}
+
+@media (max-width: 720px) {
+  .sidenav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-page {
+    margin-top: 10px;
+  }
+}

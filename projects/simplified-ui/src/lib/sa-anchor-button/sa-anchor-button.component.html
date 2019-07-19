@@ -1,0 +1,8 @@
+<button mat-button color="primary" [disabled]="isDisabled">
+  <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+    <span>
+      {{ button.title }}
+    </span>
+    <mat-spinner *ngIf="isLoading" color="primary" diameter="20"></mat-spinner>
+  </span>
+</button>

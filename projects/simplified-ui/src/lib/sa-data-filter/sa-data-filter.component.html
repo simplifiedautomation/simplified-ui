@@ -1,0 +1,30 @@
+<div fxFlex="100" fxLayout="column" fxLayoutGap="10px">
+  <div fxFlex="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+    <mat-form-field fxFlex="20">
+      <mat-label>Search </mat-label>
+      <input matInput [formControl]="keyword" placeholder="Search...">
+    </mat-form-field>
+    <ng-container *ngFor="let filter of filters">
+      <div *ngIf="filter.filterType == filterType.select" fxFlex="6">
+        <sa-select [placeholder]="filter.title" [config]="filter.config" (selectionChange)="onSelect($event, filter)">
+        </sa-select>
+      </div>
+      <div *ngIf="filter.filterType == filterType.date">
+        <button mat-button class="no-hover-effect" (click)="dateButtonClicked(datePicker)">
+          <mat-label>{{filter.title}}</mat-label>
+          <sa-date-picker [dateConfig]="filter.config" #datePicker (onSelection)="datePickerChange($event, filter, datePicker)">
+          </sa-date-picker>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+  </div>
+  <div>
+    <mat-chip-list>
+      <mat-chip *ngFor="let item of chips" removable="true" (removed)="removeChip(item)">
+        {{item.title}}: {{item.displayValue}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+</div>

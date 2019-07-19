@@ -1,0 +1,13 @@
+<sa-base-header>
+  <div class="sa-base-header-content" fxLayout="row">
+    <button mat-button class="sidenav-toggle">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span fxFlex="none" fxLayoutAlign=" center">{{header.title}}</span>
+    <span fxFlex></span>
+    <div fxFlex="nogrow" fxLayoutGap="5px">
+      <sa-secondary-button [button]="header.secondaryButton" *ngIf="header.secondaryButton"></sa-secondary-button>
+      <sa-primary-button [button]="header.primaryButton" *ngIf="header.primaryButton"></sa-primary-button>
+    </div>
+  </div>
+</sa-base-header>

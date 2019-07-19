@@ -1,0 +1,6 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>more_horiz</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item *ngFor="let item of items" (click)="item.clickSubject.next($event)">{{item.title}}</button>
+</mat-menu>

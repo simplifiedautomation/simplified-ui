@@ -1,0 +1,19 @@
+<sa-base-page>
+  <ng-content class="page-header" select=".page-header"></ng-content>
+  <div class="page-body">
+    <mat-sidenav-container>
+
+      <mat-sidenav #tableOfContents mode="side" opened position="end" [fixedInViewport]="true" [fixedTopGap]="64">
+        <sa-table-of-contents [primaryMenu]="primaryMenu" [secondaryMenu]="secondaryMenu">
+        </sa-table-of-contents>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <div class="mdc-layout-grid">
+          <ng-content></ng-content>
+        </div>
+      </mat-sidenav-content>
+
+    </mat-sidenav-container>
+  </div>
+</sa-base-page>

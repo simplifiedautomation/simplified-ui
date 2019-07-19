@@ -1,0 +1,91 @@
+
+<div class="mdc-layout-grid">
+  <div class="mdc-layout-grid__inner">
+
+    <div fxFlex fxLayout="column" fxLayoutAlign="start strech" fxLayoutGap="8px">
+
+      <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <div fxFlex="grow">
+          <sa-data-filter [filters]="filterArray" (filterChange)="filterChange($event)"></sa-data-filter>
+        </div>
+        <div fxFlex="nogrow">
+          <button mat-button *ngIf="dataTable.mainActionMenu.length > 0" color="primary" [matMenuTriggerFor]="menu">
+            Action
+          </button>
+        </div>
+      </div>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item color="primary" *ngFor="let action of dataTable.mainActionMenu" (click)="menuItemClicked(action, $event)">
+          {{ action.title }}
+        </button>
+      </mat-menu>
+
+      <div fxFlex fxLayout="column" fxLayoutAlign="start strech">
+        <mat-table [dataSource]="tableDataSource" matSort class="mat-elevation-z8">
+
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                            [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+          <!-- button Column -->
+          <ng-container matColumnDef="options">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-menu #appMenu="matMenu">
+                <button mat-menu-item *ngFor="let item of dataTable.optionsMenu" (click)="menuItemClicked(item, $event)">{{item.title}}</button>
+              </mat-menu>
+
+              <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <mat-menu #appMenu="matMenu">
+                <button mat-menu-item *ngFor="let item of dataTable.optionsMenu" (click)="menuItemClicked(item, $event)">{{item.title}}</button>
+              </mat-menu>
+
+              <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+
+          <!-- Sliced 1 to not to reinitilize the select controller-->
+          <ng-container *ngFor="let col of dataTable.columns" [matColumnDef]="col.key">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{col.title}} </mat-header-cell>
+            <mat-cell (click)="dataRowClick(element)" *matCellDef="let element"> {{element[col.key] | valueFormatter: col.type}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="columnToDisplay; sticky: true"></mat-header-row>
+          <mat-row matRipple *matRowDef="let row; columns: columnToDisplay;" [ngStyle]="{'display': !isRender ? 'none' : null}"></mat-row>
+        </mat-table>
+
+        <div *ngIf="!isRender" style="background-color:white;">
+          <div fxFlex="row" fxLayoutAlign="space-around" style="padding:8px;">
+            <mat-spinner diameter="50"></mat-spinner>
+          </div>
+        </div>
+
+        <mat-paginator class="mat-elevation-z8" [pageSizeOptions]="[20, 30, 40, 100]" [length]="totalCount" [pageSize]="tableDataSource.filter.pageSize"
+                       [pageIndex]="tableDataSource.filter.pageNo" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,15 @@
+trigger: none
+
+pool: 'default'
+
+steps:
+- task: Npm@1
+  displayName: "NPM Install"
+  inputs:
+    command: 'install'
+
+- task: Npm@1
+  displayName: "Build simplified-ui library"
+  inputs:
+    command: 'custom'
+    customCommand: 'run ng build simplified-ui'

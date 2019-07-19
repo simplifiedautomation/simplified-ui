@@ -1,0 +1,9 @@
+<mat-nav-list>
+  <mat-list-item class="menu-list" (click)="navigationItemOnClick($event.target)" *ngFor="let item of primaryMenu; index as i " [ngClass]="{'selected': i==0}">
+    <a class="menu-link" href="{{href}}#{{item.route}}">{{item.name}}</a>
+  </mat-list-item>
+  <mat-divider class="menu-divider"></mat-divider>
+  <mat-list-item class="menu-list" (click)="navigationItemOnClick($event.target)" *ngFor="let item of secondaryMenu">
+    <a class="menu-link" href="{{href}}#{{item.route}}">{{item.name}}</a>
+  </mat-list-item>
+</mat-nav-list>

@@ -10,13 +10,15 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
-- checkout: self
-  persistCredentials: true
-  
 - task: NodeTool@0
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
+- script: |
+    git config --global user.email "ishmeet@simplifiedautomation.ca"
+    git config --global user.name "Ishmeet Sethi"
+    git checkout master
+  displayName: "checkout to master"
 
 - task: Npm@1
   displayName: "NPM Install"
@@ -31,9 +33,7 @@ steps:
     customCommand: 'version patch'
 
 - script: |
-    git config --global user.email "ishmeet@simplifiedautomation.ca"
-    git config --global user.name "Ishmeet Sethi"
-    git commit -am "Updated patch version"
+    git commit -am "Updated patch version skip ci"
     git pull origin master
     git push origin azure-pipelines
   displayName: "Commit and push to master"

@@ -15,8 +15,23 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
+- task: Npm@1
+  displayName: "NPM Install"
+  inputs:
+    command: 'install'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'projects/simplified-ui'
+    customCommand: 'version patch'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run build-simplified-ui'
+
+- task: Npm@1
+  inputs:
+    command: 'publish'
+    workingDir: 'dist/simplified-ui'

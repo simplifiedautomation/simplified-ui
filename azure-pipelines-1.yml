@@ -23,6 +23,7 @@ steps:
     command: 'install'
 
 - task: Npm@1
+  displayName: "Update package version"
   inputs:
     command: 'custom'
     workingDir: 'projects/simplified-ui'
@@ -33,13 +34,16 @@ steps:
     git config --global user.name "Ishmeet Sethi"
     git commit -am "Updated patch version"
     git push
+  displayName: "Commit and push to master"
 
 - task: Npm@1
+  displayName: "Build Package"
   inputs:
     command: 'custom'
     customCommand: 'run build-simplified-ui'
 
 - task: Npm@1
+  displayName: "Publish Package"
   inputs:
     command: 'publish'
     workingDir: 'dist/simplified-ui'

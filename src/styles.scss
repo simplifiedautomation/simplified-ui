@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+
+.primary.mat-progress-spinner circle,
+.primary.mat-spinner circle
+{
+  stroke: white;
+}
+.no-pointer {
+  pointer-events: none;
+}
+
+.ql-snow {
+    border: none !important;
+}
+
+.mat-form-field-type-app-date-picker.mat-form-field-appearance-outline.mat-form-field-can-float{
+.mat-form-field-infix{
+    padding: 0.8em 0 1.2em 0 !important;
+}
+}

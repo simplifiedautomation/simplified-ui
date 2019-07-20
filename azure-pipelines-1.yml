@@ -34,7 +34,8 @@ steps:
     git config --global user.email "ishmeet@simplifiedautomation.ca"
     git config --global user.name "Ishmeet Sethi"
     git commit -am "Updated patch version"
-    git push
+    git pull origin master
+    git push origin master
   displayName: "Commit and push to master"
 
 - task: Npm@1

@@ -1,33 +1,32 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActionElementConfig } from '../models/ActionElementConfig';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'sa-button',
   templateUrl: './sa-button.component.html',
   styleUrls: ['./sa-button.component.scss']
 })
-export class SaButtonComponent implements OnInit {
+export class SaButtonComponent {
 
   @Input() config: SaButtonConfig;
+  @Output() click: EventEmitter<Event> = new EventEmitter();
 
   buttonType = SaButtonType;
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
   onClick(evt: Event) {
-    this.config.clickSubject.next(evt);
+    this.click.emit(evt);
   }
 
 }
 
-export class SaButtonConfig extends ActionElementConfig {
+export class SaButtonConfig {
   isDisabled: boolean = false;
   isSpinning: boolean = false;
   type: SaButtonType = SaButtonType.Primary;
   loadingText: string;
+
+  constructor(public title: string){}
 }
 
 export enum SaButtonType {

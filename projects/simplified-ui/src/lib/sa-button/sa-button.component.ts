@@ -14,6 +14,18 @@ export class SaButtonComponent {
 
   constructor() { }
 
+  @Input() set isDisabled(val: boolean) {
+    this.config.isDisabled = val;
+  }
+
+  get isDisabled(): boolean {
+    return this.config.isDisabled;
+  }
+
+
+  ngOnInit() {
+  }
+
   onClick(evt: Event) {
     this.click.emit(evt);
   }

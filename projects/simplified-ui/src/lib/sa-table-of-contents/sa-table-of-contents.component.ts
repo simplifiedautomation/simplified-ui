@@ -52,13 +52,15 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit {
 
     this.scrollDispatcher.scrolled().subscribe(
       (x) => {
-        let itemOffsets = this.getItemOffsets();
-        let scroll_start = x['elementRef'].nativeElement.scrollTop;
-        for (let i = 0; i < itemOffsets.length; i++) {
-          if ((i === itemOffsets.length - 1) && scroll_start >= (itemOffsets[i].top - 66)) {
-            this.triggerEvent(itemOffsets[i].route);
-          } else if (scroll_start >= (itemOffsets[i].top - 66) && scroll_start < itemOffsets[i + 1].top - 66) {
-            this.triggerEvent(itemOffsets[i].route);
+        if (x) {
+          let itemOffsets = this.getItemOffsets();
+          let scroll_start = x['elementRef'].nativeElement.scrollTop;
+          for (let i = 0; i < itemOffsets.length; i++) {
+            if ((i === itemOffsets.length - 1) && scroll_start >= (itemOffsets[i].top - 66)) {
+              this.triggerEvent(itemOffsets[i].route);
+            } else if (scroll_start >= (itemOffsets[i].top - 66) && scroll_start < itemOffsets[i + 1].top - 66) {
+              this.triggerEvent(itemOffsets[i].route);
+            }
           }
         }
       });

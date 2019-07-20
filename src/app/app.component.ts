@@ -73,7 +73,6 @@ this.dataFilterConfigArray.push(this.dataFilterConfig);
     this.saveButtonConfig.clickSubject.subscribe(
       () => {
         this.saveButtonConfig.isSpinning = !this.saveButtonConfig.isSpinning;
-        console.log(this.saveButtonConfig.isSpinning);
       }
     );
 

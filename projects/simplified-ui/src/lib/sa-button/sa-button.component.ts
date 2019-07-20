@@ -14,6 +14,15 @@ export class SaButtonComponent implements OnInit {
 
   constructor() { }
 
+  @Input() set isDisabled(val: boolean) {
+    this.config.isDisabled = val;
+  }
+
+  get isDisabled(): boolean {
+    return this.config.isDisabled;
+  }
+
+
   ngOnInit() {
   }
 

@@ -1,13 +1,21 @@
-.mat-form-field-suffix {
-  top: 0.4em !important;
-  left: 0.4em;
-}
 
-.mat-form-field-prefix {
-  top: 0.4em !important;
-  right: 0.4em;
-}
+  .stepper.mat-form-field-appearance-outline .mat-form-field-infix{
+    padding: 0.7em 0 1.3em 0;
+  }
+  
+  .stepper{
+    input{
+      text-align: center !important;
+    }
 
-input{
-  text-align: center !important;
-}
+    .mat-form-field-suffix {
+      top: 0.35em !important;
+    }
+    
+    .mat-form-field-prefix {
+      top: 0.35em !important;
+    }
+  }
+
+
+

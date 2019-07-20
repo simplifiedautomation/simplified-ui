@@ -26,6 +26,8 @@ steps:
     workingDir: 'projects/simplified-ui'
     customCommand: 'version patch'
 
+- script: git commit -am "Updated patch version"
+
 - task: Npm@1
   inputs:
     command: 'custom'

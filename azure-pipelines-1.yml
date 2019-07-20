@@ -35,7 +35,7 @@ steps:
     git config --global user.name "Ishmeet Sethi"
     git commit -am "Updated patch version"
     git pull origin master
-    git push origin master
+    git push origin azure-pipelines
   displayName: "Commit and push to master"
 
 - task: Npm@1

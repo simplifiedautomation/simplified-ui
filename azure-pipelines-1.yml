@@ -29,7 +29,10 @@ steps:
     workingDir: 'projects/simplified-ui'
     customCommand: 'version patch'
 
-- script: git commit -am "Updated patch version"
+- script: |
+    git config --global user.email "ishmeet@simplifiedautomation.ca"
+    git config --global user.name "Ishmeet Sethi"
+    git commit -am "Updated patch version"
 
 - task: Npm@1
   inputs:

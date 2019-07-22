@@ -19,14 +19,17 @@ export class AppComponent implements OnInit {
 
   dataFilterConfigArray: IDataFilterViewModel[] = [];
 
-  selectOptions= new SaSelectConfig<string>();
+  selectOptions = new SaSelectConfig<string>();
 
   dateConfig = new DatePickerConfig();
 
+  primarButton = new SaButtonConfig('primary');
+  secondaryButton = new SaButtonConfig('secondary');
+
   headerConfig: IHeaderViewModel = {
     title: "Header",
-    primaryButton: new SaButton("Primary"),
-    secondaryButton: new SaButton("Secondary"),
+    primaryButton: this.primarButton,
+    secondaryButton: this.secondaryButton,
     moreMenu: null,
   }
 
@@ -49,36 +52,35 @@ export class AppComponent implements OnInit {
     description: new FormControl(),
   });
 
-  constructor(private form: FormBuilder){}
+  constructor(private form: FormBuilder) { }
 
-  ngOnInit(){
+  ngOnInit() {
 
     this.selectOptions.templateRef = this.selectOptionBody;
     this.selectOptions.options.next(["Option 1"]);
 
 
-    this.dataFilterConfig =  {
-  key: 'id',
-  filterType: FilterTypeEnum.select,
-  config: this.selectOptions,
-  title: 'filter'
-};
+    this.dataFilterConfig = {
+      key: 'id',
+      filterType: FilterTypeEnum.select,
+      config: this.selectOptions,
+      title: 'filter'
+    };
 
-this.dataFilterConfigArray.push(this.dataFilterConfig);
+    this.dataFilterConfigArray.push(this.dataFilterConfig);
 
     this.saveButtonConfig.isSpinning = false;
     this.saveButtonConfig.loadingText = 'Saving';
     this.saveButtonConfig.type = SaButtonType.Anchor;
-
-    this.saveButtonConfig.clickSubject.subscribe(
-      () => {
-        this.saveButtonConfig.isSpinning = !this.saveButtonConfig.isSpinning;
-      }
-    );
-
   }
 
-  
+  onPrimaryClick(event) {
+    
+  }
+
+  onSecondaryClick(event) {
+    
+  }
 
 }
 

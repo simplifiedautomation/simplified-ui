@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IHeaderViewModel } from '../models/HeaderViewModels'
 
 @Component({
@@ -9,6 +9,17 @@ import { IHeaderViewModel } from '../models/HeaderViewModels'
 export class SaHeaderComponent{
 
   @Input() header: IHeaderViewModel;
+  @Output() primaryClick: EventEmitter<Event> = new EventEmitter();
+  @Output() secondaryClick: EventEmitter<Event> = new EventEmitter();
+  
   constructor() { }
+
+  onPrimaryClick(event: Event){
+    this.primaryClick.emit(event);
+  }
+
+  onSecodaryClick(event: Event){
+    this.secondaryClick.emit(event);
+  }
 
 }

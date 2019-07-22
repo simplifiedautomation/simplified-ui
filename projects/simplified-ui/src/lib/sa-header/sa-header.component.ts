@@ -15,11 +15,11 @@ export class SaHeaderComponent{
   constructor() { }
 
   onPrimaryClick(event: Event){
-    this.primaryClick.emit(event)
+    this.primaryClick.emit(event);
   }
 
   onSecodaryClick(event: Event){
-    this.secondaryClick.emit(event)
+    this.secondaryClick.emit(event);
   }
 
 }

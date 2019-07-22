@@ -1,9 +1,9 @@
-import { SaButton } from './Sabutton';
+import { SaButtonConfig } from '../sa-button/sa-button.component';
 
 export interface IHeaderViewModel {
   title: string;
-  primaryButton: SaButton;
-  secondaryButton: SaButton;
+  primaryButton: SaButtonConfig;
+  secondaryButton: SaButtonConfig;
   moreMenu: IMoreMenuViewModel;
 }
 

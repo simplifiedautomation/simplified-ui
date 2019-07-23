@@ -1,22 +1,29 @@
-.primary.mat-progress-spinner circle,
-.primary.mat-spinner circle
-{
-  stroke: white;
-}
-.no-pointer {
-  pointer-events: none;
+sa-button {
+  .primary.mat-progress-spinner circle,
+  .primary.mat-spinner circle
+  {
+    stroke: white;
+  }
+
+  .no-pointer {
+    pointer-events: none;
+  }
 }
 
 .ql-snow {
-    border: none !important;
+  border: none !important;
 }
 
-.mat-form-field-type-app-date-picker.mat-form-field-appearance-outline.mat-form-field-can-float{
-.mat-form-field-infix{
-    padding: 0.8em 0 1.2em 0 !important;
-}
-}
-
-.mat-option:first-child .mat-pseudo-checkbox {
+.mat-option.search-option .mat-pseudo-checkbox {
   display: none;
+}
+
+sa-data-filter {
+  .mat-form-field-wrapper {
+    padding-bottom: 0px !important;
+  }
+}
+
+.mat-form-field-type-sa-select.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.3em) scale(0.75) !important;
 }

@@ -2,7 +2,6 @@ import { IGenericPageListViewModel } from "./IPagerModel";
 import { Observable, Subject } from "rxjs";
 import { IDataFilterViewModel, IFilterModel } from "../models/DataFilterModels";
 import { SortDirection } from "./SaTableDataSource";
-import { SaButton } from "./SaButton";
 import { SaButtonConfig } from '../sa-button/sa-button.component';
 
 //data for each column in a table

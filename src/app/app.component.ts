@@ -72,7 +72,6 @@ export class AppComponent implements OnInit {
     this.saveButtonConfig.isSpinning = false;
     this.saveButtonConfig.loadingText = 'Saving';
     this.saveButtonConfig.type = SaButtonType.Anchor;
-
   }
 
   onPrimaryClick(event) {

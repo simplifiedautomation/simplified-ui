@@ -3,6 +3,7 @@ import { Observable, Subject } from "rxjs";
 import { IDataFilterViewModel, IFilterModel } from "../models/DataFilterModels";
 import { SortDirection } from "./SaTableDataSource";
 import { SaButton } from "./SaButton";
+import { SaButtonConfig } from '../sa-button/sa-button.component';
 
 //data for each column in a table
 export enum DataTableColumnTypeEnum {
@@ -35,9 +36,9 @@ export interface IDataTable<T>
 
   columns: IDataTableColumn[];
 
-  mainActionMenu: SaButton[];
+  mainActionMenu: SaButtonConfig[];
 
-  optionsMenu: SaButton[];
+  optionsMenu: SaButtonConfig[];
 
   isClientSide: boolean;
 

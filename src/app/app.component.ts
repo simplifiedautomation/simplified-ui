@@ -69,13 +69,6 @@ this.dataFilterConfigArray.push(this.dataFilterConfig);
     this.saveButtonConfig.isSpinning = false;
     this.saveButtonConfig.loadingText = 'Saving';
     this.saveButtonConfig.type = SaButtonType.Anchor;
-
-    this.saveButtonConfig.clickSubject.subscribe(
-      () => {
-        this.saveButtonConfig.isSpinning = !this.saveButtonConfig.isSpinning;
-      }
-    );
-
   }
 
   

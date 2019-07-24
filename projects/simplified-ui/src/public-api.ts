@@ -14,7 +14,7 @@ export * from './lib/models/DataFilterModels';
 export * from './lib/models/DataTableModel';
 export * from './lib/models/DatePickerConfigModel';
 export * from './lib/models/IPagerModel';
-export * from './lib/models/Sabutton';
+export * from './lib/models/SaButton';
 export * from './lib/models/SaTableDataSource';
 export * from './lib/models/SaSelectModels';
 export * from './lib/models/NavigationItem';

@@ -3,7 +3,7 @@
         color="primary"
         [disabled]="config.isDisabled && !config.isSpinning"
         class="button"
-        (click)="onClick($event)"
+        (click)="onButtonClick($event)"
         *ngIf="config.type == buttonType.Primary">
 
   <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
@@ -19,7 +19,7 @@
         color="primary"
         [disabled]="config.isDisabled && !config.isSpinning"
         class="button"
-        (click)="onClick($event)"
+        (click)="onButtonClick($event)"
         *ngIf="config.type == buttonType.Secondary">
 
   <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
@@ -34,8 +34,7 @@
         [class.no-pointer]="config.isSpinning"
         color="primary"
         [disabled]="config.isDisabled && !config.isSpinning"
-        class="button"
-        (click)="onClick($event)"
+        (click)="onButtonClick($event)"
         *ngIf="config.type == buttonType.Anchor">
 
   <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">

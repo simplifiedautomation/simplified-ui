@@ -4,7 +4,7 @@
     <h3> Header Component </h3>
     <sa-base-page >
       <div class="page-header">
-              <sa-header [header]="headerConfig"></sa-header>
+              <sa-header [header]="headerConfig" (primaryClick)="onPrimaryClick($event)" (secondaryClick)="onSecondaryClick($event)"></sa-header>
       </div>
     
       <div class="page-body">

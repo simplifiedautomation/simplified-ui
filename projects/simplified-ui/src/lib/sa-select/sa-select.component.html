@@ -1,5 +1,5 @@
 <mat-select msInfiniteScroll [placeholder]="placeholder" (infiniteScroll)="getNextBatch()" [complete]="isComplete" (blur)="markAsTouched()" (selectionChange)="onSelect($event)" required="required" [multiple]="this.config.isMultiple" #matSelectRef [formControl]="matSelect">
-  <mat-option [value]="null"><input matInput [placeholder]="this.config.searchPlaceholder" (click)="clicked($event)" (keydown)="$event.stopPropagation()" (keyup)="filterRecords($event)"></mat-option>
+  <mat-option [value]="null" class="search-option"><input matInput [placeholder]="this.config.searchPlaceholder" (click)="clicked($event)" (keydown)="$event.stopPropagation()" (keyup)="filterRecords($event)"></mat-option>
   <mat-select-trigger *ngIf="this.config.triggerTemplateRef">
     <ng-container *ngTemplateOutlet="this.config.triggerTemplateRef; context: {$implicit: value}"></ng-container>
   </mat-select-trigger>

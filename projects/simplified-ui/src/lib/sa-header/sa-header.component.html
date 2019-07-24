@@ -6,8 +6,8 @@
     <span fxFlex="none" fxLayoutAlign=" center">{{header.title}}</span>
     <span fxFlex></span>
     <div fxFlex="nogrow" fxLayoutGap="5px">
-      <sa-secondary-button [button]="header.secondaryButton" *ngIf="header.secondaryButton"></sa-secondary-button>
-      <sa-primary-button [button]="header.primaryButton" *ngIf="header.primaryButton"></sa-primary-button>
+      <sa-button [config]="header.secondaryButton" *ngIf="header.secondaryButton" (onClick)="onSecodaryClick($event)"></sa-button>
+      <sa-button [config]="header.primaryButton" *ngIf="header.primaryButton" (onClick)="onPrimaryClick($event)"></sa-button>
     </div>
   </div>
 </sa-base-header>

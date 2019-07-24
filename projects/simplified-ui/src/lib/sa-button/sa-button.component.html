@@ -34,7 +34,6 @@
         [class.no-pointer]="config.isSpinning"
         color="primary"
         [disabled]="config.isDisabled && !config.isSpinning"
-        class="button"
         (click)="onButtonClick($event)"
         *ngIf="config.type == buttonType.Anchor">
 

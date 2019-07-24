@@ -75,11 +75,11 @@ export class AppComponent implements OnInit {
   }
 
   onPrimaryClick(event) {
-    
+
   }
 
   onSecondaryClick(event) {
-    
+
   }
 
 }

@@ -89,8 +89,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
     return this._empty;
   }
 
-  get shouldLabelFloat() {
-    return this.focused || !this.empty; }
+  get shouldLabelFloat() { return this.focused || !this.empty; }
 
   @Input()
   get placeholder(): string { return this._placeholder; }
@@ -118,12 +117,10 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
 
   @Input()
   get value(): string | null {
-    console.log('get', this._value);
     return this._value;
   }
 
   set value(val: string | null) {
-    console.log(val);
     this._value = val;
     if (this._value != null && this._value !== "" && this._value >= 0) {
       this._empty = false;
@@ -133,7 +130,6 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
     }
     this.onChange(this._value);
     this.stateChanges.next();
-    
   }
 
   setDescribedByIds(ids: string[]) {

@@ -139,9 +139,11 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
   onContainerClick(event: MouseEvent) { }
 
   writeValue(val: string | null): void {
-    if(val != null)
-        this._empty = false;
-    this.value = val;
+    if(val != null){
+      this._empty = false;
+      this.currencyValue.patchValue(formatCurrency(parseFloat(val), this.locale, this.symbol));
+    }
+    this.value = val;    
   }
 
   registerOnChange(fn: any): void {
@@ -161,7 +163,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
   }
 
   parse(value: string, allowNegative = false) {
-    let [integer, fraction = ''] = (value || '').split(this.decimalSeparator);
+    let [integer, fraction = ''] = (value.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
     fraction = parseInt(fraction, 10) > 0 && 2 > 0 ? this.decimalSeparator + (fraction + '000000').substring(0, 2) : '';
     if (allowNegative && value.startsWith('(') && value.endsWith(')')) {

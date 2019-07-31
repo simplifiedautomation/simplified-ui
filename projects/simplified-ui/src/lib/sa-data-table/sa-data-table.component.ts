@@ -81,9 +81,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges
 
   ngOnInit() {
 
-    this.columnToDisplay = this.dataTable.columns.map(z => {
-      return z.key;
-    });
+    this._setColumns();
 
     this.dataTable.columns.forEach(z => {
       if (z.filter != null)
@@ -128,9 +126,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges
 
   ngOnChanges(changes: SimpleChanges){
     if (changes.dataTable){
-      this.columnToDisplay = this.dataTable.columns.map(z => {
-        return z.key;
-      });
+      this._setColumns();
     }
   }
 
@@ -168,6 +164,12 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges
     }
 
     return this.dataTable.getResults(requestModel);
+  }
+
+  private _setColumns(){
+    this.columnToDisplay = this.dataTable.columns.map(z => {
+      return z.key;
+    });
   }
 
   filterChange(filter: IFilterModel) {

@@ -13,7 +13,9 @@ export class AppComponent implements OnInit {
 
   isLoading: boolean = true;
 
-  saveButtonConfig = new SaButtonConfig('Save');
+  isSpin: boolean = true;
+
+  saveButtonConfig = new SaButtonConfig('Toggle Spinner');
 
   dataFilterConfig: IDataFilterViewModel;
 

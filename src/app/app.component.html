@@ -1,56 +1,63 @@
 <h3 style="float:right"> Navigation Menu Component </h3>
-<sa-navigable-page [primaryMenu]="primaryNavMenu" [secondaryMenu]="secondaryNavMenu" >
+<sa-navigable-page [primaryMenu]="primaryNavMenu" [secondaryMenu]="secondaryNavMenu">
 
-    <h3> Header Component </h3>
-    <sa-base-page >
-      <div class="page-header">
-              <sa-header [header]="headerConfig" (primaryClick)="onPrimaryClick($event)" (secondaryClick)="onSecondaryClick($event)"></sa-header>
-      </div>
-    
-      <div class="page-body">
-          
-        </div>
-    </sa-base-page>
-    
-    <h3> Button Component </h3>
-    <sa-button [config]="saveButtonConfig"></sa-button>
-    
-    <br/>
-    <h3> Currency Inpput Component </h3>
-    <mat-form-field>
-        <mat-label>Currency</mat-label>
-        <sa-currency-input></sa-currency-input>
-    </mat-form-field>
-    
-    <h3> Filter Component </h3>
-    <sa-data-filter [filters]='dataFilterConfigArray'></sa-data-filter>
-    
-    <h3> Date Time Component </h3>
-    <mat-form-field>
-        <mat-label>Enter Date</mat-label>
+  <h3> Header Component </h3>
+  <sa-base-page>
+    <div class="page-header">
+      <sa-header [header]="headerConfig" (primaryClick)="onPrimaryClick($event)"
+        (secondaryClick)="onSecondaryClick($event)"></sa-header>
+    </div>
+
+    <div class="page-body">
+
+    </div>
+  </sa-base-page>
+
+  <mat-list>
+    <mat-list-item [saSpinner]="isSpin">Peach</mat-list-item>
+    <mat-list-item>Mango</mat-list-item>
+    <mat-list-item [saSpinner]="isSpin" [backgroundColor]="'green'" [diameter]="'15'">Apple</mat-list-item>
+  </mat-list>
+
+  <h3> Button Component </h3>
+  <sa-button [config]="saveButtonConfig" (onClick)="isSpin = !isSpin;"></sa-button>
+
+  <br />
+  <h3> Currency Inpput Component </h3>
+  <mat-form-field>
+    <mat-label>Currency</mat-label>
+    <sa-currency-input></sa-currency-input>
+  </mat-form-field>
+
+  <h3> Filter Component </h3>
+  <sa-data-filter [filters]='dataFilterConfigArray'></sa-data-filter>
+
+  <h3> Date Time Component </h3>
+  <mat-form-field>
+    <mat-label>Enter Date</mat-label>
     <sa-date-picker [dateConfig]="dateConfig"></sa-date-picker>
-    </mat-form-field>
-    
-    <h3> More Menu Component </h3>
-    <sa-more-menu [items]="menuItems"></sa-more-menu>
+  </mat-form-field>
 
-    <h3> Select Component </h3>
-    <mat-form-field>
-        <mat-label>Select</mat-label>
+  <h3> More Menu Component </h3>
+  <sa-more-menu [items]="menuItems"></sa-more-menu>
+
+  <h3> Select Component </h3>
+  <mat-form-field>
+    <mat-label>Select</mat-label>
     <sa-select [config]="selectOptions"></sa-select>
   </mat-form-field>
 
   <h3> Stepper Component </h3>
   <sa-stepper [min]="1" [max]="5" [value]="2" label='Stepper'></sa-stepper>
-  
+
   <h3> Text Editor Component </h3>
   <form [formGroup]="editorForm">
-      <mat-form-field style="width: 100%">
-        <mat-label>Text Editor</mat-label>
-        <sa-text-editor formControlName="description" name="Description"></sa-text-editor>
-      </mat-form-field>
-    </form>
+    <mat-form-field style="width: 100%">
+      <mat-label>Text Editor</mat-label>
+      <sa-text-editor formControlName="description" name="Description"></sa-text-editor>
+    </mat-form-field>
+  </form>
 
   <ng-template #selectOptionBody let-item>{{item}}</ng-template>
-    
+
 </sa-navigable-page>

@@ -45,6 +45,10 @@ export interface IDataTable<T>
 
   showCheckboxColumn: boolean;
 
+  showPaginator: boolean;
+
+  showFilters: boolean;
+
   rowClick?: (event: T) => void;
 
   rowSelect?: (event: T[]) => void;

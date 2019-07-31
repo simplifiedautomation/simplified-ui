@@ -6,7 +6,7 @@
 
       <div fxFlex fxLayout="row" fxLayoutAlign="start center">
         <div fxFlex="grow">
-          <sa-data-filter *ngIf="dataTable.showFilters" [filters]="filterArray" (filterChange)="filterChange($event)"></sa-data-filter>
+          <sa-data-filter *ngIf="(dataTable.showFilters == null) || dataTable.showFilters" [filters]="filterArray" (filterChange)="filterChange($event)"></sa-data-filter>
         </div>
         <div fxFlex="nogrow">
           <button mat-button *ngIf="dataTable.mainActionMenu.length > 0" color="primary" [matMenuTriggerFor]="menu">
@@ -81,7 +81,7 @@
           </div>
         </div>
 
-        <mat-paginator *ngIf="dataTable.showPaginator" class="mat-elevation-z8" [pageSizeOptions]="[20, 30, 40, 100]" [length]="totalCount" [pageSize]="tableDataSource.filter.pageSize"
+        <mat-paginator *ngIf="(dataTable.showPaginator == null) || dataTable.showPaginator" class="mat-elevation-z8" [pageSizeOptions]="[20, 30, 40, 100]" [length]="totalCount" [pageSize]="tableDataSource.filter.pageSize"
                        [pageIndex]="tableDataSource.filter.pageNo" showFirstLastButtons></mat-paginator>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 import { MatSort, MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IDataTable, IRequestModel } from '../models/DataTableModel';
@@ -17,7 +17,7 @@ import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
   templateUrl: './sa-data-table.component.html',
   styleUrls: ['./sa-data-table.component.scss']
 })
-export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
+export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges {
 
   @Input() dataTable: IDataTable<T>;
   @Output() rowClick = new EventEmitter<T>();
@@ -126,6 +126,13 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     })
   }
 
+  ngOnChanges(changes: SimpleChanges){
+    if (changes.dataTable){
+      this.columnToDisplay = this.dataTable.columns.map(z => {
+        return z.key;
+      });
+    }
+  }
 
   ngAfterViewInit(): void {
     //attaching sort and paginator directives to the data source, after they are bound to the view

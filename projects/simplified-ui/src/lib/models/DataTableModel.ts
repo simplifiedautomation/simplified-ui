@@ -17,7 +17,9 @@ export interface IDataTableColumn {
   key: string;
   title: string;
   type: DataTableColumnTypeEnum,
-  filter: IDataFilterViewModel
+  filter: IDataFilterViewModel,
+  sticky?: boolean,
+  stickyEnd?: boolean
 }
 
 export interface IRequestModel {

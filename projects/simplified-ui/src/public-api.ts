@@ -47,3 +47,8 @@ export * from './lib/sa-button/sa-button.component';
 export * from './lib/pipes/sa-date-time.pipe';
 export * from './lib/pipes/sa-value-formatter.pipe';
 
+/*
+ * Public API Surface For Directives
+ */
+export * from './lib/directives/sa-spinner.directive';
+

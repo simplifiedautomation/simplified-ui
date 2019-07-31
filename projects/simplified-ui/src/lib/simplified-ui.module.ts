@@ -26,6 +26,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SaStepperComponent } from './sa-stepper/sa-stepper.component';
 import { SaMoreMenuComponent } from './sa-more-menu/sa-more-menu.component';
 import { SaButtonComponent } from './sa-button/sa-button.component';
+import { SaSpinnerDirective } from './directives/sa-spinner.directive';
+import { MatProgressSpinner } from '@angular/material';
 
 
 @NgModule({
@@ -50,7 +52,8 @@ import { SaButtonComponent } from './sa-button/sa-button.component';
     SaNavigablePageComponent,
     SaStepperComponent,
     SaMoreMenuComponent,
-    SaButtonComponent
+    SaButtonComponent,
+    SaSpinnerDirective
   ],
   imports: [
     MaterialModule,
@@ -85,7 +88,9 @@ import { SaButtonComponent } from './sa-button/sa-button.component';
     SaNavigablePageComponent,
     SaStepperComponent,
     SaMoreMenuComponent,
-    SaButtonComponent
-  ]
+    SaButtonComponent,
+    SaSpinnerDirective
+  ],
+  entryComponents:[MatProgressSpinner]
 })
 export class SimplifiedUiModule { }

@@ -17,7 +17,9 @@ export interface IDataTableColumn {
   key: string;
   title: string;
   type: DataTableColumnTypeEnum,
-  filter: IDataFilterViewModel
+  filter: IDataFilterViewModel,
+  sticky?: boolean,
+  stickyEnd?: boolean
 }
 
 export interface IRequestModel {
@@ -42,6 +44,10 @@ export interface IDataTable<T>
   isClientSide: boolean;
 
   showCheckboxColumn: boolean;
+
+  showPaginator?: boolean;
+
+  showFilters?: boolean;
 
   rowClick?: (event: T) => void;
 

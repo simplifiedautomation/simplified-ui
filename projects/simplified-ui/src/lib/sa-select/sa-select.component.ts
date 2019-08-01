@@ -31,7 +31,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
 
   /**
    * Configuration object for select element
-   * 
+   *
    * @param T Data type of select options list item.
    */
   @Input() config: SaSelectConfig<T>;
@@ -57,7 +57,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   private originalData: T[] = []
   private resultCallbackSubscription: Subscription = new Subscription();
   private totalRecords: number;
-  page = 1;
+  page = 0;
 
   private _placeholder: string;
   static nextId = 0;
@@ -143,7 +143,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     // Do not show spinner when data is client side.
     this.showSpinner = !this.isGetResultsCallbackNull();
 
-    this.page = 1;
+    this.page = 0;
     this.searchTerm = text.toLowerCase();
     this.didFilter = true;
 
@@ -152,7 +152,12 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     // time `selectOptions` subject is observed with `didFilter`
     // flag set to true.
     if (!this.isGetResultsCallbackNull()) {
-      this._selectOptions.next([]);
+      if (this.value instanceof Array){
+        this._selectOptions.next(<Array<T>>this.value);
+      } else {
+        let val = this.value ? [this.value] : [];
+        this._selectOptions.next(val);
+      }
     }
 
     this.searchTermSubject.next(text);

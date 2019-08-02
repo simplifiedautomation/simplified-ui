@@ -44,8 +44,6 @@ export class DataTable<T>
 
   mainActionMenu: SaButtonConfig[] = [];
 
-  optionsMenu: SaButtonConfig[] = [];
-
   isClientSide: boolean = false;
 
   showCheckboxColumn: boolean = false;

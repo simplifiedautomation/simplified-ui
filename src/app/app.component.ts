@@ -149,7 +149,7 @@ export class AppComponent implements OnInit {
 
     this.dataTable.addColumn({
       key: "column5",
-      title: "COLUMN 4",
+      title: "COLUMN 5",
       type: DataTableColumnTypeEnum.text,
       filter: {
         config: null,
@@ -160,7 +160,7 @@ export class AppComponent implements OnInit {
 
     this.dataTable.addColumn({
       key: "column6",
-      title: "COLUMN 4",
+      title: "COLUMN 6",
       type: DataTableColumnTypeEnum.text,
       filter: {
         config: null,
@@ -171,7 +171,7 @@ export class AppComponent implements OnInit {
 
     this.dataTable.addColumn({
       key: "column7",
-      title: "COLUMN 4",
+      title: "COLUMN 7",
       type: DataTableColumnTypeEnum.text,
       filter: {
         config: null,

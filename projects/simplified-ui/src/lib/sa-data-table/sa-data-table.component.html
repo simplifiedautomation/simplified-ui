@@ -6,17 +6,32 @@
 
       <div fxFlex fxLayout="row" fxLayoutAlign="start center">
         <div fxFlex="grow">
-          <sa-data-filter *ngIf="(dataTable.showFilters == null) || dataTable.showFilters" [filters]="filterArray" (filterChange)="filterChange($event)"></sa-data-filter>
+          <sa-data-filter *ngIf="(dataTable.showFilters == null) || dataTable.showFilters" [filters]="filterArray"
+            (filterChange)="filterChange($event)"></sa-data-filter>
         </div>
         <div fxFlex="nogrow">
           <button mat-button *ngIf="dataTable.mainActionMenu.length > 0" color="primary" [matMenuTriggerFor]="menu">
             Action
           </button>
         </div>
+        <div fxFlex="nogrow">
+          <button mat-button color="primary" [matMenuTriggerFor]="columnMenu">
+            Columns <mat-icon>keyboard_arrow_down</mat-icon>
+          </button>
+        </div>
       </div>
 
+      <mat-menu #columnMenu multiple="true">
+        <mat-checkbox class="mat-menu-item" *ngFor="let column of columns"
+          (change)="columnChangeClicked($event, column)" [checked]="isColumnVisible(column)"
+          (click)="$event.stopPropagation()">
+          {{column.title}}
+        </mat-checkbox>
+      </mat-menu>
+
       <mat-menu #menu="matMenu">
-        <button mat-menu-item color="primary" *ngFor="let action of dataTable.mainActionMenu" (click)="menuItemClicked(action, $event)">
+        <button mat-menu-item color="primary" *ngFor="let action of dataTable.mainActionMenu"
+          (click)="menuItemClicked(action, $event)">
           {{ action.title }}
         </button>
       </mat-menu>

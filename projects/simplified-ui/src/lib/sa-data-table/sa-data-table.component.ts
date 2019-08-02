@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
-import { MatSort, MatPaginator } from '@angular/material';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { MatSort, MatPaginator, MatCheckboxChange } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import { DataTable, IRequestModel } from '../models/DataTableModel';
+import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableModel';
 import { SaTableDataSource } from '../services/sa-table-data-source.service';
 import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { DefaultCommonTableFilter, SaCommonTableFilter } from '../models/SaTableDataSource';
@@ -24,7 +24,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   @Output() rowClick = new EventEmitter<T>();
   @Output() rowSelect = new EventEmitter<T[]>();
 
-  public columnToDisplay: string[] = [];
+  columnToDisplay: string[] = [];
+  columns: IDataTableColumn[] = [];
+
   @ViewChild('iconSelector') iconSelector;
   filterArray: IDataFilterViewModel[] = [];
 
@@ -88,6 +90,8 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
         if (z.filter != null)
           this.filterArray.push(z.filter);
       });
+
+      this.columns = columns;
 
       this.columnToDisplay = columns.map(z => {
         return z.key;
@@ -179,4 +183,15 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     this.iconSelector.open();
   }
 
+  columnChangeClicked(event: MatCheckboxChange, column: IDataTableColumn) {
+    if (event.checked) {
+      this.columnToDisplay.splice(-1, 0, column.key);
+    } else {
+      this.columnToDisplay = this.columnToDisplay.filter(x => x != column.key);
+    }
+  }
+
+  isColumnVisible(column: IDataTableColumn): boolean {
+    return this.columnToDisplay.some(x => x == column.key);
+  }
 }

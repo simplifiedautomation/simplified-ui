@@ -3,6 +3,7 @@ import { Observable, Subject, ReplaySubject } from "rxjs";
 import { IDataFilterViewModel, IFilterModel } from "../models/DataFilterModels";
 import { SortDirection } from "./SaTableDataSource";
 import { SaButtonConfig } from '../sa-button/sa-button.component';
+import { TemplateRef, ElementRef } from '@angular/core';
 
 //data for each column in a table
 export enum DataTableColumnTypeEnum {
@@ -52,6 +53,8 @@ export class DataTable<T>
   showPaginator?: boolean = true;
 
   showFilters?: boolean = true;
+
+  optionsColumnRef: TemplateRef<ElementRef>;
 
   getResults?: (requestModel: IRequestModel) => Observable<IGenericPageListViewModel<T>>;
 

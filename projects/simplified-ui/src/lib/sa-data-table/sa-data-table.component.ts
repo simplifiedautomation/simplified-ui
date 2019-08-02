@@ -96,6 +96,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       this.columnToDisplay = columns.map(z => {
         return z.key;
       });
+      if (this.dataTable.routerLinkEnabled) {
+        this.columnToDisplay.push('route');
+      }
       this.columnToDisplay.push('options');
     });
 

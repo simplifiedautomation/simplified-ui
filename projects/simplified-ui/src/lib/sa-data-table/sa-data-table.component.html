@@ -60,6 +60,12 @@
             </mat-cell>
           </ng-container>
 
+          <!-- Router Link Column -->
+          <ng-container matColumnDef="route">
+            <mat-header-cell *matHeaderCellDef>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row"><a [routerLink]="[row['route']]"></a></mat-cell>
+          </ng-container>
 
           <!-- Sliced 1 to not to reinitilize the select controller-->
           <ng-container *ngFor="let col of columns" [matColumnDef]="col.key" [sticky]="col.sticky"
@@ -70,7 +76,8 @@
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="columnToDisplay; sticky: true"></mat-header-row>
-          <mat-row matRipple *matRowDef="let row; columns: columnToDisplay;" [ngStyle]="{'display': !isRender ? 'none' : null}"></mat-row>
+          <mat-row matRipple *matRowDef="let row; columns: columnToDisplay;"
+            [ngStyle]="{'display': !isRender ? 'none' : null}"></mat-row>
         </mat-table>
 
         <div *ngIf="!isRender" style="background-color:white;">

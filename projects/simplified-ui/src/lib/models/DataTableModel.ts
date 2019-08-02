@@ -44,7 +44,7 @@ export class DataTable<T>
 
   mainActionMenu: SaButtonConfig[] = [];
 
-  optionsMenu: SaButtonConfig[] = [];
+  routerLinkEnabled: boolean = false;
 
   isClientSide: boolean = false;
 

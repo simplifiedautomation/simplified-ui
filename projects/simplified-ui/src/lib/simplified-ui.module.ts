@@ -28,6 +28,7 @@ import { SaMoreMenuComponent } from './sa-more-menu/sa-more-menu.component';
 import { SaButtonComponent } from './sa-button/sa-button.component';
 import { SaSpinnerDirective } from './directives/sa-spinner.directive';
 import { MatProgressSpinner } from '@angular/material';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { MatProgressSpinner } from '@angular/material';
     OwlNativeDateTimeModule,
     MatSelectInfiniteScrollModule,
     QuillModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    RouterModule
   ],
   exports: [
     SimplifiedUiComponent,

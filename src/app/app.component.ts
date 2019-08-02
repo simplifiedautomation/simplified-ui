@@ -191,6 +191,7 @@ export class AppComponent implements OnInit {
   private setupDataTable() {
 
     this.dataTable.optionsColumnRef = this.dataTableOptionsRef;
+    this.dataTable.routerLinkEnabled = true;
 
     this.dataTable.addColumn({
       key: "column1",
@@ -200,8 +201,7 @@ export class AppComponent implements OnInit {
         config: null,
         filterType: FilterTypeEnum.none,
         key: "column1"
-      },
-      sticky: true
+      }
     });
 
     this.dataTable.addColumn({
@@ -240,7 +240,8 @@ export class AppComponent implements OnInit {
             column1: 'column 1',
             column2: 'column 2',
             column3: 'column 3',
-            column4: 'column 4'
+            column4: 'column 4',
+            route: "/best-practice"
           }
         ],
         Pager: {

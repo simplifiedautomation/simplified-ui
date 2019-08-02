@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
-import { MatSort, MatPaginator } from '@angular/material';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { MatSort, MatPaginator, MatCheckboxChange } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import { IDataTable, IRequestModel } from '../models/DataTableModel';
+import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableModel';
 import { SaTableDataSource } from '../services/sa-table-data-source.service';
 import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { DefaultCommonTableFilter, SaCommonTableFilter } from '../models/SaTableDataSource';
@@ -17,12 +17,16 @@ import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
   templateUrl: './sa-data-table.component.html',
   styleUrls: ['./sa-data-table.component.scss']
 })
-export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges {
+export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 
-  @Input() dataTable: IDataTable<T>;
+  @Input() dataTable: DataTable<T>;
+
   @Output() rowClick = new EventEmitter<T>();
+  @Output() rowSelect = new EventEmitter<T[]>();
 
-  public columnToDisplay: string[] = [];
+  columnToDisplay: string[] = [];
+  columns: IDataTableColumn[] = [];
+
   @ViewChild('iconSelector') iconSelector;
   filterArray: IDataFilterViewModel[] = [];
 
@@ -81,11 +85,18 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges
 
   ngOnInit() {
 
-    this._setColumns();
+    this.dataTable.onColumnUpdated().subscribe(columns => {
+      columns.forEach(z => {
+        if (z.filter != null)
+          this.filterArray.push(z.filter);
+      });
 
-    this.dataTable.columns.forEach(z => {
-      if (z.filter != null)
-        this.filterArray.push(z.filter);
+      this.columns = columns;
+
+      this.columnToDisplay = columns.map(z => {
+        return z.key;
+      });
+      this.columnToDisplay.push('options');
     });
 
     this.tableDataSource = new SaTableDataSource(
@@ -115,19 +126,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges
       this.columnToDisplay.unshift('select');
     }
 
-    if (this.dataTable.optionsMenu.length > 0) {
-      this.columnToDisplay.push('options');
-    }
-
-    this.dataTable.dataSource.subscribe(x => {
+    this.dataTable.onRowAdded().subscribe(x => {
       this._source.next([...[x], ...this._source.value]);
     })
-  }
-
-  ngOnChanges(changes: SimpleChanges){
-    if (changes.dataTable){
-      this._setColumns();
-    }
   }
 
   ngAfterViewInit(): void {
@@ -150,7 +151,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges
 
   //* Callback for when table filter change is triggered.
   //  * Returns a new observable to fetch the new list of records using the updated filter model
-  //* 
+  //*
   //  * @param filter updated table filter model
   //* /
   private _getRecords(filter: SaCommonTableFilter): Observable<IGenericPageListViewModel<T>> {
@@ -166,23 +167,28 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnChanges
     return this.dataTable.getResults(requestModel);
   }
 
-  private _setColumns(){
-    this.columnToDisplay = this.dataTable.columns.map(z => {
-      return z.key;
-    });
-  }
-
   filterChange(filter: IFilterModel) {
     this.tableDataSource.filter.pageNo = 0;
     this.tableDataSource.filter.filterModel = filter;
   }
 
   dataRowClick(row: T) {
-    this.dataTable.rowClick(row);
+    this.rowClick.emit(row);
   }
 
   openSubMenuOptions() {
     this.iconSelector.open();
   }
 
+  columnChangeClicked(event: MatCheckboxChange, column: IDataTableColumn) {
+    if (event.checked) {
+      this.columnToDisplay.splice(-1, 0, column.key);
+    } else {
+      this.columnToDisplay = this.columnToDisplay.filter(x => x != column.key);
+    }
+  }
+
+  isColumnVisible(column: IDataTableColumn): boolean {
+    return this.columnToDisplay.some(x => x == column.key);
+  }
 }

@@ -1,5 +1,5 @@
 <h3 style="float:right"> Navigation Menu Component </h3>
-<sa-navigable-page [primaryMenu]="primaryNavMenu" [secondaryMenu]="secondaryNavMenu">
+<sa-navigable-page [secondaryMenu]="secondaryNavMenu">
 
   <h3> Header Component </h3>
   <sa-base-page>
@@ -59,8 +59,21 @@
   </form>
 
   <h3> Data Table Component </h3>
-  <sa-data-table [dataTable]="demoDataTable"></sa-data-table>
+  <sa-button [config]="saveButtonConfig" (onClick)="updateTable()"></sa-button>
+  <sa-data-table [dataTable]="dataTable"></sa-data-table>
 
   <ng-template #selectOptionBody let-item>{{item}}</ng-template>
+
+  <ng-template #myTemplate>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  </ng-template>
+
+
 
 </sa-navigable-page>

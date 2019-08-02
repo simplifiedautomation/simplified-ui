@@ -12,15 +12,13 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit {
 
   href: string = ""
 
-  @Input() primaryMenu: NavigationItem[]
-  @Input() secondaryMenu: NavigationItem[]
+  @Input() primaryMenu: NavigationItem[] = [];
+  @Input() secondaryMenu: NavigationItem[] = [];
 
   navigationItemOnClick(item) {
     document.getElementsByClassName("selected")[0].classList.remove("selected");
     item.closest("mat-list-item").className += " selected";
   }
-
-
 
   constructor(private scrollDispatcher: ScrollDispatcher) {
 

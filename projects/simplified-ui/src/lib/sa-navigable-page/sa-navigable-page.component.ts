@@ -9,8 +9,8 @@ import { NavigationItem } from '../models/NavigationItem';
 })
 export class SaNavigablePageComponent implements OnInit {
 
-  @Input() primaryMenu: NavigationItem[]
-  @Input() secondaryMenu: NavigationItem[]
+  @Input() primaryMenu: NavigationItem[] = [];
+  @Input() secondaryMenu: NavigationItem[] = [];
 
   constructor(private route: ActivatedRoute) {
   }

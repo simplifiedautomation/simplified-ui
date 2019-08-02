@@ -44,6 +44,8 @@ export class DataTable<T>
 
   mainActionMenu: SaButtonConfig[] = [];
 
+  routerLinkEnabled: boolean = false;
+
   isClientSide: boolean = false;
 
   showCheckboxColumn: boolean = false;

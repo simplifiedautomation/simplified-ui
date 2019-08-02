@@ -144,8 +144,40 @@ export class AppComponent implements OnInit {
         config: null,
         filterType: FilterTypeEnum.none,
         key: "column4"
-      },
-      stickyEnd: true
+      }
+    });
+
+    this.dataTable.addColumn({
+      key: "column5",
+      title: "COLUMN 4",
+      type: DataTableColumnTypeEnum.text,
+      filter: {
+        config: null,
+        filterType: FilterTypeEnum.none,
+        key: "column4"
+      }
+    });
+
+    this.dataTable.addColumn({
+      key: "column6",
+      title: "COLUMN 4",
+      type: DataTableColumnTypeEnum.text,
+      filter: {
+        config: null,
+        filterType: FilterTypeEnum.none,
+        key: "column4"
+      }
+    });
+
+    this.dataTable.addColumn({
+      key: "column7",
+      title: "COLUMN 4",
+      type: DataTableColumnTypeEnum.text,
+      filter: {
+        config: null,
+        filterType: FilterTypeEnum.none,
+        key: "column4"
+      }
     });
 
     this.dataTable.addRow({
@@ -169,7 +201,7 @@ export class AppComponent implements OnInit {
         filterType: FilterTypeEnum.none,
         key: "column1"
       },
-      stickyEnd: true
+      sticky: true
     });
 
     this.dataTable.addColumn({
@@ -180,8 +212,7 @@ export class AppComponent implements OnInit {
         config: null,
         filterType: FilterTypeEnum.none,
         key: "column2"
-      },
-      stickyEnd: true
+      }
     });
 
     this.dataTable.addColumn({
@@ -192,8 +223,7 @@ export class AppComponent implements OnInit {
         config: null,
         filterType: FilterTypeEnum.none,
         key: "column3"
-      },
-      stickyEnd: true
+      }
     });
 
     this.dataTable.getResults = this.getResults;

@@ -86,6 +86,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   ngOnInit() {
 
     this.dataTable.onColumnUpdated().subscribe(columns => {
+      this.filterArray = [];
       columns.forEach(z => {
         if (z.filter != null)
           this.filterArray.push(z.filter);

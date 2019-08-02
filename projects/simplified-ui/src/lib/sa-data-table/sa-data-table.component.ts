@@ -96,6 +96,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       this.columnToDisplay = columns.map(z => {
         return z.key;
       });
+      this.columnToDisplay.push('options');
     });
 
     this.tableDataSource = new SaTableDataSource(
@@ -123,10 +124,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 
     if (this.dataTable.showCheckboxColumn) {
       this.columnToDisplay.unshift('select');
-    }
-
-    if (this.dataTable.optionsMenu.length > 0) {
-      this.columnToDisplay.push('options');
     }
 
     this.dataTable.onRowAdded().subscribe(x => {

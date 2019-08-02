@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel } from 'projects/simplified-ui/src/public-api';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { Subject, Observable, of } from 'rxjs';
@@ -11,6 +11,7 @@ import { Subject, Observable, of } from 'rxjs';
 export class AppComponent implements OnInit {
 
   @ViewChild("selectOptionBody") selectOptionBody;
+  @ViewChild("myTemplate") dataTableOptionsRef: TemplateRef<any>;
 
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
 
@@ -156,6 +157,9 @@ export class AppComponent implements OnInit {
   }
 
   private setupDataTable() {
+
+    this.dataTable.optionsColumnRef = this.dataTableOptionsRef;
+
     this.dataTable.addColumn({
       key: "column1",
       title: "COLUMN 1",

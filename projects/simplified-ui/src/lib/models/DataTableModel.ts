@@ -20,7 +20,8 @@ export interface IDataTableColumn {
   type: DataTableColumnTypeEnum,
   filter: IDataFilterViewModel,
   sticky?: boolean,
-  stickyEnd?: boolean
+  stickyEnd?: boolean,
+  template?: TemplateRef<any>;
 }
 
 export interface IRequestModel {

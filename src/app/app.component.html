@@ -74,6 +74,14 @@
     </mat-menu>
   </ng-template>
 
+  <ng-template #colTemplate let-column="column" let-row="row">
+    <div style="width: 100%; height: 100%;">
+      <mat-form-field appearance="standard" [ngClass]="getClass(row)">
+        <input matInput placeholder="label" [value]="row[column.key]">
+      </mat-form-field>
+    </div>
+  </ng-template>
+
 
 
 </sa-navigable-page>

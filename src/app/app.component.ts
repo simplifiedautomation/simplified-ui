@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel } from 'projects/simplified-ui/src/public-api';
+import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats } from 'projects/simplified-ui/src/public-api';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { Subject, Observable, of } from 'rxjs';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,13 @@ export class AppComponent implements OnInit {
   @ViewChild("selectOptionBody") selectOptionBody;
   @ViewChild("myTemplate") dataTableOptionsRef: TemplateRef<any>;
   @ViewChild("colTemplate") colTemplate: TemplateRef<any>;
+
+  dateFormats = DateFormats;
+
+  date = moment.tz(moment(), moment.tz.guess());                  //current timezone
+  date1 = moment.tz(moment(), "America/Toronto");                 //string timezone
+  date2 = moment.tz();                                            //UTC timezone
+  
 
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
 

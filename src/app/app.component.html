@@ -13,6 +13,11 @@
     </div>
   </sa-base-page>
 
+  <p>{{date | dateTime:dateFormats.timeZoneAbb}}</p>
+  <p>{{date1 | dateTime:dateFormats.timeZoneAbb}}</p>
+  <p>{{date2 | dateTime:dateFormats.timeZoneAbb}}</p>
+
+
   <mat-list>
     <mat-list-item [saSpinner]="isSpin">Peach</mat-list-item>
     <mat-list-item>Mango</mat-list-item>

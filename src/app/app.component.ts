@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
 
   @ViewChild("selectOptionBody") selectOptionBody;
   @ViewChild("myTemplate") dataTableOptionsRef: TemplateRef<any>;
+  @ViewChild("colTemplate") colTemplate: TemplateRef<any>;
 
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
 
@@ -191,22 +192,24 @@ export class AppComponent implements OnInit {
   private setupDataTable() {
 
     this.dataTable.optionsColumnRef = this.dataTableOptionsRef;
-    this.dataTable.routerLinkEnabled = true;
+    // this.dataTable.routerLinkEnabled = true;
+
 
     this.dataTable.addColumn({
-      key: "column1",
-      title: "COLUMN 1",
+      key: "area",
+      title: "Area",
       type: DataTableColumnTypeEnum.text,
       filter: {
         config: null,
         filterType: FilterTypeEnum.none,
         key: "column1"
-      }
+      },
+      template: this.colTemplate
     });
 
     this.dataTable.addColumn({
-      key: "column2",
-      title: "COLUMN 2",
+      key: "line",
+      title: "Line",
       type: DataTableColumnTypeEnum.text,
       filter: {
         config: null,
@@ -216,8 +219,8 @@ export class AppComponent implements OnInit {
     });
 
     this.dataTable.addColumn({
-      key: "column3",
-      title: "COLUMN 3",
+      key: "machine",
+      title: "Machine",
       type: DataTableColumnTypeEnum.text,
       filter: {
         config: null,
@@ -226,34 +229,55 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.dataTable.getResults = this.getResults;
+    this.dataTable.getResults = (requestModel) => {
+
+      return of(
+        {
+          Capacity: 100,
+          Count: 1,
+          List: this.json,
+          Pager: {
+            CurrentPage: 1,
+            PagenumberToDisplay: [1],
+            PageSize: 20,
+            Pages: 1,
+            TotalRecords: 1,
+            UrlFormat: ''
+          }
+        }
+      );
+    };
     this.dataTable.isClientSide = true;
   }
 
-  getResults(requestModel: IRequestModel): Observable<IGenericPageListViewModel<any>> {
-    return of(
-      {
-        Capacity: 100,
-        Count: 1,
-        List: [
-          {
-            column1: 'column 1',
-            column2: 'column 2',
-            column3: 'column 3',
-            column4: 'column 4',
-            route: "/best-practice"
-          }
-        ],
-        Pager: {
-          CurrentPage: 1,
-          PagenumberToDisplay: [1],
-          PageSize: 20,
-          Pages: 1,
-          TotalRecords: 1,
-          UrlFormat: ''
-        }
-      }
-    );
+
+  json = [
+    {
+      key: "1",
+      area: "Area 1",
+      line: "Line 1",
+      machine: "Machine 1"
+    },
+    {
+      key: "2",
+      area: "Area 2",
+      line: "Line 2",
+      machine: "Machine 2"
+    },
+    {
+      key: "3",
+      area: "Area 2",
+      line: "Line 3",
+      machine: "Machine 3"
+    }
+  ]
+
+
+  getClass(row: any): string {
+    row.areaClass = this.areas.some(x => x == row["area"]) ? "sa-valid" : "sa-invalid"
+    console.log(this.json);
+    return row.areaClass;
   }
 
+  areas: string[] = ["Area 1"];
 }

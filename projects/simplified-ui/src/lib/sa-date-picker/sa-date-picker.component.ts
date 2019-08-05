@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, ElementRef, Optional, Self, HostBinding, ViewChild, Output, EventEmitter } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ControlValueAccessor, NgControl, FormControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -18,7 +18,7 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
 
   @Input() dateConfig: DatePickerConfig;
 
-  @Input() dateTime: Date;
+  dateTime = new FormControl();
 
   @Output() onSelection: EventEmitter<any> = new EventEmitter();
 
@@ -26,9 +26,10 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   onChange = (_: any) => { };
   onTouched = () => { };
 
-  writeValue(date: any): void {
+  writeValue(date: Date): void {
+    console.log(date);
     this._empty = false;
-    this.dateTime = date;
+    this.dateTime.patchValue(date);
   }
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -53,7 +54,7 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   }
 
   onDateChange(event: any) {
-    this.value = this.dateTime;
+    this.value = this.dateTime.value;
   }
 
   static nextId = 0;
@@ -89,8 +90,9 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
     return null;
   }
   set value(date: Date | null) {
-    this.dateTime = date;
+    console.log(date);
     this.onSelection.emit(date);
+    this.onChange(date);
     this.stateChanges.next();
   }
 
@@ -139,7 +141,9 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   }
 
   ngOnInit() {
-
+    this.dateTime.valueChanges.subscribe(x=>{
+      this.value = x;
+    })
   }
 
 }

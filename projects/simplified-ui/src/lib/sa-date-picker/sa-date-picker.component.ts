@@ -27,7 +27,6 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   onTouched = () => { };
 
   writeValue(date: Date): void {
-    console.log(date);
     this._empty = false;
     this.dateTime.patchValue(date);
   }
@@ -90,7 +89,6 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
     return null;
   }
   set value(date: Date | null) {
-    console.log(date);
     this.onSelection.emit(date);
     this.onChange(date);
     this.stateChanges.next();

@@ -80,6 +80,14 @@
             [ngStyle]="{'display': !isRender ? 'none' : null}"></mat-row>
         </mat-table>
 
+        <ng-container *ngIf="((tableDataSource.dataStream | async).length == 0)">
+          <div class="blank-card">
+            <p>
+              There are no items to show currently.
+            </p>
+          </div>
+      </ng-container>
+       
         <div *ngIf="!isRender" style="background-color:white;">
           <div fxFlex="row" fxLayoutAlign="space-around" style="padding:8px;">
             <mat-spinner diameter="50"></mat-spinner>

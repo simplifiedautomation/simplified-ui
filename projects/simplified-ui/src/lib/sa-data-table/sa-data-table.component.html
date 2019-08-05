@@ -87,7 +87,7 @@
             [ngStyle]="{'display': !isRender ? 'none' : null}"></mat-row>
         </mat-table>
 
-        <ng-container *ngIf="((tableDataSource?.dataStream | async).length == 0)">
+        <ng-container *ngIf="((tableDataSource.dataStream | async)?.length == 0)">
           <div class="blank-card">
             <p>
               There are no items to show currently.

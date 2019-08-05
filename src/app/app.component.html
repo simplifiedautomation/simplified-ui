@@ -60,8 +60,8 @@
 
   <h3> Data Table Component </h3>
   <sa-button [config]="saveButtonConfig" (onClick)="updateTable()"></sa-button>
-  <sa-data-table [dataTable]="dataTable"></sa-data-table>
 
+  <sa-data-table  [dataTable]="dataTable"></sa-data-table>
   <ng-template #selectOptionBody let-item>{{item}}</ng-template>
 
   <ng-template #myTemplate>

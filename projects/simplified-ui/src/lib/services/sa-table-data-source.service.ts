@@ -131,7 +131,6 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
     const keywordChange: Observable<IFilterModel | null> = this.filter.filterModelChange ?
       this.filter.filterModelChange :
       of(null);
-
     //merge all the filter change events
     const filterChange = merge(sortChange, pageChange, keywordChange, this._filterChangeTrigger).pipe(
       // populate the current state of filters on change
@@ -154,7 +153,9 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
       .pipe(map(([data]) => this._filterData(data as unknown as MODEL[])))
     // watched for filtered data changes and send the result to the table to render.
     this._renderChangesSubscription.unsubscribe();
-    this._renderChangesSubscription = filteredData.subscribe(data => this._renderData.next(data));
+    this._renderChangesSubscription = filteredData.subscribe(data =>{
+      this._renderData.next(data);
+    }) 
   }
   /**
    * Returns a filtered set of data array (for client-side data only), by applying the current state of filter
@@ -212,7 +213,7 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    * Used by the MatTable. Called when it connects to the data source.
    */
   connect(): Observable<MODEL[]> {
-    return this._renderData.asObservable();
+     return this._renderData.asObservable();
   }
   /**
    * Used by the MatTable. Called when it is destroyed. Performs cleanup.

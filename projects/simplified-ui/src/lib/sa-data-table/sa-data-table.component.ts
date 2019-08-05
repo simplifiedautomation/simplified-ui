@@ -33,17 +33,13 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   /** list of paginated  rendered within the table */
   public get sourceList(): T[] { return this._source.value };
   public set sourceList(list) { this._source.next(list); }
-  private _source = new BehaviorSubject<T[]>(null);
+  private _source = new BehaviorSubject<T[]>([]);
   public requestModel: IRequestModel = null;
   public baseUrl: string;
   public isRender: boolean = false;
   public showFilter: boolean = false;
 
-  public tableDataSource = new SaTableDataSource(
-    this._source.asObservable(),
-    new DefaultCommonTableFilter(),
-    false
-  );
+  public tableDataSource;
 
 
   subs: Subscription[] = [];
@@ -77,7 +73,13 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row -`;
   }
 
-  constructor() { }
+  constructor() { 
+   this.tableDataSource  = new SaTableDataSource(
+    this._source.asObservable(),
+    new DefaultCommonTableFilter(),
+    this.dataTable == undefined ? false : true
+  );
+  }
 
   menuItemClicked(button: SaButton, evt) {
     button.triggerNext(evt);
@@ -103,11 +105,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       this.columnToDisplay.push('options');
     });
 
-    this.tableDataSource = new SaTableDataSource(
-      this._source.asObservable(),
-      new DefaultCommonTableFilter(),
-      false
-    );
 
     // listen to dataSource filter change
     this.subs.push(this.tableDataSource.onFilterChange
@@ -131,7 +128,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     }
 
     this.dataTable.onRowAdded().subscribe(x => {
-      this._source.next([...[x], ...this._source.value]);
+        this._source.next([...[x], ...this._source.value]);   
     })
   }
 

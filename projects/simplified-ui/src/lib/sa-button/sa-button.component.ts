@@ -35,7 +35,7 @@ export class SaButtonComponent {
   }
 
   ngOnInit() {
-    this.config.loadingSubject.subscribe(res => {
+    this.config.loadingStopped.subscribe(res => {
       if (res) {
         this.showCheckmark = true;
         setTimeout(() => {
@@ -71,7 +71,7 @@ export class SaButtonConfig {
     this._isSpinning = val;
   }
 
-  public loadingSubject: Subject<boolean> = new Subject();
+  private loadingSubject: Subject<boolean> = new Subject();
 
   get loadingStopped(): Observable<boolean> {
     return this.loadingSubject.asObservable();

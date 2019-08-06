@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   date = moment.tz(moment(), moment.tz.guess());                  //current timezone
   date1 = moment.tz(moment(), "America/Toronto");                 //string timezone
   date2 = moment.tz();                                            //UTC timezone
-  
+
 
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
 
@@ -113,6 +113,7 @@ export class AppComponent implements OnInit {
     this.selectOptions.templateRef = this.selectOptionBody;
     this.selectOptions.options.next(["Option 1"]);
 
+    this.primarButton.type = SaButtonType.Secondary;
 
     this.dataFilterConfig = {
       key: 'id',
@@ -137,11 +138,11 @@ export class AppComponent implements OnInit {
   }
 
   onPrimaryClick(event) {
-
+    this.primarButton.isSpinning = true;
   }
 
   onSecondaryClick(event) {
-
+    this.primarButton.isSpinning = false;
   }
 
   updateTable() {

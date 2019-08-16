@@ -22,7 +22,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   @Input() dataTable: DataTable<T>;
 
   @Output() rowClick = new EventEmitter<T>();
-  @Output() rowSelect = new EventEmitter<T[]>();
+  @Output() rowSelect = new EventEmitter<RowSelectEventDataModel<T>>();
 
   columnToDisplay: string[] = [];
   columns: IDataTableColumn[] = [];
@@ -192,4 +192,19 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   isColumnVisible(column: IDataTableColumn): boolean {
     return this.columnToDisplay.some(x => x == column.key);
   }
+
+  onCheckBoxChange(event, row){
+    this.selection.toggle(row);
+    const eventdata: RowSelectEventDataModel<T> = {
+      checked: event.checked,
+      rowData: row
+    }
+    this.rowSelect.emit(eventdata);
+  }
+}
+
+
+export interface RowSelectEventDataModel<T>{
+  checked: boolean;
+  rowData: T;
 }

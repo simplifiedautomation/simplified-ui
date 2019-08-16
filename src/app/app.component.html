@@ -65,7 +65,9 @@
 
   <h3> Data Table Component </h3>
   <sa-button [config]="saveButtonConfig" (onClick)="updateTable()"></sa-button>
-
+  <sa-button [config]="editButtonConfig" (onClick)="editRow()"></sa-button>
+  <sa-button [config]="deleteButtonConfig" (onClick)="deleteRow()"></sa-button>
+ 
   <sa-data-table  [dataTable]="dataTable"></sa-data-table>
   <ng-template #selectOptionBody let-item>{{item}}</ng-template>
 

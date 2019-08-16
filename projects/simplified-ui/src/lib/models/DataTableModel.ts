@@ -32,8 +32,12 @@ export interface IRequestModel {
   filter: IFilterModel
 }
 
+export interface IDataTable{
+  key?: number;
+}
+
 //abstract class which each data table/track pages will implement
-export class DataTable<T>
+export class DataTable<T extends IDataTable>
 {
 
   private columns: IDataTableColumn[] = [];
@@ -42,7 +46,9 @@ export class DataTable<T>
   private columnRemovedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
 
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
-
+  private rowEdittedSubject: ReplaySubject<T> = new ReplaySubject();
+  private rowDeleteSubject: ReplaySubject<T> = new ReplaySubject();
+  
   mainActionMenu: SaButtonConfig[] = [];
 
   routerLinkEnabled: boolean = false;
@@ -70,6 +76,40 @@ export class DataTable<T>
   onRowAdded(): Observable<T> {
     return this.rowAddedSubject.asObservable();
   }
+
+    /**
+   * Adds the row to the top of table.
+   * @param row The row to be added.
+   */
+  editRow(row: T): void {
+    if(row.key == null || row.key == undefined || row.key == 0){
+      throw new Error("The key to edit the row not found!!");
+      return;
+    }
+    this.rowEdittedSubject.next(row);
+  }
+
+  onRowEditted(): Observable<T> {
+    return this.rowEdittedSubject.asObservable();
+  }
+
+
+    /**
+   * Adds the row to the top of table.
+   * @param row The row to be added.
+   */
+   deleteRow(row: T): void {
+    if(row.key == null || row.key == undefined || row.key == 0){
+      throw new Error("The key to delete the row not found!!");
+      return;
+    }
+    this.rowDeleteSubject.next(row);
+  }
+
+  onRowDeletted(): Observable<T> {
+    return this.rowDeleteSubject.asObservable();
+  }
+
 
   /**
    * Pushes the columns at the end of the table.

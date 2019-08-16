@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { MatSort, MatPaginator, MatCheckboxChange } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableModel';
+import { DataTable, IRequestModel, IDataTableColumn, IDataTable } from '../models/DataTableModel';
 import { SaTableDataSource } from '../services/sa-table-data-source.service';
 import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { DefaultCommonTableFilter, SaCommonTableFilter } from '../models/SaTableDataSource';
@@ -17,7 +17,7 @@ import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
   templateUrl: './sa-data-table.component.html',
   styleUrls: ['./sa-data-table.component.scss']
 })
-export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
+export class SaDataTableComponent<T extends IDataTable> implements OnInit, AfterViewInit {
 
   @Input() dataTable: DataTable<T>;
 
@@ -127,9 +127,43 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       this.columnToDisplay.unshift('select');
     }
 
-    this.dataTable.onRowAdded().subscribe(x => {
+    this.subs.push(this.dataTable.onRowAdded().subscribe(x => {
         this._source.next([...[x], ...this._source.value]);   
-    })
+    }));
+
+    this.subs.push(this.dataTable.onRowDeletted().subscribe(x=>{
+        if(this.sourceList.length > 0)
+        {
+          var list = this.sourceList.filter(y=> {
+            if(y.hasOwnProperty('key'))
+            {
+              return  y.key !== x.key;
+            }
+            throw Error('The key property does not exist on the object!!');
+           
+          })         
+          this.sourceList = list;
+        }
+    }));
+
+    this.subs.push(this.dataTable.onRowEditted().subscribe(x=>{
+      if(this.sourceList.length > 0)
+      {
+        let index = this.sourceList.findIndex(y=> {
+          if(y.hasOwnProperty('key'))
+          {
+            return  y.key === x.key;
+          }
+          throw Error('The key property does not exist on the object!!');
+         
+        })
+        if(index > -1){
+          this.sourceList[index] = x;
+          this.sourceList = this.sourceList;
+        }         
+       
+      }
+  }));
   }
 
   ngAfterViewInit(): void {

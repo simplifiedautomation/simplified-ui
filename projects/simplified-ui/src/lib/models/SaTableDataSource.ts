@@ -35,7 +35,7 @@ export enum SortDirection {
 /** Defaults for the CommonTableFilter */
 export class DefaultCommonTableFilter implements SaCommonTableFilter {
   pageNo = 0;
-  pageSize = 100;
+  pageSize = 20;
   sortCol = 0;
   sortDir = SortDirection.Desc;
   /** Term that should be used to filter out objects from the data array

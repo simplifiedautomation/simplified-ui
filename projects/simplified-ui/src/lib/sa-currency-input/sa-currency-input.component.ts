@@ -71,14 +71,6 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
       this.viewValue = num;
       this.value = this.parse(num);
     });
-
-    this.ngControl.valueChanges.subscribe(
-      val => {
-        if (val == null){
-          this.currencyValue.patchValue('');
-        }
-      }
-    )
   }
 
   ngDoCheck(): void {

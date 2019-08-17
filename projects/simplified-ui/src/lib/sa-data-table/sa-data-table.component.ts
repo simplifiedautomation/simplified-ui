@@ -39,7 +39,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   public isRender: boolean = false;
   public showFilter: boolean = false;
 
-  public tableDataSource;
+  public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
 
 
   subs: Subscription[] = [];
@@ -114,6 +114,11 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       } else {
         this.sourceList = this.sourceList.filter(x => x != itemOrIndexOrPredicate)
       }
+    });
+
+    this.dataTable.onRefresh().subscribe(_ => {
+      this.tableDataSource.filter = new DefaultCommonTableFilter();
+      this.tableDataSource.triggerFilterChange();
     })
 
 

@@ -44,6 +44,8 @@ export class DataTable<T>
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
   private deleteRowSubect: ReplaySubject<T | number | ((sourceList: T[]) => T[])> = new ReplaySubject();
 
+  private refreshTableSubject: Subject<any> = new Subject();
+
   mainActionMenu: SaButtonConfig[] = [];
 
   routerLinkEnabled: boolean = false;
@@ -142,6 +144,10 @@ export class DataTable<T>
     return this.deleteRowSubect.asObservable();
   }
 
+  onRefresh(): Observable<any> {
+    return this.refreshTableSubject.asObservable();
+  }
+
   /**
    * Deletes the row by matching object reference
    * @param item Item to be deleted
@@ -159,6 +165,10 @@ export class DataTable<T>
   deleteRow(predicate: (sourceList: T[]) => T[])
   deleteRow(itemOrIndexOrPredicate: T | number | ((sourceList: T[]) => T[])) {
     this.deleteRowSubect.next(itemOrIndexOrPredicate);
+  }
+
+  refresh() {
+    this.refreshTableSubject.next();
   }
 }
 

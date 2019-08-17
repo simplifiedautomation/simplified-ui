@@ -274,6 +274,16 @@ export class AppComponent implements OnInit {
     this.dataTable.deleteRow(item);
   }
 
+  refreshTable() {
+    this.json = [{
+      key: "4",
+      area: "Area 4",
+      line: "Line 4",
+      machine: "Machine 4"
+    }];
+    this.dataTable.refresh();
+  }
+
 
   json = [
     {

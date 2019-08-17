@@ -259,6 +259,23 @@ export class AppComponent implements OnInit {
     this.dataTable.isClientSide = true;
   }
 
+  deleteByIndex() {
+    this.dataTable.deleteRow(2);
+  }
+
+  deleteByPredicate(item) {
+    this.dataTable.deleteRow((x: any[]) => {
+      console.log(x);
+      x = x.filter(c => c != item);
+      console.log(x);
+      return x;
+    });
+  }
+
+  deleteByObject(item) {
+    this.dataTable.deleteRow(item);
+  }
+
 
   json = [
     {
@@ -284,7 +301,6 @@ export class AppComponent implements OnInit {
 
   getClass(row: any): string {
     row.areaClass = this.areas.some(x => x == row["area"]) ? "sa-valid" : "sa-invalid"
-    console.log(this.json);
     return row.areaClass;
   }
 

@@ -4,6 +4,7 @@ import { IDataFilterViewModel, IFilterModel } from "../models/DataFilterModels";
 import { SortDirection } from "./SaTableDataSource";
 import { SaButtonConfig } from '../sa-button/sa-button.component';
 import { TemplateRef, ElementRef } from '@angular/core';
+import { DELEGATE_CTOR } from '@angular/core/src/reflection/reflection_capabilities';
 
 //data for each column in a table
 export enum DataTableColumnTypeEnum {
@@ -42,6 +43,7 @@ export class DataTable<T>
   private columnRemovedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
 
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
+  private deleteRowSubect: ReplaySubject<T | number | ((sourceList: T[]) => T[])> = new ReplaySubject();
 
   mainActionMenu: SaButtonConfig[] = [];
 
@@ -135,6 +137,29 @@ export class DataTable<T>
 
   onColumnUpdated(): Observable<IDataTableColumn[]> {
     return this.columnsUpdatedSubject.asObservable();
+  }
+
+  onRowDelete(): Observable<T | number | ((sourceList: T[]) => T[])> {
+    return this.deleteRowSubect.asObservable();
+  }
+
+  /**
+   * Deletes the row by matching object reference
+   * @param item Item to be deleted
+   */
+  deleteRow(item: T)
+  /**
+   * Deletes the row by index
+   * @param index Zero based index where the row should be deleted
+   */
+  deleteRow(index: number)
+  /**
+   * Recieves the source list from which the item can be deleted using custom logic.
+   * @param predicate Method receiving the source list. Must return the updated source List
+   */
+  deleteRow(predicate: (sourceList: T[]) => T[])
+  deleteRow(itemOrIndexOrPredicate: T | number | ((sourceList: T[]) => T[])) {
+    this.deleteRowSubect.next(itemOrIndexOrPredicate);
   }
 }
 

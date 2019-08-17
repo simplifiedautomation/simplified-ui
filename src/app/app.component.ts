@@ -265,9 +265,7 @@ export class AppComponent implements OnInit {
 
   deleteByPredicate(item) {
     this.dataTable.deleteRow((x: any[]) => {
-      console.log(x);
       x = x.filter(c => c != item);
-      console.log(x);
       return x;
     });
   }

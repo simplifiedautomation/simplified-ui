@@ -35,7 +35,7 @@ export enum SortDirection {
 /** Defaults for the CommonTableFilter */
 export class DefaultCommonTableFilter implements SaCommonTableFilter {
   pageNo = 0;
-  pageSize = 100;
+  pageSize = 20;
   sortCol = 0;
   sortDir = SortDirection.Desc;
   /** Term that should be used to filter out objects from the data array
@@ -47,11 +47,11 @@ export class DefaultCommonTableFilter implements SaCommonTableFilter {
   filterModelChange = new BehaviorSubject<IFilterModel>({
     keyword: ""
   });
-  
+
 
   /**
    * Provides a new instance of the CommonTableFilter with the configured default values.
-   * 
+   *
    * @param override optional function, to override any of the default values for this instance
    */
   constructor(override?: (instance: DefaultCommonTableFilter) => void) {

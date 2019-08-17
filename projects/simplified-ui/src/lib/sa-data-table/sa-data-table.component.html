@@ -39,10 +39,10 @@
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
             <mat-header-cell *matHeaderCellDef>
-              <mat-checkbox (change)="$event ? masterToggle() : null"
+              <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
                 [checked]="selection.hasValue() && isAllSelected()"
                 [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-              </mat-checkbox>
+              </mat-checkbox> -->
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
               <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onCheckBoxChange($event, row) : null"
@@ -94,7 +94,7 @@
             </p>
           </div>
       </ng-container>
-       
+
         <div *ngIf="!isRender" style="background-color:white;">
           <div fxFlex="row" fxLayoutAlign="space-around" style="padding:8px;">
             <mat-spinner diameter="50"></mat-spinner>

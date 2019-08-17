@@ -39,7 +39,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   public isRender: boolean = false;
   public showFilter: boolean = false;
 
-  public tableDataSource;
+  public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
 
 
   subs: Subscription[] = [];
@@ -73,12 +73,12 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row -`;
   }
 
-  constructor() { 
-   this.tableDataSource  = new SaTableDataSource(
-    this._source.asObservable(),
-    new DefaultCommonTableFilter(),
-    this.dataTable == undefined ? false : true
-  );
+  constructor() {
+    this.tableDataSource = new SaTableDataSource(
+      this._source.asObservable(),
+      new DefaultCommonTableFilter(),
+      this.dataTable == undefined ? false : true
+    );
   }
 
   menuItemClicked(button: SaButton, evt) {
@@ -105,6 +105,22 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       this.columnToDisplay.push('options');
     });
 
+    this.dataTable.onRowDelete().subscribe(itemOrIndexOrPredicate => {
+      if (typeof itemOrIndexOrPredicate == 'function') {
+        this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList)
+      }
+      else if (typeof itemOrIndexOrPredicate == 'number') {
+        this.sourceList = this.sourceList.filter((_, i) => i != itemOrIndexOrPredicate);
+      } else {
+        this.sourceList = this.sourceList.filter(x => x != itemOrIndexOrPredicate)
+      }
+    });
+
+    this.dataTable.onRefresh().subscribe(_ => {
+      this.tableDataSource.filter = new DefaultCommonTableFilter();
+      this.tableDataSource.triggerFilterChange();
+    })
+
 
     // listen to dataSource filter change
     this.subs.push(this.tableDataSource.onFilterChange
@@ -128,7 +144,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     }
 
     this.dataTable.onRowAdded().subscribe(x => {
-        this._source.next([...[x], ...this._source.value]);   
+      this._source.next([...[x], ...this._source.value]);
     })
   }
 
@@ -193,7 +209,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     return this.columnToDisplay.some(x => x == column.key);
   }
 
-  onCheckBoxChange(event, row){
+  onCheckBoxChange(event, row) {
     this.selection.toggle(row);
     const eventdata: RowSelectEventDataModel<T> = {
       checked: event.checked,
@@ -204,7 +220,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 }
 
 
-export interface RowSelectEventDataModel<T>{
+export interface RowSelectEventDataModel<T> {
   checked: boolean;
   rowData: T;
 }

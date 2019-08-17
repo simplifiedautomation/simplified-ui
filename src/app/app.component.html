@@ -66,16 +66,19 @@
   <h3> Data Table Component </h3>
   <sa-button [config]="saveButtonConfig" (onClick)="updateTable()"></sa-button>
 
-  <sa-data-table  [dataTable]="dataTable"></sa-data-table>
+  <button mat-raised-button (click)="refreshTable()">Refresh Table</button>
+
+  <sa-data-table [dataTable]="dataTable"></sa-data-table>
   <ng-template #selectOptionBody let-item>{{item}}</ng-template>
 
-  <ng-template #myTemplate>
+  <ng-template #myTemplate let-item>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
+      <button mat-menu-item (click)="deleteByIndex()">Delete By Index</button>
+      <button mat-menu-item (click)="deleteByPredicate(item)">Delete By Predicate</button>
+      <button mat-menu-item (click)="deleteByObject(item)">Delete By Object Matching</button>
     </mat-menu>
   </ng-template>
 

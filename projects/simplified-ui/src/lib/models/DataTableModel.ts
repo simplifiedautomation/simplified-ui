@@ -4,7 +4,6 @@ import { IDataFilterViewModel, IFilterModel } from "../models/DataFilterModels";
 import { SortDirection } from "./SaTableDataSource";
 import { SaButtonConfig } from '../sa-button/sa-button.component';
 import { TemplateRef, ElementRef } from '@angular/core';
-import { DELEGATE_CTOR } from '@angular/core/src/reflection/reflection_capabilities';
 
 //data for each column in a table
 export enum DataTableColumnTypeEnum {

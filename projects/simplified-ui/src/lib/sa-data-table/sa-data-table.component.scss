@@ -63,3 +63,9 @@ a:hover {
     width: 100%;
   }
 }
+
+::ng-deep{
+  .mat-sort-header-container, .mat-sort-header-container .mat-sort-header-button{
+    overflow: hidden;
+  }
+} 

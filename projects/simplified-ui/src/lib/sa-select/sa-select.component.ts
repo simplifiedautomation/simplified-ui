@@ -173,7 +173,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     if (this.isGetResultsCallbackNull()) {
       var filteredData = this.config.options.value.filter(x => {
         for (let key in x) {
-          if (x[key].toString().toLowerCase().indexOf(this.searchTerm) > -1) {
+          if (x[key] && x[key].toString().toLowerCase().indexOf(this.searchTerm) > -1) {
             return true;
           }
         }

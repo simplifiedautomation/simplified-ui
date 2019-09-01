@@ -5,7 +5,7 @@ export interface IHeaderViewModel {
   title: string;
   primaryButton: SaButtonConfig;
   secondaryButton: SaButtonConfig;
-  moreMenu: IMoreMenuViewModel;
+  moreMenu?: IMoreMenuViewModel;
   menuTemplate?: TemplateRef<any>
 }
 

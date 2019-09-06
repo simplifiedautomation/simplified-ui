@@ -25,7 +25,7 @@
   </mat-list>
 
   <h3> Button Component </h3>
-  <sa-button [config]="saveButtonConfig" (onClick)="isSpin = !isSpin;"></sa-button>
+  <sa-button [config]="saveButtonConfig" (onClick)="onClick()"></sa-button>
 
   <br />
   <h3> Currency Inpput Component </h3>
@@ -40,7 +40,7 @@
   <h3> Date Time Component </h3>
   <mat-form-field>
     <mat-label>Enter Date</mat-label>
-    <sa-date-picker [dateConfig]="dateConfig"></sa-date-picker>
+    <sa-date-picker [dateConfig]="dateConfig" [formControl]="data"></sa-date-picker>
   </mat-form-field>
 
   <h3> More Menu Component </h3>

@@ -60,6 +60,9 @@ export class DatePickerConfig {
   selectMode?: DatePickerSelectMode = DatePickerSelectMode.single; //'single' | 'range' | 'rangeFrom' | 'rangeTo'
 
   placeholder: string = "Select Date";
+
+  dateFormat?: DateFormatEnum | string;
+  DateFormatEnum: any;
 }
 
 export enum DatePickerType {
@@ -82,4 +85,9 @@ export enum DatePickerSelectMode {
   range = "range",
   rangeFrom = "rangeFrom",
   rangeTo="rangeTo"
+}
+export enum DateFormatEnum{
+  shortDate = 'MMM d, yyy',
+  shortTime = 'h:mm a',
+  shortDateTime = 'MMM d, yyy at h:mm a'
 }

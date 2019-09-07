@@ -63,7 +63,7 @@ export class DatePickerConfig {
 
   placeholder: string = "Select Date";
 
-  dateFormat?: DateFormats | string;
+  dateFormat?: string;
 }
 
 export enum DatePickerType {

@@ -6,7 +6,8 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigModel';
 
-import * as moment from 'moment-timezone';
+import * as moment_ from 'moment-timezone';
+const moment = moment_;
 import { DateFormats } from '../pipes/sa-date-time.pipe';
 
 @Component({

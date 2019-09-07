@@ -4,9 +4,10 @@ import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { DatePickerConfig, DatePickerType, DateFormatEnum } from '../models/DatePickerConfigModel';
+import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigModel';
 
 import * as moment from 'moment-timezone';
+import { DateFormats } from '../pipes/sa-date-time.pipe';
 
 @Component({
   selector: 'sa-date-picker',
@@ -144,11 +145,11 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
 
     if (!this.dateConfig.dateFormat){
       if(this.dateConfig.pickerType == DatePickerType.calendar){
-        this.dateConfig.dateFormat = DateFormatEnum.shortDate;
+        this.dateConfig.dateFormat = DateFormats.shortDate;
       } else if(this.dateConfig.pickerType == DatePickerType.timer){
-        this.dateConfig.dateFormat = DateFormatEnum.shortTime;
+        this.dateConfig.dateFormat = DateFormats.shortTime;
       } else if(this.dateConfig.pickerType == DatePickerType.both){
-        this.dateConfig.dateFormat = DateFormatEnum.shortDateTime;
+        this.dateConfig.dateFormat = DateFormats.shortDateTime;
       } 
     }
 

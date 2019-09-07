@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats, DateFormatEnum, DatePickerType } from 'projects/simplified-ui/src/public-api';
+import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats, DatePickerType } from 'projects/simplified-ui/src/public-api';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 import * as moment from 'moment-timezone';
@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
     this.currencyForm.controls.currency.setValue('100');
     this.setupDataTable();
 
-    this.dateConfig.dateFormat = 'LL';
+    this.dateConfig.dateFormat = DateFormats.shortDate;
     this.dateConfig.pickerType = DatePickerType.timer;
   }
 

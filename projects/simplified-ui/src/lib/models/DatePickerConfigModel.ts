@@ -1,3 +1,5 @@
+import { DateFormats } from '../pipes/sa-date-time.pipe';
+
 /**
  *This model is used to assign configurations for date picker
  * */
@@ -61,7 +63,7 @@ export class DatePickerConfig {
 
   placeholder: string = "Select Date";
 
-  dateFormat?: DateFormatEnum | string;
+  dateFormat?: DateFormats | string;
 }
 
 export enum DatePickerType {
@@ -84,9 +86,4 @@ export enum DatePickerSelectMode {
   range = "range",
   rangeFrom = "rangeFrom",
   rangeTo="rangeTo"
-}
-export enum DateFormatEnum{
-  shortDate = 'MMM d, yyy',
-  shortTime = 'h:mm a',
-  shortDateTime = 'MMM d, yyy at h:mm a'
 }

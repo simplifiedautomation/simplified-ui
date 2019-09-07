@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild, TemplateRef, ViewEncapsulation } from '@a
 import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats, DatePickerType } from 'projects/simplified-ui/src/public-api';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
-import * as moment from 'moment-timezone';
+import * as moment_ from 'moment-timezone';
+
+const moment = moment_;
 
 @Component({
   selector: 'app-root',

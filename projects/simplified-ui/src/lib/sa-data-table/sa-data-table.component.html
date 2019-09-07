@@ -3,7 +3,7 @@
 
     <div fxFlex fxLayout="column" fxLayoutAlign="start strech" fxLayoutGap="8px">
 
-      <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+      <div class="filters_row" fxFlex fxLayout="row" fxLayoutAlign="start center">
         <div fxFlex="grow">
           <sa-data-filter *ngIf="(dataTable.showFilters == null) || dataTable.showFilters" [filters]="filterArray"
             (filterChange)="filterChange($event)"></sa-data-filter>
@@ -39,10 +39,10 @@
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
             <mat-header-cell *matHeaderCellDef>
-              <mat-checkbox (change)="$event ? masterToggle() : null"
+              <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
                 [checked]="selection.hasValue() && isAllSelected()"
                 [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-              </mat-checkbox>
+              </mat-checkbox> -->
             </mat-header-cell>
             <mat-cell *matCellDef="let row">
               <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onCheckBoxChange($event, row) : null"
@@ -70,16 +70,18 @@
           <!-- Sliced 1 to not to reinitilize the select controller-->
           <ng-container *ngFor="let col of columns" [matColumnDef]="col.key" [sticky]="col.sticky"
             [stickyEnd]="col.stickyEnd">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> {{col.title}} </mat-header-cell>
-            <mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
-              <div *ngIf="col.template; else native;">
+            <mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{col.title}}"> <div class="truncate">{{col.title}}</div> </mat-header-cell>
+            <ng-container *ngIf="col.template">
+              <mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
                 <ng-container *ngTemplateOutlet="col.template; context: { column: col, row: element }"></ng-container>
-              </div>
-              <ng-template #native>
+              </mat-cell>
+            </ng-container>
+            
+            <ng-container *ngIf="!col.template">
+              <mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
                 {{element[col.key] | valueFormatter: col.type}}
-              </ng-template>
-
-            </mat-cell>
+              </mat-cell>
+            </ng-container>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="columnToDisplay; sticky: true"></mat-header-row>
@@ -93,8 +95,8 @@
               There are no items to show currently.
             </p>
           </div>
-      </ng-container>
-       
+        </ng-container>
+
         <div *ngIf="!isRender" style="background-color:white;">
           <div fxFlex="row" fxLayoutAlign="space-around" style="padding:8px;">
             <mat-spinner diameter="50"></mat-spinner>

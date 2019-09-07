@@ -47,11 +47,11 @@ export class DefaultCommonTableFilter implements SaCommonTableFilter {
   filterModelChange = new BehaviorSubject<IFilterModel>({
     keyword: ""
   });
-  
+
 
   /**
    * Provides a new instance of the CommonTableFilter with the configured default values.
-   * 
+   *
    * @param override optional function, to override any of the default values for this instance
    */
   constructor(override?: (instance: DefaultCommonTableFilter) => void) {

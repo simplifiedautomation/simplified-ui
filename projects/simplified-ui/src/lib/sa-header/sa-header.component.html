@@ -9,5 +9,8 @@
       <sa-button [config]="header.secondaryButton" *ngIf="header.secondaryButton" (onClick)="onSecodaryClick($event)"></sa-button>
       <sa-button [config]="header.primaryButton" *ngIf="header.primaryButton" (onClick)="onPrimaryClick($event)"></sa-button>
     </div>
+    <div fxFlex="nogrow" fxFlexOffset="5px" *ngIf="header.menuTemplate">
+      <ng-container *ngTemplateOutlet="header.menuTemplate"></ng-container>
+    </div>
   </div>
 </sa-base-header>

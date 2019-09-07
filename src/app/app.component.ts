@@ -1,13 +1,16 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats } from 'projects/simplified-ui/src/public-api';
+import { Component, OnInit, ViewChild, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats, DatePickerType } from 'projects/simplified-ui/src/public-api';
 import { FormControl, FormBuilder } from '@angular/forms';
-import { Subject, Observable, of } from 'rxjs';
-import * as moment from 'moment-timezone';
+import { of } from 'rxjs';
+import * as moment_ from 'moment-timezone';
+
+const moment = moment_;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
 
@@ -41,6 +44,8 @@ export class AppComponent implements OnInit {
   selectOptions = new SaSelectConfig<string>();
 
   dateConfig = new DatePickerConfig();
+
+  data = new FormControl();
 
   primarButton = new SaButtonConfig('primary');
   secondaryButton = new SaButtonConfig('secondary');
@@ -134,11 +139,15 @@ export class AppComponent implements OnInit {
 
     this.currencyForm.controls.currency.setValue('100');
     this.setupDataTable();
+
+    this.dateConfig.dateFormat = DateFormats.shortDate;
+    this.dateConfig.pickerType = DatePickerType.timer;
   }
 
   onClick() {
-    this.primaryMenu = this.standardPrimaryMenu;
-    this.kaizenType = 'standard';
+    // this.primaryMenu = this.standardPrimaryMenu;
+    // this.kaizenType = 'standard';
+console.log(this.data);
   }
 
   onPrimaryClick(event) {
@@ -237,6 +246,31 @@ export class AppComponent implements OnInit {
       );
     };
     this.dataTable.isClientSide = true;
+  }
+
+  deleteByIndex() {
+    this.dataTable.deleteRow(2);
+  }
+
+  deleteByPredicate(item) {
+    this.dataTable.deleteRow((x: any[]) => {
+      x = x.filter(c => c != item);
+      return x;
+    });
+  }
+
+  deleteByObject(item) {
+    this.dataTable.deleteRow(item);
+  }
+
+  refreshTable() {
+    this.json = [{
+      key: "4",
+      area: "Area 4",
+      line: "Line 4",
+      machine: "Machine 4"
+    }];
+    this.dataTable.refresh();
   }
 
 

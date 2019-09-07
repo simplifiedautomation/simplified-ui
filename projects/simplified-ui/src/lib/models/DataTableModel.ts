@@ -48,7 +48,10 @@ export class DataTable<T extends IDataTable>
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
   private rowEdittedSubject: ReplaySubject<T> = new ReplaySubject();
   private rowDeleteSubject: ReplaySubject<T> = new ReplaySubject();
-  
+
+  private deleteRowSubect: ReplaySubject<T | number | ((sourceList: T[]) => T[])> = new ReplaySubject();
+
+  private refreshTableSubject: Subject<any> = new Subject();
   mainActionMenu: SaButtonConfig[] = [];
 
   routerLinkEnabled: boolean = false;
@@ -91,23 +94,6 @@ export class DataTable<T extends IDataTable>
 
   onRowEditted(): Observable<T> {
     return this.rowEdittedSubject.asObservable();
-  }
-
-
-    /**
-   * Adds the row to the top of table.
-   * @param row The row to be added.
-   */
-   deleteRow(row: T): void {
-    if(row.key == null || row.key == undefined || row.key == 0){
-      throw new Error("The key to delete the row not found!!");
-      return;
-    }
-    this.rowDeleteSubject.next(row);
-  }
-
-  onRowDeletted(): Observable<T> {
-    return this.rowDeleteSubject.asObservable();
   }
 
 
@@ -175,6 +161,37 @@ export class DataTable<T extends IDataTable>
 
   onColumnUpdated(): Observable<IDataTableColumn[]> {
     return this.columnsUpdatedSubject.asObservable();
+  }
+
+  onRowDelete(): Observable<T | number | ((sourceList: T[]) => T[])> {
+    return this.deleteRowSubect.asObservable();
+  }
+
+  onRefresh(): Observable<any> {
+    return this.refreshTableSubject.asObservable();
+  }
+
+  /**
+   * Deletes the row by matching object reference
+   * @param item Item to be deleted
+   */
+  deleteRow(item: T)
+  /**
+   * Deletes the row by index
+   * @param index Zero based index where the row should be deleted
+   */
+  deleteRow(index: number)
+  /**
+   * Recieves the source list from which the item can be deleted using custom logic.
+   * @param predicate Method receiving the source list. Must return the updated source List
+   */
+  deleteRow(predicate: (sourceList: T[]) => T[])
+  deleteRow(itemOrIndexOrPredicate: T | number | ((sourceList: T[]) => T[])) {
+    this.deleteRowSubect.next(itemOrIndexOrPredicate);
+  }
+
+  refresh() {
+    this.refreshTableSubject.next();
   }
 }
 

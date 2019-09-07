@@ -4,7 +4,11 @@ import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { DatePickerConfig } from '../models/DatePickerConfigModel';
+import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigModel';
+
+import * as moment_ from 'moment-timezone';
+const moment = moment_;
+import { DateFormats } from '../pipes/sa-date-time.pipe';
 
 @Component({
   selector: 'sa-date-picker',
@@ -139,8 +143,19 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   }
 
   ngOnInit() {
+
+    if (!this.dateConfig.dateFormat){
+      if(this.dateConfig.pickerType == DatePickerType.calendar){
+        this.dateConfig.dateFormat = DateFormats.shortDate;
+      } else if(this.dateConfig.pickerType == DatePickerType.timer){
+        this.dateConfig.dateFormat = DateFormats.shortTime;
+      } else if(this.dateConfig.pickerType == DatePickerType.both){
+        this.dateConfig.dateFormat = DateFormats.shortDateTime;
+      } 
+    }
+
     this.dateTime.valueChanges.subscribe(x=>{
-      this.value = x;
+      this.value = moment(x).format(this.dateConfig.dateFormat);
     })
   }
 

@@ -39,7 +39,7 @@ export class SaDataTableComponent<T extends IDataTable> implements OnInit, After
   public isRender: boolean = false;
   public showFilter: boolean = false;
 
-  public tableDataSource;
+  public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
 
 
   subs: Subscription[] = [];
@@ -73,12 +73,12 @@ export class SaDataTableComponent<T extends IDataTable> implements OnInit, After
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row -`;
   }
 
-  constructor() { 
-   this.tableDataSource  = new SaTableDataSource(
-    this._source.asObservable(),
-    new DefaultCommonTableFilter(),
-    this.dataTable == undefined ? false : true
-  );
+  constructor() {
+    this.tableDataSource = new SaTableDataSource(
+      this._source.asObservable(),
+      new DefaultCommonTableFilter(),
+      this.dataTable == undefined ? false : true
+    );
   }
 
   menuItemClicked(button: SaButton, evt) {
@@ -104,6 +104,22 @@ export class SaDataTableComponent<T extends IDataTable> implements OnInit, After
       }
       this.columnToDisplay.push('options');
     });
+
+    this.dataTable.onRowDelete().subscribe(itemOrIndexOrPredicate => {
+      if (typeof itemOrIndexOrPredicate == 'function') {
+        this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList)
+      }
+      else if (typeof itemOrIndexOrPredicate == 'number') {
+        this.sourceList = this.sourceList.filter((_, i) => i != itemOrIndexOrPredicate);
+      } else {
+        this.sourceList = this.sourceList.filter(x => x != itemOrIndexOrPredicate)
+      }
+    });
+
+    this.dataTable.onRefresh().subscribe(_ => {
+      this.tableDataSource.filter = new DefaultCommonTableFilter();
+      this.tableDataSource.triggerFilterChange();
+    })
 
 
     // listen to dataSource filter change
@@ -131,20 +147,6 @@ export class SaDataTableComponent<T extends IDataTable> implements OnInit, After
         this._source.next([...[x], ...this._source.value]);   
     }));
 
-    this.subs.push(this.dataTable.onRowDeletted().subscribe(x=>{
-        if(this.sourceList.length > 0)
-        {
-          var list = this.sourceList.filter(y=> {
-            if(y.hasOwnProperty('key'))
-            {
-              return  y.key !== x.key;
-            }
-            throw Error('The key property does not exist on the object!!');
-           
-          })         
-          this.sourceList = list;
-        }
-    }));
 
     this.subs.push(this.dataTable.onRowEditted().subscribe(x=>{
       if(this.sourceList.length > 0)
@@ -164,6 +166,7 @@ export class SaDataTableComponent<T extends IDataTable> implements OnInit, After
        
       }
   }));
+
   }
 
   ngAfterViewInit(): void {
@@ -227,7 +230,7 @@ export class SaDataTableComponent<T extends IDataTable> implements OnInit, After
     return this.columnToDisplay.some(x => x == column.key);
   }
 
-  onCheckBoxChange(event, row){
+  onCheckBoxChange(event, row) {
     this.selection.toggle(row);
     const eventdata: RowSelectEventDataModel<T> = {
       checked: event.checked,
@@ -238,7 +241,7 @@ export class SaDataTableComponent<T extends IDataTable> implements OnInit, After
 }
 
 
-export interface RowSelectEventDataModel<T>{
+export interface RowSelectEventDataModel<T> {
   checked: boolean;
   rowData: T;
 }

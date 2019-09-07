@@ -1,3 +1,5 @@
+import { DateFormats } from '../pipes/sa-date-time.pipe';
+
 /**
  *This model is used to assign configurations for date picker
  * */
@@ -60,6 +62,8 @@ export class DatePickerConfig {
   selectMode?: DatePickerSelectMode = DatePickerSelectMode.single; //'single' | 'range' | 'rangeFrom' | 'rangeTo'
 
   placeholder: string = "Select Date";
+
+  dateFormat?: string;
 }
 
 export enum DatePickerType {

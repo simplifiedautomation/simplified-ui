@@ -10,7 +10,7 @@ import { SaDateTimePipe } from './pipes/sa-date-time.pipe';
 import { SaValueFormatterPipe } from './pipes/sa-value-formatter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SaSelectComponent } from './sa-select/sa-select.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { OwlDateTimeModule, OwlNativeDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
 import { SaSecondaryButtonComponent } from './sa-secondary-button/sa-secondary-button.component';
 import { SaAnchorButtonComponent } from './sa-anchor-button/sa-anchor-button.component';
@@ -29,6 +29,16 @@ import { SaButtonComponent } from './sa-button/sa-button.component';
 import { SaSpinnerDirective } from './directives/sa-spinner.directive';
 import { MatProgressSpinner } from '@angular/material';
 import { RouterModule } from '@angular/router';
+
+export const MY_MOMENT_FORMATS = {
+  parseInput: 'l LT',
+  fullPickerInput: 'l LT',
+  datePickerInput: 'l',
+  timePickerInput: 'LT',
+  monthYearLabel: 'MMM YYYY',
+  dateA11yLabel: 'LL',
+  monthYearA11yLabel: 'MMMM YYYY',
+};
 
 
 @NgModule({
@@ -93,6 +103,9 @@ import { RouterModule } from '@angular/router';
     SaButtonComponent,
     SaSpinnerDirective
   ],
-  entryComponents:[MatProgressSpinner]
+  entryComponents:[MatProgressSpinner],
+  providers: [
+    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
+]
 })
 export class SimplifiedUiModule { }

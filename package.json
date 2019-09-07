@@ -25,7 +25,6 @@
     "@angular/router": "~7.2.0",
     "@nguniversal/module-map-ngfactory-loader": "^7.1.1",
     "core-js": "^2.5.4",
-    "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
     "ng-mat-select-infinite-scroll": "^1.0.1",
     "ng-pick-datetime": "^7.0.0",

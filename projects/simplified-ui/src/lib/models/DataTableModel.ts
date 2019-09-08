@@ -32,12 +32,8 @@ export interface IRequestModel {
   filter: IFilterModel
 }
 
-export interface IDataTable{
-  key?: number;
-}
-
 //abstract class which each data table/track pages will implement
-export class DataTable<T extends IDataTable>
+export class DataTable<T>
 {
 
   private columns: IDataTableColumn[] = [];
@@ -46,8 +42,7 @@ export class DataTable<T extends IDataTable>
   private columnRemovedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
 
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
-  private rowEdittedSubject: ReplaySubject<T> = new ReplaySubject();
-  private rowDeleteSubject: ReplaySubject<T> = new ReplaySubject();
+ 
 
   private deleteRowSubect: ReplaySubject<T | number | ((sourceList: T[]) => T[])> = new ReplaySubject();
 
@@ -79,23 +74,6 @@ export class DataTable<T extends IDataTable>
   onRowAdded(): Observable<T> {
     return this.rowAddedSubject.asObservable();
   }
-
-    /**
-   * Adds the row to the top of table.
-   * @param row The row to be added.
-   */
-  editRow(row: T): void {
-    if(row.key == null || row.key == undefined || row.key == 0){
-      throw new Error("The key to edit the row not found!!");
-      return;
-    }
-    this.rowEdittedSubject.next(row);
-  }
-
-  onRowEditted(): Observable<T> {
-    return this.rowEdittedSubject.asObservable();
-  }
-
 
   /**
    * Pushes the columns at the end of the table.

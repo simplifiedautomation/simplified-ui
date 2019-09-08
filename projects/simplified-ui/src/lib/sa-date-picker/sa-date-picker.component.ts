@@ -9,6 +9,7 @@ import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigMode
 import * as moment_ from 'moment-timezone';
 const moment = moment_;
 import { DateFormats } from '../pipes/sa-date-time.pipe';
+import { MOMENT_FORMATS } from '../simplified-ui.module';
 
 @Component({
   selector: 'sa-date-picker',
@@ -146,11 +147,11 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
 
     if (!this.dateConfig.dateFormat){
       if(this.dateConfig.pickerType == DatePickerType.calendar){
-        this.dateConfig.dateFormat = DateFormats.shortDate;
+        this.dateConfig.dateFormat = MOMENT_FORMATS.datePickerInput;
       } else if(this.dateConfig.pickerType == DatePickerType.timer){
-        this.dateConfig.dateFormat = DateFormats.shortTime;
+        this.dateConfig.dateFormat = MOMENT_FORMATS.timePickerInput;
       } else if(this.dateConfig.pickerType == DatePickerType.both){
-        this.dateConfig.dateFormat = DateFormats.shortDateTime;
+        this.dateConfig.dateFormat = MOMENT_FORMATS.fullPickerInput;
       } 
     }
 

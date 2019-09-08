@@ -40,8 +40,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   public showFilter: boolean = false;
 
   public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
-
-
   subs: Subscription[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -143,9 +141,10 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       this.columnToDisplay.unshift('select');
     }
 
-    this.dataTable.onRowAdded().subscribe(x => {
-      this._source.next([...[x], ...this._source.value]);
-    })
+    this.subs.push(this.dataTable.onRowAdded().subscribe(x => {
+        this._source.next([...[x], ...this._source.value]);   
+    }));
+
   }
 
   ngAfterViewInit(): void {

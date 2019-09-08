@@ -30,7 +30,7 @@ import { SaSpinnerDirective } from './directives/sa-spinner.directive';
 import { MatProgressSpinner } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
-export const MY_MOMENT_FORMATS = {
+export const MOMENT_FORMATS = {
   parseInput: 'l LT',
   fullPickerInput: 'l LT',
   datePickerInput: 'l',
@@ -105,7 +105,7 @@ export const MY_MOMENT_FORMATS = {
   ],
   entryComponents:[MatProgressSpinner],
   providers: [
-    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
+    {provide: OWL_DATE_TIME_FORMATS, useValue: MOMENT_FORMATS},
 ]
 })
 export class SimplifiedUiModule { }

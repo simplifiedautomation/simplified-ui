@@ -42,10 +42,11 @@ export class DataTable<T>
   private columnRemovedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
 
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
+ 
+
   private deleteRowSubect: ReplaySubject<T | number | ((sourceList: T[]) => T[])> = new ReplaySubject();
 
   private refreshTableSubject: Subject<any> = new Subject();
-
   mainActionMenu: SaButtonConfig[] = [];
 
   routerLinkEnabled: boolean = false;

@@ -141,9 +141,6 @@ export class AppComponent implements OnInit {
   }
 
   onClick() {
-    // this.primaryMenu = this.standardPrimaryMenu;
-    // this.kaizenType = 'standard';
-console.log(this.data);
   }
 
   onPrimaryClick(event) {
@@ -155,55 +152,12 @@ console.log(this.data);
   }
 
   updateTable() {
-    this.dataTable.addColumn({
-      key: "column4",
-      title: "COLUMN 4",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.none,
-        key: "column4"
-      }
-    });
-
-    this.dataTable.addColumn({
-      key: "column5",
-      title: "COLUMN 5",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.none,
-        key: "column4"
-      }
-    });
-
-    this.dataTable.addColumn({
-      key: "column6",
-      title: "COLUMN 6",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.none,
-        key: "column4"
-      }
-    });
-
-    this.dataTable.addColumn({
-      key: "column7",
-      title: "COLUMN 7",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.none,
-        key: "column4"
-      }
-    });
-
+   
     this.dataTable.addRow({
-      column1: 'column 1',
-      column2: 'column 2',
-      column3: 'column 3',
-      column4: 'column 4'
+      key: this.json.length + 1,
+      area: 'column 1',
+      line: 'column 2',
+      machine: 'column 3'
     });
   }
 
@@ -285,7 +239,7 @@ console.log(this.data);
 
   refreshTable() {
     this.json = [{
-      key: "4",
+      key: 4,
       area: "Area 4",
       line: "Line 4",
       machine: "Machine 4"
@@ -296,19 +250,19 @@ console.log(this.data);
 
   json = [
     {
-      key: "1",
+      key: 1,
       area: "Area 1",
       line: "Line 1",
       machine: "Machine 1"
     },
     {
-      key: "2",
+      key: 2,
       area: "Area 2",
       line: "Line 2",
       machine: "Machine 2"
     },
     {
-      key: "3",
+      key: 3,
       area: "Area 2",
       line: "Line 3",
       machine: "Machine 3"

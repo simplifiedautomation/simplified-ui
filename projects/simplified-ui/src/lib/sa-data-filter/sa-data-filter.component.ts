@@ -96,14 +96,13 @@ export class SaDataFilterComponent implements OnInit {
   datePickerChange(dates: Date[], filter: IDataFilterViewModel, ref: SaDatePickerComponent) {
     if (dates == null)
       return;
-
     let filterProperty = this.filterModel[filter.key];
     filterProperty.push({
       from: dates[0],
       to: dates[1]
     });
     this.chips.push({
-      displayValue: dates[0].toDateString() + " - " + dates[1].toDateString(),
+      displayValue: dates[0] + " - " + dates[1],
       key: filter.key,
       title: filter.title,
       value: dates

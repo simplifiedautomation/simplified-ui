@@ -4,12 +4,11 @@ import { MatFormFieldControl } from '@angular/material';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigModel';
+import { DatePickerConfig, DatePickerType, DatePickerSelectMode } from '../models/DatePickerConfigModel';
 
 import * as moment_ from 'moment-timezone';
 const moment = moment_;
-import { DateFormats } from '../pipes/sa-date-time.pipe';
-import { MOMENT_FORMATS } from '../simplified-ui.module';
+import { DateFormats, MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
 
 @Component({
   selector: 'sa-date-picker',
@@ -17,7 +16,7 @@ import { MOMENT_FORMATS } from '../simplified-ui.module';
   styleUrls: ['./sa-date-picker.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: SaDatePickerComponent }]
 })
-export class SaDatePickerComponent implements ControlValueAccessor, MatFormFieldControl<Date>, OnDestroy, OnInit {
+export class SaDatePickerComponent implements ControlValueAccessor, MatFormFieldControl<Date | Date[]>, OnDestroy, OnInit {
 
   @ViewChild("input") inputRef: ElementRef;
 
@@ -87,17 +86,18 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
 
   datePickerContent: any;
   @Input()
-  get value(): Date | null {
+  get value(): Date | Date[] | null {
     this.datePickerContent = this.dateTime;
     if (this.datePickerContent)
       return this.datePickerContent;
     return null;
   }
-  set value(date: Date | null) {
+  set value(date: Date | Date[] | null) {
     this.onSelection.emit(date);
     this.onChange(date);
     this.stateChanges.next();
   }
+  
 
   private _empty = true;
   get empty() {
@@ -146,6 +146,9 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   ngOnInit() {
 
     if (!this.dateConfig.dateFormat){
+      if(this.dateConfig.selectMode == DatePickerSelectMode.range){
+        this.dateConfig.dateFormat = MOMENT_FORMATS.dateA11yLabel
+      } else
       if(this.dateConfig.pickerType == DatePickerType.calendar){
         this.dateConfig.dateFormat = MOMENT_FORMATS.datePickerInput;
       } else if(this.dateConfig.pickerType == DatePickerType.timer){
@@ -155,8 +158,10 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
       } 
     }
 
-    this.dateTime.valueChanges.subscribe(x=>{
-      this.value = moment(x).format(this.dateConfig.dateFormat);
+    this.dateTime.valueChanges.subscribe((x)=>{
+      if(x instanceof Array){
+        this.value = x.map(date => moment(date).format(this.dateConfig.dateFormat))
+      } else this.value =  moment(x).format(this.dateConfig.dateFormat);
     })
   }
 

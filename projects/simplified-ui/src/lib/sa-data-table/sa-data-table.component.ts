@@ -40,8 +40,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   public showFilter: boolean = false;
 
   public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
-
-
   subs: Subscription[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

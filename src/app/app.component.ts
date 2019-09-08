@@ -33,10 +33,6 @@ export class AppComponent implements OnInit {
 
   saveButtonConfig = new SaButtonConfig('Toggle Spinner');
 
-  editButtonConfig = new SaButtonConfig('Edit row');
-
-  deleteButtonConfig = new SaButtonConfig('Delete ROw');
-
   dataFilterConfig: IDataFilterViewModel;
 
   dataFilterConfigArray: IDataFilterViewModel[] = [];
@@ -145,9 +141,6 @@ export class AppComponent implements OnInit {
   }
 
   onClick() {
-    // this.primaryMenu = this.standardPrimaryMenu;
-    // this.kaizenType = 'standard';
-console.log(this.data);
   }
 
   onPrimaryClick(event) {
@@ -166,25 +159,6 @@ console.log(this.data);
       line: 'column 2',
       machine: 'column 3'
     });
-  }
-
-  editRow(){
-    this.dataTable.editRow(
-      {
-        area: "Area Edited",
-        line: "Line Edited",
-        machine: "Machine Edited"
-      }
-    )
-  }
-  deleteRow(){
-    this.dataTable.deleteRow(
-      {
-        area: "Area 2",
-        line: "Line 3",
-        machine: "Machine 3"
-      }
-    )
   }
 
   private setupDataTable() {
@@ -265,7 +239,7 @@ console.log(this.data);
 
   refreshTable() {
     this.json = [{
-      key: "4",
+      key: 4,
       area: "Area 4",
       line: "Line 4",
       machine: "Machine 4"

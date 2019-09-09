@@ -34,3 +34,13 @@ export class DateFormats {
   static readonly shortDateTime = `${DateFormats.shortDate} \'at\' ${DateFormats.shortTime}`;
   static readonly timeZoneAbb = "z";
 }
+
+export const MOMENT_FORMATS = {
+  parseInput: 'l LT',
+  fullPickerInput: 'l LT',
+  datePickerInput: 'l',
+  timePickerInput: 'LT',
+  monthYearLabel: 'MMM YYYY',
+  dateA11yLabel: 'LL',
+  monthYearA11yLabel: 'MMMM YYYY',
+};

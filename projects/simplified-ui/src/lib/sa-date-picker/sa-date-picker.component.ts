@@ -5,10 +5,11 @@ import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { DatePickerConfig, DatePickerType, DatePickerSelectMode } from '../models/DatePickerConfigModel';
+import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 
 import * as moment_ from 'moment-timezone';
 const moment = moment_;
-import { DateFormats, MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
+import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
 
 @Component({
   selector: 'sa-date-picker',
@@ -97,7 +98,7 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
     this.onChange(date);
     this.stateChanges.next();
   }
-  
+
 
   private _empty = true;
   get empty() {
@@ -155,7 +156,7 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
         this.dateConfig.dateFormat = MOMENT_FORMATS.timePickerInput;
       } else if(this.dateConfig.pickerType == DatePickerType.both){
         this.dateConfig.dateFormat = MOMENT_FORMATS.fullPickerInput;
-      } 
+      }
     }
 
     this.dateTime.valueChanges.subscribe((x)=>{

@@ -28,7 +28,6 @@
     "moment-timezone": "^0.5.26",
     "ng-mat-select-infinite-scroll": "^1.0.1",
     "ng-pick-datetime": "^7.0.0",
-    "ng-pick-datetime-moment": "^1.0.8",
     "ngx-mat-select-search": "^1.7.5",
     "ngx-quill": "^5.2.0",
     "popper.js": "^1.14.3",

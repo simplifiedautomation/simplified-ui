@@ -161,15 +161,11 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
     }
 
     this.dateTime.valueChanges.subscribe((x) => {
-      console.log(x);
-      console.log(this.dateConfig.dateFormat);
-
       if (x instanceof Array) {
         this.value = x.map(date => moment(date).format(this.dateConfig.dateFormat))
       }
       else this.value = moment(x).format(this.dateConfig.dateFormat);
 
-      // console.log(this.value);
     })
   }
 

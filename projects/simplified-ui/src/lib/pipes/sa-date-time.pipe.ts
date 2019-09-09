@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import * as moment from 'moment-timezone';
 
 @Pipe({
   name: 'dateTime'
@@ -44,12 +43,3 @@ export const MOMENT_FORMATS = {
   dateA11yLabel: 'LL',
   monthYearA11yLabel: 'MMMM YYYY',
 };
-
-// export const MY_NATIVE_FORMATS = {
-//   fullPickerInput: {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'},
-//   datePickerInput: {year: 'numeric', month: 'numeric', day: 'numeric'},
-//   timePickerInput: {hour: 'numeric', minute: 'numeric'},
-//   monthYearLabel: {year: 'numeric', month: 'short'},
-//   dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
-//   monthYearA11yLabel: {year: 'numeric', month: 'long'},
-// };

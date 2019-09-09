@@ -6,7 +6,7 @@ import { SaDataTableComponent } from './sa-data-table/sa-data-table.component';
 import { CommonModule } from '@angular/common';
 import { SaDataFilterComponent } from './sa-data-filter/sa-data-filter.component';
 import { SaDatePickerComponent } from './sa-date-picker/sa-date-picker.component';
-import { SaDateTimePipe, MY_NATIVE_FORMATS } from './pipes/sa-date-time.pipe';
+import { SaDateTimePipe, MOMENT_FORMATS } from './pipes/sa-date-time.pipe';
 import { SaValueFormatterPipe } from './pipes/sa-value-formatter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SaSelectComponent } from './sa-select/sa-select.component';
@@ -91,9 +91,9 @@ import { RouterModule } from '@angular/router';
     SaButtonComponent,
     SaSpinnerDirective
   ],
-  entryComponents:[MatProgressSpinner],
+  entryComponents: [MatProgressSpinner],
   providers: [
-    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
-]
+    { provide: OWL_DATE_TIME_FORMATS, useValue: MOMENT_FORMATS },
+  ]
 })
 export class SimplifiedUiModule { }

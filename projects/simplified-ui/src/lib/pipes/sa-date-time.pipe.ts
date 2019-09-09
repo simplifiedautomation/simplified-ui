@@ -35,21 +35,21 @@ export class DateFormats {
   static readonly timeZoneAbb = "z";
 }
 
-// export const MOMENT_FORMATS = {
-//   parseInput: 'l LT',
-//   fullPickerInput: 'l LT',
-//   datePickerInput: 'l',
-//   timePickerInput: 'LT',
-//   monthYearLabel: 'MMM YYYY',
-//   dateA11yLabel: 'LL',
-//   monthYearA11yLabel: 'MMMM YYYY',
-// };
-
-export const MY_NATIVE_FORMATS = {
-  fullPickerInput: {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'},
-  datePickerInput: {year: 'numeric', month: 'numeric', day: 'numeric'},
-  timePickerInput: {hour: 'numeric', minute: 'numeric'},
-  monthYearLabel: {year: 'numeric', month: 'short'},
-  dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
-  monthYearA11yLabel: {year: 'numeric', month: 'long'},
+export const MOMENT_FORMATS = {
+  parseInput: 'l LT',
+  fullPickerInput: 'l LT',
+  datePickerInput: 'l',
+  timePickerInput: 'LT',
+  monthYearLabel: 'MMM YYYY',
+  dateA11yLabel: 'LL',
+  monthYearA11yLabel: 'MMMM YYYY',
 };
+
+// export const MY_NATIVE_FORMATS = {
+//   fullPickerInput: {year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'},
+//   datePickerInput: {year: 'numeric', month: 'numeric', day: 'numeric'},
+//   timePickerInput: {hour: 'numeric', minute: 'numeric'},
+//   monthYearLabel: {year: 'numeric', month: 'short'},
+//   dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
+//   monthYearA11yLabel: {year: 'numeric', month: 'long'},
+// };

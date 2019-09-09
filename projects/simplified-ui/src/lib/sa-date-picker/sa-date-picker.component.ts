@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { DatePickerConfig, DatePickerType, DatePickerSelectMode } from '../models/DatePickerConfigModel';
-import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 
 import * as moment_ from 'moment-timezone';
 const moment = moment_;

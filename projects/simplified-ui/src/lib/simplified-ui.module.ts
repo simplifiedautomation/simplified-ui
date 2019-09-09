@@ -55,8 +55,7 @@ import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
     SaStepperComponent,
     SaMoreMenuComponent,
     SaButtonComponent,
-    SaSpinnerDirective,
-    OwlMomentDateTimeModule
+    SaSpinnerDirective
   ],
   imports: [
     MaterialModule,
@@ -67,7 +66,8 @@ import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
     MatSelectInfiniteScrollModule,
     QuillModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    OwlMomentDateTimeModule
   ],
   exports: [
     SimplifiedUiComponent,

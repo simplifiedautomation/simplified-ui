@@ -11,7 +11,6 @@ import { SaValueFormatterPipe } from './pipes/sa-value-formatter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SaSelectComponent } from './sa-select/sa-select.component';
 import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
-import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
 import { SaSecondaryButtonComponent } from './sa-secondary-button/sa-secondary-button.component';
 import { SaAnchorButtonComponent } from './sa-anchor-button/sa-anchor-button.component';
@@ -63,7 +62,6 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     OwlDateTimeModule,
-    OwlMomentDateTimeModule,
     MatSelectInfiniteScrollModule,
     QuillModule,
     FlexLayoutModule,

@@ -6,7 +6,7 @@ import { SaDataTableComponent } from './sa-data-table/sa-data-table.component';
 import { CommonModule } from '@angular/common';
 import { SaDataFilterComponent } from './sa-data-filter/sa-data-filter.component';
 import { SaDatePickerComponent } from './sa-date-picker/sa-date-picker.component';
-import { SaDateTimePipe, MOMENT_FORMATS } from './pipes/sa-date-time.pipe';
+import { SaDateTimePipe, MY_NATIVE_FORMATS } from './pipes/sa-date-time.pipe';
 import { SaValueFormatterPipe } from './pipes/sa-value-formatter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SaSelectComponent } from './sa-select/sa-select.component';
@@ -29,8 +29,6 @@ import { SaButtonComponent } from './sa-button/sa-button.component';
 import { SaSpinnerDirective } from './directives/sa-spinner.directive';
 import { MatProgressSpinner } from '@angular/material';
 import { RouterModule } from '@angular/router';
-import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
-
 
 @NgModule({
   declarations: [
@@ -66,8 +64,7 @@ import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
     MatSelectInfiniteScrollModule,
     QuillModule,
     FlexLayoutModule,
-    RouterModule,
-    OwlMomentDateTimeModule
+    RouterModule
   ],
   exports: [
     SimplifiedUiComponent,
@@ -96,7 +93,7 @@ import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
   ],
   entryComponents:[MatProgressSpinner],
   providers: [
-    {provide: OWL_DATE_TIME_FORMATS, useValue: MOMENT_FORMATS},
+    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_NATIVE_FORMATS},
 ]
 })
 export class SimplifiedUiModule { }

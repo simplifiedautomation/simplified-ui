@@ -8,7 +8,7 @@ import { DatePickerConfig, DatePickerType, DatePickerSelectMode } from '../model
 
 import * as moment_ from 'moment-timezone';
 const moment = moment_;
-import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
+import { MY_NATIVE_FORMATS } from '../pipes/sa-date-time.pipe';
 
 @Component({
   selector: 'sa-date-picker',
@@ -147,14 +147,14 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
 
     if (!this.dateConfig.dateFormat){
       if(this.dateConfig.selectMode == DatePickerSelectMode.range){
-        this.dateConfig.dateFormat = MOMENT_FORMATS.dateA11yLabel
+        this.dateConfig.dateFormat = MY_NATIVE_FORMATS.dateA11yLabel
       } else
       if(this.dateConfig.pickerType == DatePickerType.calendar){
-        this.dateConfig.dateFormat = MOMENT_FORMATS.datePickerInput;
+        this.dateConfig.dateFormat = MY_NATIVE_FORMATS.datePickerInput;
       } else if(this.dateConfig.pickerType == DatePickerType.timer){
-        this.dateConfig.dateFormat = MOMENT_FORMATS.timePickerInput;
+        this.dateConfig.dateFormat = MY_NATIVE_FORMATS.timePickerInput;
       } else if(this.dateConfig.pickerType == DatePickerType.both){
-        this.dateConfig.dateFormat = MOMENT_FORMATS.fullPickerInput;
+        this.dateConfig.dateFormat = MY_NATIVE_FORMATS.fullPickerInput;
       }
     }
 

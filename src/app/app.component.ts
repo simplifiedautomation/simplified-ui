@@ -140,13 +140,12 @@ export class AppComponent implements OnInit {
     this.currencyForm.controls.currency.setValue('100');
     this.setupDataTable();
 
-    // this.dateConfig.dateFormat = DateFormats.shortDate;
     this.dateConfig.pickerType = DatePickerType.calendar;
     this.dateConfig.selectMode = DatePickerSelectMode.range;
 
-    this.data.valueChanges.subscribe(x => console.log(x));
+    this.data.valueChanges.subscribe(x => console.log("value changes", x));
   }
-  dateSelectionChange(a){
+  dateSelectionChange(a) {
     console.log("selection change", a);
   }
   onClick() {

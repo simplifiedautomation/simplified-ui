@@ -29,6 +29,7 @@ import { SaButtonComponent } from './sa-button/sa-button.component';
 import { SaSpinnerDirective } from './directives/sa-spinner.directive';
 import { MatProgressSpinner } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { RouterModule } from '@angular/router';
     MatSelectInfiniteScrollModule,
     QuillModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    OwlMomentDateTimeModule
   ],
   exports: [
     SimplifiedUiComponent,

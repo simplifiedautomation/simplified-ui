@@ -184,7 +184,7 @@ export class AppComponent implements OnInit {
         filterType: FilterTypeEnum.none,
         key: "column1"
       },
-      // template: this.colTemplate,
+      template: this.colTemplate,
       sticky: true
     });
 

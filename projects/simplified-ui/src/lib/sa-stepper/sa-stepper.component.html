@@ -1,10 +1,10 @@
 <mat-form-field class="stepper">
   <mat-label>{{label}}</mat-label>
-  <button mat-button *ngIf="value" matPrefix mat-icon-button aria-label="Minus" (click)="decrement()">
+  <button mat-button *ngIf="value !== null" matPrefix mat-icon-button aria-label="Minus" (click)="decrement()">
     <mat-icon>remove</mat-icon>
   </button>
   <input matInput type="text" placeholder="label" [(ngModel)]="value" readonly>
-  <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Plus" (click)="increment()">
+  <button mat-button *ngIf="value !== null" matSuffix mat-icon-button aria-label="Plus" (click)="increment()">
     <mat-icon>add</mat-icon>
   </button>
 </mat-form-field>

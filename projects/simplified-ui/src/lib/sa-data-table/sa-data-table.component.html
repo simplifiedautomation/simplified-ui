@@ -87,7 +87,7 @@
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="columnToDisplay; sticky: true"></tr>
-          <tr mat-row matRipple *matRowDef="let row; columns: columnToDisplay;"
+          <tr mat-row *matRowDef="let row; columns: columnToDisplay;"
             [ngStyle]="{'display': !isRender ? 'none' : null}"></tr>
         </table>
 

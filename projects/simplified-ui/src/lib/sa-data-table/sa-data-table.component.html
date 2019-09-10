@@ -33,8 +33,8 @@
         </div>
       </div>
 
-      <div fxFlex fxLayout="column" fxLayoutAlign="start strech">
-        <mat-table [dataSource]="tableDataSource" matSort class="mat-elevation-z8">
+      <div fxFlex fxLayout="column" fxLayoutAlign="start strech" class="table-container mat-elevation-z8">
+        <mat-table [dataSource]="tableDataSource" matSort>
 
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">
@@ -76,7 +76,7 @@
                 <ng-container *ngTemplateOutlet="col.template; context: { column: col, row: element }"></ng-container>
               </mat-cell>
             </ng-container>
-            
+
             <ng-container *ngIf="!col.template">
               <mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
                 {{element[col.key] | valueFormatter: col.type}}

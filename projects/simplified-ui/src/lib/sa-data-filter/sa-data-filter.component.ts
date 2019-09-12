@@ -4,6 +4,7 @@ import { debounceTime } from 'rxjs/operators';
 import { MatSelectChange, MatOption } from '@angular/material';
 import { IDataFilterViewModel, IFilterModel, FilterTypeEnum, IFilterChip } from '../models/DataFilterModels';
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
+import { SaSelectComponent } from '../sa-select/sa-select.component';
 
 @Component({
   selector: 'sa-data-filter',
@@ -95,6 +96,10 @@ export class SaDataFilterComponent implements OnInit {
 
   dateButtonClicked(ref: SaDatePickerComponent) {
     (<HTMLElement>ref.inputRef.nativeElement).click()
+  }
+
+  selectButtonClicked(ref: SaSelectComponent<any>) {
+    ref.matSelectRef.open();
   }
 
   datePickerChange(dates: Date[], filter: IDataFilterViewModel, ref: SaDatePickerComponent) {

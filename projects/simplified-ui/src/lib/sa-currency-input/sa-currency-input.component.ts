@@ -48,7 +48,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
       if (this.focused && !origin) {
         if (this.viewValue) {
           if (this.parse(this.viewValue))
-            this.currencyValue.patchValue(formatCurrency(parseFloat(this.viewValue), this.locale, this.symbol));
+            this.currencyValue.patchValue(formatCurrency(parseFloat(this.parse(this.viewValue)), this.locale, this.symbol));
           else this.currencyValue.patchValue('');
         }
         this.onTouched();
@@ -113,7 +113,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
     this._disabled ? this.currencyValue.disable() : this.currencyValue.enable();
     this.stateChanges.next();
   }
- 
+
 
   @Input()
   get value(): string | null {
@@ -143,7 +143,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
       this._empty = false;
       this.currencyValue.patchValue(formatCurrency(parseFloat(val), this.locale, this.symbol));
     }
-    this.value = val;    
+    this.value = val;
   }
 
   registerOnChange(fn: any): void {

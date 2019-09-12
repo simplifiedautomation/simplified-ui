@@ -1,18 +1,22 @@
 <div fxFlex="100" fxLayout="column" fxLayoutGap="10px">
-  <div fxFlex="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-    <mat-form-field fxFlex="20">
+  <div fxFlex="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+    <mat-form-field [fxFlex]="nonTextFilters.length > 0 ? 20 : 50">
       <mat-label>Search </mat-label>
       <input matInput [formControl]="keyword" placeholder="Search...">
     </mat-form-field>
     <ng-container *ngFor="let filter of filters">
-      <div *ngIf="filter.filterType == filterType.select" fxFlex="6">
-        <sa-select [placeholder]="filter.title" [config]="filter.config" (selectionChange)="onSelect($event, filter)">
-        </sa-select>
+      <div *ngIf="filter.filterType == filterType.select" fxFlex="nogrow">
+        <button mat-button class="no-hover-effect" (click)="selectButtonClicked(select)">
+          <mat-label>{{filter.title}}</mat-label>
+          <sa-select [config]="filter.config" (selectionChange)="onSelect($event, filter)" fxFlex="nogrow" #select>
+          </sa-select>
+        </button>
       </div>
       <div *ngIf="filter.filterType == filterType.date">
-        <button mat-button class="no-hover-effect" (click)="dateButtonClicked(datePicker)">
+        <button mat-button class="no-hover-effect dateFilter" (click)="dateButtonClicked(datePicker)">
           <mat-label>{{filter.title}}</mat-label>
-          <sa-date-picker [dateConfig]="filter.config" #datePicker (onSelection)="datePickerChange($event, filter, datePicker)">
+          <sa-date-picker [dateConfig]="filter.config" #datePicker
+            (onSelection)="datePickerChange($event, filter, datePicker)">
           </sa-date-picker>
           <mat-icon>arrow_drop_down</mat-icon>
         </button>

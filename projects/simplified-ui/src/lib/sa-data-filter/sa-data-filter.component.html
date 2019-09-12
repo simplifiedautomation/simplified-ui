@@ -1,11 +1,11 @@
 <div fxFlex="100" fxLayout="column" fxLayoutGap="10px">
   <div fxFlex="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-    <mat-form-field fxFlex="20">
+    <mat-form-field [fxFlex]="nonTextFilters.length > 0 ? 20 : 50">
       <mat-label>Search </mat-label>
       <input matInput [formControl]="keyword" placeholder="Search...">
     </mat-form-field>
     <ng-container *ngFor="let filter of filters">
-      <div *ngIf="filter.filterType == filterType.select" fxFlex="6">
+      <div *ngIf="filter.filterType == filterType.select" fxFlex="noshrink">
         <sa-select [placeholder]="filter.title" [config]="filter.config" (selectionChange)="onSelect($event, filter)">
         </sa-select>
       </div>

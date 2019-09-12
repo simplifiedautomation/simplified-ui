@@ -32,11 +32,15 @@ export class SaDataFilterComponent implements OnInit {
     keyword: ""
   };
 
+  nonTextFilters: IDataFilterViewModel[];
+
   constructor() {
 
   }
 
   ngOnInit() {
+
+    this.nonTextFilters = this.filters.filter(x => !(x.filterType == FilterTypeEnum.text || x.filterType == FilterTypeEnum.none));
 
     this.filters.forEach(x => {
       this.filterModel[x.key] = [];

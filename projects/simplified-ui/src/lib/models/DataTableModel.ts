@@ -59,6 +59,10 @@ export class DataTable<T>
 
   showFilters?: boolean = true;
 
+  disableSorting?: boolean = false;
+
+  showColumnToggle?: boolean = true;
+
   optionsColumnRef: TemplateRef<ElementRef>;
 
   getResults?: (requestModel: IRequestModel) => Observable<IGenericPageListViewModel<T>>;

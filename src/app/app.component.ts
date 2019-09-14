@@ -172,6 +172,9 @@ export class AppComponent implements OnInit {
   private setupDataTable() {
 
     this.dataTable.optionsColumnRef = this.dataTableOptionsRef;
+    this.dataTable.showFilters = false;
+    this.dataTable.disableSorting = true;
+    this.dataTable.showColumnToggle = true;
     // this.dataTable.routerLinkEnabled = true;
 
 

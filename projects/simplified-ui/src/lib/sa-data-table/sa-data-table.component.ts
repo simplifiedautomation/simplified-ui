@@ -151,6 +151,11 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     //attaching sort and paginator directives to the data source, after they are bound to the view
+    
+    if (this.dataTable.disableSorting){
+      this.sort.disabled = true;
+    }
+    
     this.tableDataSource.sort = this.sort;
     this.tableDataSource.paginator = this.paginator;
   }

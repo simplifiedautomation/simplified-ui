@@ -19,7 +19,7 @@
             </button>
           </mat-menu>
         </div>
-        <div fxFlex="nogrow">
+        <div fxFlex="nogrow" *ngIf="(dataTable.showColumnToggle == null) || dataTable.showColumnToggle">
           <button mat-button color="primary" [matMenuTriggerFor]="columnMenu">
             Columns <mat-icon>keyboard_arrow_down</mat-icon>
           </button>

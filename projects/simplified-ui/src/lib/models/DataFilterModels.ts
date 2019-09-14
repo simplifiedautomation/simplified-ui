@@ -2,7 +2,8 @@ export interface IDataFilterViewModel {
   key: string,
   filterType: FilterTypeEnum,
   config: any,
-  title?: string
+  title?: string,
+  defaults?: any[]
 }
 
 export enum FilterTypeEnum {

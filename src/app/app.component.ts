@@ -188,14 +188,22 @@ export class AppComponent implements OnInit {
       sticky: true
     });
 
+    let datepickerConfig = new DatePickerConfig();
+
     this.dataTable.addColumn({
       key: "line",
       title: "Line",
       type: DataTableColumnTypeEnum.text,
       filter: {
-        config: null,
-        filterType: FilterTypeEnum.none,
-        key: "column2"
+        title: "Line",
+        config: datepickerConfig,
+        filterType: FilterTypeEnum.date,
+        key: "column2",
+        defaults: [
+          [new Date(), new Date().setMonth(10)],
+          [new Date(), new Date(new Date().setMonth(10))],
+          [new Date(), new Date().setMonth(10)],
+        ]
       }
     });
 
@@ -211,6 +219,7 @@ export class AppComponent implements OnInit {
     });
 
     this.dataTable.getResults = (requestModel) => {
+      console.log("data table", requestModel)
 
       return of(
         {

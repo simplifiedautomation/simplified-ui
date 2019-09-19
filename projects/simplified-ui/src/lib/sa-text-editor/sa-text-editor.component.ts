@@ -140,7 +140,7 @@ export class SaTextEditorComponent implements MatFormFieldControl<any>, ControlV
     this.editor.on('editor-change', (eventName, ...args) => {
 
       let html: string | null = this.editorElem.querySelector('.ql-editor').innerHTML;
-      if (html === '<p><br></p>' || html === '<div><br><div>') {
+      if (html === '<p><br></p>' || html === '<div><br><div>' || html === '<p></p>') {
         html = null
       }
       this.onChange(html);

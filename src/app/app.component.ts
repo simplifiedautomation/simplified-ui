@@ -111,6 +111,8 @@ export class AppComponent implements OnInit {
 
   dataTable: DataTable<any> = new DataTable();
 
+  select = new FormControl();
+
   constructor(private form: FormBuilder) { }
 
   ngOnInit() {

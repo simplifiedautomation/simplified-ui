@@ -49,8 +49,12 @@
   <h3> Select Component </h3>
   <mat-form-field>
     <mat-label>Select</mat-label>
-    <sa-select [config]="selectOptions"></sa-select>
+    <sa-select [config]="selectOptions" [formControl]="select"></sa-select>
   </mat-form-field>
+
+  <button (click)="enable()">Enable</button>
+  <button (click)="disable()">disable</button>
+
 
   <h3> Stepper Component </h3>
   <sa-stepper [value]="2" label='Stepper'></sa-stepper>

@@ -8,7 +8,7 @@ import { DatePickerConfig, DatePickerType, DatePickerSelectMode } from '../model
 
 import * as moment_ from 'moment-timezone';
 const moment = moment_;
-import { MY_NATIVE_FORMATS } from '../pipes/sa-date-time.pipe';
+import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
 
 @Component({
   selector: 'sa-date-picker',
@@ -148,23 +148,27 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
 
   ngOnInit() {
 
-    if (!this.dateConfig.dateFormat){
-      if(this.dateConfig.selectMode == DatePickerSelectMode.range){
-        this.dateConfig.dateFormat = MY_NATIVE_FORMATS.dateA11yLabel
-      } else
-      if(this.dateConfig.pickerType == DatePickerType.calendar){
-        this.dateConfig.dateFormat = MY_NATIVE_FORMATS.datePickerInput;
-      } else if(this.dateConfig.pickerType == DatePickerType.timer){
-        this.dateConfig.dateFormat = MY_NATIVE_FORMATS.timePickerInput;
-      } else if(this.dateConfig.pickerType == DatePickerType.both){
-        this.dateConfig.dateFormat = MY_NATIVE_FORMATS.fullPickerInput;
+    if (!this.dateConfig.dateFormat) {
+      if (this.dateConfig.selectMode == DatePickerSelectMode.range) {
+        this.dateConfig.dateFormat = MOMENT_FORMATS.dateA11yLabel
+
+      } else if (this.dateConfig.pickerType == DatePickerType.calendar) {
+        this.dateConfig.dateFormat = MOMENT_FORMATS.datePickerInput;
+
+      } else if (this.dateConfig.pickerType == DatePickerType.timer) {
+        this.dateConfig.dateFormat = MOMENT_FORMATS.timePickerInput;
+
+      } else if (this.dateConfig.pickerType == DatePickerType.both) {
+        this.dateConfig.dateFormat = MOMENT_FORMATS.fullPickerInput;
       }
     }
 
-    this.dateTime.valueChanges.subscribe((x)=>{
-      if(x instanceof Array){
+    this.dateTime.valueChanges.subscribe((x) => {
+      if (x instanceof Array) {
         this.value = x.map(date => moment(date).format(this.dateConfig.dateFormat))
-      } else this.value =  moment(x).format(this.dateConfig.dateFormat);
+      }
+      else this.value = moment(x).format(this.dateConfig.dateFormat);
+
     })
   }
 

@@ -42,7 +42,6 @@ export class DataTable<T>
   private columnRemovedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
 
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
- 
 
   private deleteRowSubect: ReplaySubject<T | number | ((sourceList: T[]) => T[])> = new ReplaySubject();
 
@@ -80,12 +79,9 @@ export class DataTable<T>
   }
 
   /**
-   * Pushes the columns at the end of the table.
-   * @param column Column to be added.
-   */
-  addColumn(column: IDataTableColumn): void;
-  /**
-   * Adds the column at given index.
+   * Adds the column at given index. If Index is null,
+   * pushes the column at end of table.
+   *
    * @param column Column to be added.
    * @param index Index at which the column should be added.
    */

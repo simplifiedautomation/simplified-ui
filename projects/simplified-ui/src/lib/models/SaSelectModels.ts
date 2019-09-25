@@ -1,10 +1,10 @@
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable, BehaviorSubject, Subject } from "rxjs";
 import { IGenericPageListViewModel } from "./IPagerModel";
 import { TemplateRef } from "@angular/core";
 
 /**
  * Configuration class for searchable select
- * 
+ *
  * @param T Data type for select options list item.
  * */
 export class SaSelectConfig<T> {
@@ -64,4 +64,14 @@ export class SaSelectConfig<T> {
    *  Option to enable multi select
    */
   isMultiple: boolean = false;
+
+  private cancelSubject: Subject<any> = new Subject();
+
+  cancel() {
+    this.cancelSubject.next();
+  }
+
+  onCancelled(): Observable<any> {
+    return this.cancelSubject.asObservable();
+  }
 }

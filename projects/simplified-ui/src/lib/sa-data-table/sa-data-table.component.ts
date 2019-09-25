@@ -100,7 +100,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       if (this.dataTable.routerLinkEnabled) {
         this.columnToDisplay.push('route');
       }
-      this.columnToDisplay.push('options');
+      if (this.dataTable.optionsColumnRef) {
+        this.columnToDisplay.push('options');
+      }
     });
 
     this.dataTable.onRowDelete().subscribe(itemOrIndexOrPredicate => {
@@ -142,7 +144,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     }
 
     this.subs.push(this.dataTable.onRowAdded().subscribe(x => {
-        this._source.next([...[x], ...this._source.value]);   
+      this._source.next([...[x], ...this._source.value]);
     }));
 
   }

@@ -4,6 +4,7 @@ import { debounceTime } from 'rxjs/operators';
 import { MatSelectChange, MatOption } from '@angular/material';
 import { IDataFilterViewModel, IFilterModel, FilterTypeEnum, IFilterChip } from '../models/DataFilterModels';
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
+import { SaSelectComponent } from '../sa-select/sa-select.component';
 
 @Component({
   selector: 'sa-data-filter',
@@ -32,11 +33,15 @@ export class SaDataFilterComponent implements OnInit {
     keyword: ""
   };
 
+  nonTextFilters: IDataFilterViewModel[];
+
   constructor() {
 
   }
 
   ngOnInit() {
+
+    this.nonTextFilters = this.filters.filter(x => !(x.filterType == FilterTypeEnum.text || x.filterType == FilterTypeEnum.none));
 
     this.filters.forEach(x => {
       this.filterModel[x.key] = [];
@@ -54,6 +59,14 @@ export class SaDataFilterComponent implements OnInit {
     this.datePickers.forEach(x => {
       (<HTMLElement>x.inputRef.nativeElement).style.width = "0px";
     });
+
+    this.filters.forEach(x => {
+      if (x.filterType == this.filterType.date && x.defaults) {
+        x.defaults.forEach(y => {
+          this.pushDatesToFilterModel(y, x);
+        })
+      }
+    })
   }
 
   onSelect(event: MatSelectChange, filter: IDataFilterViewModel) {
@@ -75,6 +88,7 @@ export class SaDataFilterComponent implements OnInit {
       });
       this.filterChange.emit(this.filterModel);
     }
+
     event.source.value = null;
   }
 
@@ -93,14 +107,27 @@ export class SaDataFilterComponent implements OnInit {
     (<HTMLElement>ref.inputRef.nativeElement).click()
   }
 
+  selectButtonClicked(ref: SaSelectComponent<any>) {
+    ref.matSelectRef.open();
+  }
+
   datePickerChange(dates: Date[], filter: IDataFilterViewModel, ref: SaDatePickerComponent) {
     if (dates == null)
       return;
+
+    this.pushDatesToFilterModel(dates, filter);
+
+    ref.value = null;
+  }
+
+  private pushDatesToFilterModel(dates: Date[], filter: IDataFilterViewModel) {
     let filterProperty = this.filterModel[filter.key];
+
     filterProperty.push({
       from: dates[0],
       to: dates[1]
     });
+
     this.chips.push({
       displayValue: dates[0] + " - " + dates[1],
       key: filter.key,
@@ -108,7 +135,6 @@ export class SaDataFilterComponent implements OnInit {
       value: dates
     });
     this.filterChange.emit(this.filterModel);
-    ref.value = null;
   }
 
 }

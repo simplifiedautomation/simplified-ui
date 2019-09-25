@@ -25,7 +25,7 @@ import { SaSelectConfig } from '../models/SaSelectModels';
 *
 * @type SearchableSelectOptionComponent
 */
-export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldControl<T>, ControlValueAccessor  {
+export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldControl<T>, ControlValueAccessor {
 
   matSelect = new FormControl();
 
@@ -127,6 +127,11 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     if (!this.isGetResultsCallbackNull()) {
       this.getNextBatch();
     }
+
+    this.config.onCancelled().subscribe(x => {
+      this._isWaitingResultsCallback = false;
+      this.resultCallbackSubscription.unsubscribe();
+    });
   }
 
   clicked(event: MouseEvent): void {
@@ -152,7 +157,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     // time `selectOptions` subject is observed with `didFilter`
     // flag set to true.
     if (!this.isGetResultsCallbackNull()) {
-      if (this.value instanceof Array){
+      if (this.value instanceof Array) {
         this._selectOptions.next(<Array<T>>this.value);
       } else {
         let val = this.value ? [this.value] : [];

@@ -40,7 +40,7 @@
   <h3> Date Time Component </h3>
   <mat-form-field>
     <mat-label>Enter Date</mat-label>
-    <sa-date-picker [dateConfig]="dateConfig" [formControl]="data"></sa-date-picker>
+    <sa-date-picker [dateConfig]="dateConfig" [formControl]="data" (onSelection)="dateSelectionChange($event)"></sa-date-picker>
   </mat-form-field>
 
   <h3> More Menu Component </h3>

@@ -270,8 +270,12 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   get disabled(): boolean { return this._disabled; }
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
-    if (this._disabled)
+    if (this._disabled){
       this.elRef.nativeElement.setAttribute("style", "pointer-events: none");
+    } else {
+      this.elRef.nativeElement.setAttribute("style", "pointer-events: auto");
+    }
+      
     this.stateChanges.next();
   }
 

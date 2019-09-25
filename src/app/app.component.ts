@@ -111,6 +111,8 @@ export class AppComponent implements OnInit {
 
   dataTable: DataTable<any> = new DataTable();
 
+  select = new FormControl();
+
   constructor(private form: FormBuilder) { }
 
   ngOnInit() {
@@ -138,6 +140,13 @@ export class AppComponent implements OnInit {
 
     this.dateConfig.dateFormat = DateFormats.shortDate;
     this.dateConfig.pickerType = DatePickerType.timer;
+  }
+
+  enable(){
+    this.select.enable();
+  }
+  disable(){
+    this.select.disable();
   }
 
   onClick() {

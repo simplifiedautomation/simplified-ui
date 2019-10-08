@@ -64,6 +64,8 @@ export class DataTable<T>
 
   optionsColumnRef: TemplateRef<ElementRef>;
 
+  defaultPageSize?: number;
+
   getResults?: (requestModel: IRequestModel) => Observable<IGenericPageListViewModel<T>>;
 
   /**

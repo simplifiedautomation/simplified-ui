@@ -172,7 +172,7 @@ export class AppComponent implements OnInit {
   }
 
   private setupDataTable() {
-
+    this.dataTable.defaultPageSize = 1;
     this.dataTable.optionsColumnRef = this.dataTableOptionsRef;
     this.dataTable.showFilters = false;
     this.dataTable.disableSorting = true;

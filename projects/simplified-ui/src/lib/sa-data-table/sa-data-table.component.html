@@ -106,7 +106,7 @@
         </div>
 
         <mat-paginator *ngIf="(dataTable.showPaginator == null) || dataTable.showPaginator" class="mat-elevation-z8"
-          [pageSizeOptions]="[20, 30, 40, 100]" [length]="totalCount" [pageSize]="tableDataSource.filter.pageSize"
+          [pageSizeOptions]="[5, 10, 20, 30, 40, 100]" [length]="totalCount" [pageSize]="tableDataSource.filter.pageSize"
           [pageIndex]="tableDataSource.filter.pageNo" showFirstLastButtons style="position: sticky;left: 0;right: 0;">
         </mat-paginator>
       </div>

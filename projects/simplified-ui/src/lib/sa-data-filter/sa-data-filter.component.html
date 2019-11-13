@@ -1,6 +1,6 @@
 <div fxFlex="100" fxLayout="column" fxLayoutGap="10px">
   <div fxFlex="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
-    <mat-form-field [fxFlex]="nonTextFilters.length > 0 ? 20 : 50">
+    <mat-form-field *ngIf="textFilters.length > 0" [fxFlex]="nonTextFilters.length > 0 ? 20 : 50">
       <mat-label>Search </mat-label>
       <input matInput [formControl]="keyword" placeholder="Search...">
     </mat-form-field>

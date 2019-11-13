@@ -35,6 +35,8 @@ export class SaDataFilterComponent implements OnInit {
 
   nonTextFilters: IDataFilterViewModel[];
 
+  textFilters: IDataFilterViewModel[];
+
   constructor() {
 
   }
@@ -42,6 +44,7 @@ export class SaDataFilterComponent implements OnInit {
   ngOnInit() {
 
     this.nonTextFilters = this.filters.filter(x => !(x.filterType == FilterTypeEnum.text || x.filterType == FilterTypeEnum.none));
+    this.textFilters = this.filters.filter(x => (x.filterType == FilterTypeEnum.text));
 
     this.filters.forEach(x => {
       this.filterModel[x.key] = [];

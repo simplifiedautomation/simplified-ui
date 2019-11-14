@@ -117,7 +117,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     });
 
     this.dataTable.onRefresh().subscribe(_ => {
-      this.tableDataSource.filter = new DefaultCommonTableFilter();
       this.tableDataSource.triggerFilterChange();
     })
 

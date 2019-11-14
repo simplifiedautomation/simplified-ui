@@ -132,6 +132,10 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
       this._isWaitingResultsCallback = false;
       this.resultCallbackSubscription.unsubscribe();
     });
+
+    this.config.onRefresh().subscribe(x=> {
+      this.config.options.next([]);
+    })
   }
 
   clicked(event: MouseEvent): void {

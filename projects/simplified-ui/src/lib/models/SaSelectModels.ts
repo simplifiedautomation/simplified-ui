@@ -74,4 +74,14 @@ export class SaSelectConfig<T> {
   onCancelled(): Observable<any> {
     return this.cancelSubject.asObservable();
   }
+
+  private refreshSubject: Subject<any> = new Subject();
+
+  refresh() {
+    this.refreshSubject.next();
+  }
+
+  onRefresh(): Observable<any> {
+    return this.refreshSubject.asObservable();
+  }
 }

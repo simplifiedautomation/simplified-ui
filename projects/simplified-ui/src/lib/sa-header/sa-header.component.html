@@ -3,7 +3,10 @@
     <button mat-button class="sidenav-toggle">
       <mat-icon>menu</mat-icon>
     </button>
-    <span fxFlex="none" fxLayoutAlign=" center">{{header.title}}</span>
+    <div fxLayout="row" fxLayoutGap="2px">
+      <span fxFlex="none" fxLayoutAlign="none center">{{header.title}}</span>
+      <mat-icon *ngIf="header.tooltip" [matTooltip]="header.tooltip" matTooltipClass="multilineTooltip">info_outline</mat-icon>
+    </div>
     <span fxFlex></span>
     <div fxFlex="nogrow" fxLayoutGap="5px">
       <sa-button [config]="header.secondaryButton" *ngIf="header.secondaryButton" (onClick)="onSecodaryClick($event)"></sa-button>

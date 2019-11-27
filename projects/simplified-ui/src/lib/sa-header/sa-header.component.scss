@@ -29,6 +29,13 @@ mat-toolbar {
   display: flex;
 }
 
+.multilineTooltip {
+  white-space: pre-line;
+  height: auto;
+  max-width: 500px !important;
+}
+
+
 @media (max-width: 720px) {
   .sidenav-toggle {
     display: flex;

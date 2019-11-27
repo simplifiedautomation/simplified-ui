@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
     primaryButton: this.primarButton,
     secondaryButton: this.secondaryButton,
     moreMenu: null,
+    tooltip: "Hello THere!"
   }
 
   currencyForm = this.form.group({

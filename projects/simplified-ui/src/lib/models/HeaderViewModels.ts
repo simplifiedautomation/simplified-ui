@@ -7,6 +7,7 @@ export interface IHeaderViewModel {
   secondaryButton: SaButtonConfig;
   moreMenu?: IMoreMenuViewModel;
   menuTemplate?: TemplateRef<any>
+  tooltip? : string;
 }
 
 export interface IMoreMenuViewModel {

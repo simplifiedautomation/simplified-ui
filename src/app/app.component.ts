@@ -120,7 +120,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     this.selectOptions.templateRef = this.selectOptionBody;
-
     this.selectOptions.getResults = (page, term) => {
       return this.client.get(`https://localhost:44386/api/v2/team/teams?term=${term}&pageNumber=${page}`).pipe(map(x => {
         let genericList = <IGenericPageListViewModel<any>>x;

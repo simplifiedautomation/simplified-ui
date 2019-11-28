@@ -72,6 +72,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   private _required = false;
 
   @ViewChild("matSelectRef") matSelectRef;
+  @ViewChild('searchInput') searchInput: ElementRef;
 
   constructor(@Optional() @Self() public ngControl: NgControl, private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
     if (this.ngControl != null) {
@@ -213,9 +214,15 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   onSelect(event: MatSelectChange) {
     this.value = event.value;
     this.selectionChange.emit(event);
+  }
 
-    if (this.searchTerm.trim() != "") {
+  selectOpenChanged(opened: boolean) {
+    if (!opened && this.searchTerm.trim() != "") {
       this.config.refresh();
+    }
+
+    if (opened && !this.value) {
+      this.searchInput.nativeElement.focus();
     }
   }
 

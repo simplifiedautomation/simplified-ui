@@ -1,11 +1,19 @@
-<mat-select msInfiniteScroll [placeholder]="placeholder" (infiniteScroll)="getNextBatch()" [complete]="isComplete" (blur)="markAsTouched()" (selectionChange)="onSelect($event)" required="required" [multiple]="this.config.isMultiple" #matSelectRef [formControl]="matSelect">
-  <mat-option [value]="null" class="custom-option"><input matInput [placeholder]="this.config.searchPlaceholder" (click)="clicked($event)" (keydown)="$event.stopPropagation()" (keyup)="filterRecords($event)"></mat-option>
+<mat-select msInfiniteScroll [placeholder]="placeholder" (infiniteScroll)="getNextBatch()" [complete]="isComplete"
+  (blur)="markAsTouched()" (selectionChange)="onSelect($event)" required="required" [multiple]="this.config.isMultiple"
+  #matSelectRef [formControl]="matSelect">
+  <mat-option [value]="null" class="custom-option">
+    <input matInput [(ngModel)]="searchTerm" [placeholder]="this.config.searchPlaceholder" (click)="clicked($event)"
+      (keydown)="$event.stopPropagation()" (keyup)="searchTermChanged($event)">
+  </mat-option>
   <mat-select-trigger *ngIf="this.config.triggerTemplateRef">
     <ng-container *ngTemplateOutlet="this.config.triggerTemplateRef; context: {$implicit: value}"></ng-container>
   </mat-select-trigger>
   <mat-option *ngFor="let item of selectOptions | async" [value]="item">
     <ng-container *ngTemplateOutlet="this.config.templateRef; context: {$implicit: item}"></ng-container>
   </mat-option>
-  <mat-option class="custom-option" *ngIf="((selectOptions | async).length == 0) && (!showSpinner);" [value]="null">{{this.config.emptyResultsText}}</mat-option>
-  <mat-option class="custom-option" *ngIf="showSpinner;" [value]="null"><mat-spinner diameter="30"></mat-spinner></mat-option>
+  <mat-option class="custom-option" *ngIf="((selectOptions | async).length == 0) && (!showSpinner);" [value]="null">
+    {{this.config.emptyResultsText}}</mat-option>
+  <mat-option class="custom-option" *ngIf="showSpinner;" [value]="null">
+    <mat-spinner diameter="30"></mat-spinner>
+  </mat-option>
 </mat-select>

@@ -3,6 +3,8 @@ import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaS
 import { FormControl, FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 import * as moment_ from 'moment-timezone';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 const moment = moment_;
 
@@ -108,18 +110,24 @@ export class AppComponent implements OnInit {
     description: new FormControl(),
   });
 
-  kaizenType;
-
   dataTable: DataTable<any> = new DataTable();
 
   select = new FormControl();
 
-  constructor(private form: FormBuilder) { }
+  constructor(private form: FormBuilder,
+    private client: HttpClient) { }
 
   ngOnInit() {
 
     this.selectOptions.templateRef = this.selectOptionBody;
-    this.selectOptions.options.next(["Option 1"]);
+
+    this.selectOptions.getResults = (page, term) => {
+      return this.client.get(`https://localhost:44386/api/v2/team/teams?term=${term}&pageNumber=${page}`).pipe(map(x => {
+        let genericList = <IGenericPageListViewModel<any>>x;
+        genericList.List = genericList.List.map(y => y.name);
+        return genericList;
+      }));
+    };
 
     this.primarButton.type = SaButtonType.Secondary;
 

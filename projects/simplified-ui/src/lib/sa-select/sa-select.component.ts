@@ -49,7 +49,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   public selectOptions = new BehaviorSubject<T[]>([]);
 
   private didFilter = false;
-  private searchTerm: string = "";
+  searchTerm: string = "";
   private searchTermSubject = new Subject<string>();
   private _isWaitingResultsCallback = false;
   public showSpinner = false;
@@ -133,8 +133,9 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
       this.resultCallbackSubscription.unsubscribe();
     });
 
-    this.config.onRefresh().subscribe(x=> {
-      this.config.options.next([]);
+    this.config.onRefresh().subscribe(_ => {
+      this.searchTerm = "";
+      this.filterRecords();
     })
   }
 
@@ -142,18 +143,18 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     event.stopPropagation();
   }
 
-  filterRecords(event: KeyboardEvent): void {
+
+  searchTermChanged(event: KeyboardEvent): void {
     event.stopPropagation();
-    let text = (event.target as HTMLInputElement).value;
+    this.filterRecords();
+  }
 
-    if (this.searchTerm == text.toLowerCase())
-      return;
-
+  private filterRecords(): void {
     // Do not show spinner when data is client side.
     this.showSpinner = !this.isGetResultsCallbackNull();
 
     this.page = 0;
-    this.searchTerm = text.toLowerCase();
+    this.searchTerm = this.searchTerm.toLowerCase();
     this.didFilter = true;
 
     // Do not empty the options when data is client side.
@@ -169,7 +170,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
       }
     }
 
-    this.searchTermSubject.next(text);
+    this.searchTermSubject.next();
   }
 
   getNextBatch() {
@@ -211,7 +212,11 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
 
   onSelect(event: MatSelectChange) {
     this.value = event.value;
-    this.selectionChange.emit(event)
+    this.selectionChange.emit(event);
+
+    if (this.searchTerm.trim() != "") {
+      this.config.refresh();
+    }
   }
 
   writeValue(value: any): void {
@@ -279,12 +284,12 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   get disabled(): boolean { return this._disabled; }
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
-    if (this._disabled){
+    if (this._disabled) {
       this.elRef.nativeElement.setAttribute("style", "pointer-events: none");
     } else {
       this.elRef.nativeElement.setAttribute("style", "pointer-events: auto");
     }
-      
+
     this.stateChanges.next();
   }
 

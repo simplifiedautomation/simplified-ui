@@ -86,7 +86,7 @@
                       </ng-container>
                     </a>
                   </div>
-                  <div *ngIf="!dataTable.routerLinkEnabled">
+                  <div class="cell-container" *ngIf="!dataTable.routerLinkEnabled" fxLayoutAlign="start center">
                     <ng-container *ngTemplateOutlet="col.template; context: { column: col, row: element }">
                     </ng-container>
                   </div>
@@ -103,10 +103,12 @@
                       </span>
                     </a>
                   </div>
-                  <span *ngIf="!dataTable.routerLinkEnabled"
-                    matTooltip="{{element[col.key] | valueFormatter: col.type}}" class="truncate">
-                    {{element[col.key] | valueFormatter: col.type}}
-                  </span>
+
+                  <div class="cell-container" *ngIf="!dataTable.routerLinkEnabled" fxLayoutAlign="start center">
+                    <span matTooltip="{{element[col.key] | valueFormatter: col.type}}" class="truncate">
+                      {{element[col.key] | valueFormatter: col.type}}
+                    </span>
+                  </div>
                 </td>
               </ng-container>
             </ng-container>

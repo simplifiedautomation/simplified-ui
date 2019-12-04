@@ -18,6 +18,11 @@
     padding-right: 5px;
   }
 
+  .mat-cell:first-of-type,
+  .mat-header-cell:first-of-type {
+    padding-left: 24px;
+  }
+
   .mat-header-cell {
     height: 48px;
   }
@@ -43,9 +48,8 @@
 
 
 .mat-column-select {
-  max-width: 40px;
+  width: 40px;
   padding-left: 0px !important;
-  min-width: 40px;
 }
 
 .mat-column-options {

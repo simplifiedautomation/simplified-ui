@@ -33,7 +33,8 @@
         height: 100%;
         display: block;
         width: calc(100% + 10px);
-        background-color: red;
+        min-height: 48px;
+        color: inherit;
       }
     }
   }

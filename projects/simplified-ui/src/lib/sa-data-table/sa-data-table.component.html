@@ -81,7 +81,7 @@
               <ng-container *ngIf="col.template">
                 <td mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
                   <div class="cell-container">
-                    <a href="{{element['route']}}">
+                    <a href="{{element['route']}}" fxLayoutAlign="center center">
                       <ng-container *ngTemplateOutlet="col.template; context: { column: col, row: element }">
                       </ng-container>
                     </a>
@@ -92,7 +92,7 @@
               <ng-container *ngIf="!col.template">
                 <td mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
                   <div class="cell-container">
-                    <a href="{{element['route']}}">
+                    <a href="{{element['route']}}" fxLayoutAlign="center center">
                       <span matTooltip="{{element[col.key] | valueFormatter: col.type}}" class="truncate">
                         {{element[col.key] | valueFormatter: col.type}}
                       </span>

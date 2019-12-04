@@ -38,7 +38,7 @@
         <div fxLayout="row" fxLayoutAlign="start stretch">
           <table mat-table [dataSource]="tableDataSource" matSort>
             <!-- Checkbox Column -->
-            <ng-container matColumnDef="select">
+            <ng-container matColumnDef="select" sticky="true">
               <th mat-header-cell *matHeaderCellDef>
                 <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
                       [checked]="selection.hasValue() && isAllSelected()"
@@ -46,10 +46,12 @@
                     </mat-checkbox> -->
               </th>
               <td mat-cell *matCellDef="let row">
-                <mat-checkbox (click)="$event.stopPropagation()"
-                  (change)="$event ? onCheckBoxChange($event, row) : null" [checked]="selection.isSelected(row)"
-                  [aria-label]="checkboxLabel(row)">
-                </mat-checkbox>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? onCheckBoxChange($event, row) : null" [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+                  </mat-checkbox>
+                </div>
               </td>
             </ng-container>
 
@@ -67,7 +69,7 @@
             <ng-container matColumnDef="route">
               <th mat-header-cell *matHeaderCellDef>
               </th>
-              <td mat-cell *matCellDef="let row"><a fxFlexFill [routerLink]="[row['route']]"></a></td>
+              <td mat-cell *matCellDef="let row"><a [routerLink]="[row['route']]"></a></td>
             </ng-container>
 
             <!-- Sliced 1 to not to reinitilize the select controller-->

@@ -182,24 +182,134 @@ export class AppComponent implements OnInit {
   private setupDataTable() {
     this.dataTable.defaultPageSize = 1;
     this.dataTable.optionsColumnRef = this.dataTableOptionsRef;
-    this.dataTable.showFilters = false;
+    // this.dataTable.showFilters = false;
     this.dataTable.disableSorting = true;
     this.dataTable.showColumnToggle = true;
-    // this.dataTable.routerLinkEnabled = true;
+    this.dataTable.routerLinkEnabled = false;
+    this.dataTable.showCheckboxColumn = true;
 
 
     this.dataTable.addColumn({
       key: "area",
-      title: "Area",
+      title: "Area that is too big to fit in a row",
       type: DataTableColumnTypeEnum.text,
       filter: {
         config: null,
-        filterType: FilterTypeEnum.none,
+        filterType: FilterTypeEnum.text,
         key: "column1"
       },
       template: this.colTemplate,
-      sticky: true
+      // sticky: true
     });
+
+    // this.dataTable.addColumn({
+    //   key: "area1",
+    //   title: "Area that is too big to fit in a row",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
+
+    // this.dataTable.addColumn({
+    //   key: "area2",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
+
+    // this.dataTable.addColumn({
+    //   key: "area3",
+    //   title: "Area that is too big to fit in a row",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
+
+    // this.dataTable.addColumn({
+    //   key: "area4",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
+
+
+    // this.dataTable.addColumn({
+    //   key: "area5",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
+
+    // this.dataTable.addColumn({
+    //   key: "area6",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
+
+    // this.dataTable.addColumn({
+    //   key: "area7",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
+
+    // this.dataTable.addColumn({
+    //   key: "area8",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
+
+    // this.dataTable.addColumn({
+    //   key: "area9",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
     let datepickerConfig = new DatePickerConfig();
 
@@ -213,9 +323,9 @@ export class AppComponent implements OnInit {
         filterType: FilterTypeEnum.date,
         key: "column2",
         defaults: [
-          [new Date(), new Date().setMonth(10)],
-          [new Date(), new Date(new Date().setMonth(10))],
-          [new Date(), new Date().setMonth(10)],
+          // [new Date(), new Date().setMonth(10)],
+          // [new Date(), new Date(new Date().setMonth(10))],
+          // [new Date(), new Date().setMonth(10)],
         ]
       }
     });
@@ -234,11 +344,13 @@ export class AppComponent implements OnInit {
     this.dataTable.getResults = (requestModel) => {
       console.log("data table", requestModel)
 
+      let res = this.json.filter(x => x.area.includes(requestModel.filter.keyword));
+
       return of(
         {
           Capacity: 100,
           Count: 1,
-          List: this.json,
+          List: res,
           Pager: {
             CurrentPage: 1,
             PagenumberToDisplay: [1],
@@ -284,7 +396,8 @@ export class AppComponent implements OnInit {
       key: 1,
       area: "Area 1",
       line: "Line 1",
-      machine: "Machine 1"
+      machine: "Machine 1",
+      route: "something"
     },
     {
       key: 2,
@@ -297,7 +410,7 @@ export class AppComponent implements OnInit {
       area: "Area 2",
       line: "Line 3",
       machine: "Machine 3"
-    }
+    },
   ]
 
 

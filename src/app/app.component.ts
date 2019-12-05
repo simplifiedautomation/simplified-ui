@@ -188,17 +188,16 @@ export class AppComponent implements OnInit {
     this.dataTable.routerLinkEnabled = false;
     this.dataTable.showCheckboxColumn = true;
 
-
     this.dataTable.addColumn({
-      key: "area",
-      title: "Area that is too big to fit in a row",
+      key: "name",
+      title: "Tool Name",
       type: DataTableColumnTypeEnum.text,
       filter: {
         config: null,
         filterType: FilterTypeEnum.text,
         key: "column1"
       },
-      template: this.colTemplate,
+      // template: this.colTemplate,
       // sticky: true
     });
 
@@ -341,8 +340,13 @@ export class AppComponent implements OnInit {
       }
     });
 
+    this.dataTable.selectedRowPredicate = (selected, row) => {
+      return selected["id"] == row["id"];
+    }
+
     this.dataTable.getResults = (requestModel) => {
-      console.log("data table", requestModel)
+
+      return this.client.post<IGenericPageListViewModel<any>>(`https://localhost:44386/api/v2/tool/all?pageNumber=${requestModel.pageNumber}&pageSize=5`, requestModel);      
 
       let res = this.json.filter(x => x.area.includes(requestModel.filter.keyword));
 

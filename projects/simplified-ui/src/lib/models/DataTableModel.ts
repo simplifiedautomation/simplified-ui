@@ -77,14 +77,15 @@ export class DataTable<T>
    * By implementing this method, you will allow the data table to understand 
    * if the row should be selected or not when data is refreshed or page changes.
    * 
-   * @param selected The instance of selected row from selection array.
    * @param insertedRow The instance of row that is inserted in data table
+   * @param selected The instance of selected row from selection array. This is 
+   * optional to allow pre-selected rows.
    * 
    * @returns Boolean value indicating if the row should be selected or not. If this
    * is true, the row will be in selected state. Otherwise, it will not be selected.
    * 
    */
-  selectedRowPredicate?: (selected: T, insertedRow: T) => boolean;
+  selectedRowPredicate?: (insertedRow: T, selected?: T) => boolean;
 
   /**
    * Adds the row to the top of table.

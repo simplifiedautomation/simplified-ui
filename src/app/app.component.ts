@@ -188,6 +188,7 @@ export class AppComponent implements OnInit {
     this.dataTable.routerLinkEnabled = false;
     this.dataTable.showCheckboxColumn = true;
 
+
     this.dataTable.addColumn({
       key: "name",
       title: "Tool Name",
@@ -340,13 +341,20 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.dataTable.selectedRowPredicate = (selected, row) => {
-      return selected["id"] == row["id"];
+    this.dataTable.selectedRowPredicate = (row, selected) => {
+      if (selected && selected.id == row.id) {
+        console.log("row matched", row);
+      }
+      if (row.id == 1) {
+        console.log("row matched static", row);
+      }
+
+      return (selected && selected.id == row.id) || row.id == 1;
     }
 
     this.dataTable.getResults = (requestModel) => {
 
-      return this.client.post<IGenericPageListViewModel<any>>(`https://localhost:44386/api/v2/tool/all?pageNumber=${requestModel.pageNumber}&pageSize=5`, requestModel);      
+      return this.client.post<IGenericPageListViewModel<any>>(`https://localhost:44386/api/v2/tool/all?pageNumber=${requestModel.pageNumber}&pageSize=5`, requestModel);
 
       let res = this.json.filter(x => x.area.includes(requestModel.filter.keyword));
 

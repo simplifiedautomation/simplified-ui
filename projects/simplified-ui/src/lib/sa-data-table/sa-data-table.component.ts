@@ -97,9 +97,13 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       this.columnToDisplay = columns.map(z => {
         return z.key;
       });
-      
+
       if (this.dataTable.optionsColumnRef) {
         this.columnToDisplay.push('options');
+      }
+
+      if (this.dataTable.showCheckboxColumn) {
+        this.columnToDisplay.unshift('select');
       }
     });
 
@@ -132,23 +136,30 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
           this.isRender = true;
           this.showFilter = true;
 
-          res.List.forEach(row => {
-            this.selection.selected.forEach(selected => {
-              if (this.dataTable.selectedRowPredicate &&
-                this.dataTable.selectedRowPredicate(selected, row)) {
-                this.selection.deselect(selected);
+          if (this.dataTable.selectedRowPredicate) {
+
+            res.List.forEach(row => {
+              
+              if (!this.selection.isSelected(row) &&
+                this.dataTable.selectedRowPredicate(row)) {
                 this.selection.select(row);
               }
+
+              this.selection.selected.forEach(selected => {
+
+                if (this.dataTable.selectedRowPredicate(row, selected) &&
+                  !this.selection.isSelected(row)
+                ) {
+                  this.selection.deselect(selected);
+                  this.selection.select(row);
+                }
+              });
             });
-          });
+          }
         },
         e => console.log(e)
       )
     );
-
-    if (this.dataTable.showCheckboxColumn) {
-      this.columnToDisplay.unshift('select');
-    }
 
     this.subs.push(this.dataTable.onRowAdded().subscribe(x => {
       this._source.next([...[x], ...this._source.value]);
@@ -160,7 +171,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     //attaching sort and paginator directives to the data source, after they are bound to the view
 
-    if (this.dataTable.disableSorting){
+    if (this.dataTable.disableSorting) {
       this.sort.disabled = true;
     }
 

@@ -131,6 +131,16 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
           this.sourceList = res.List;
           this.isRender = true;
           this.showFilter = true;
+
+          res.List.forEach(row => {
+            this.selection.selected.forEach(selected => {
+              if (this.dataTable.selectedRowPredicate &&
+                this.dataTable.selectedRowPredicate(selected, row)) {
+                this.selection.deselect(selected);
+                this.selection.select(row);
+              }
+            });
+          });
         },
         e => console.log(e)
       )

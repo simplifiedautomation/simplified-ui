@@ -69,6 +69,24 @@ export class DataTable<T>
   getResults?: (requestModel: IRequestModel) => Observable<IGenericPageListViewModel<T>>;
 
   /**
+   * This method implementation is required when selection and server-side data 
+   * rendering is enabled together. Because the instance of same data is dynamic,
+   * the state for selection does not match between the selection array and incoming 
+   * data with same values. 
+   * 
+   * By implementing this method, you will allow the data table to understand 
+   * if the row should be selected or not when data is refreshed or page changes.
+   * 
+   * @param selected The instance of selected row from selection array.
+   * @param insertedRow The instance of row that is inserted in data table
+   * 
+   * @returns Boolean value indicating if the row should be selected or not. If this
+   * is true, the row will be in selected state. Otherwise, it will not be selected.
+   * 
+   */
+  selectedRowPredicate?: (selected: T, insertedRow: T) => boolean;
+
+  /**
    * Adds the row to the top of table.
    * @param row The row to be added.
    */

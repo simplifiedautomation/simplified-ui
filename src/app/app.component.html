@@ -82,12 +82,9 @@
   </ng-template>
 
   <ng-template #colTemplate let-column="column" let-row="row">
-    <div style="background-color: blue;position: absolute;" fxFlexFill>
-      {{row[column.key]}}
-      <!-- <mat-form-field appearance="standard" [ngClass]="getClass(row)">
-        <input matInput placeholder="label" [value]="row[column.key]">
-      </mat-form-field> -->
-    </div>
+    <div matTooltip="my tooltip ">
+      Something very long that 
+    </div> 
   </ng-template>
 
 

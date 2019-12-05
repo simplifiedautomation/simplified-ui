@@ -29,9 +29,11 @@
 
   .mat-cell {
     height: 100%;
+    position: relative;
 
     .cell-container {
       height: 100%;
+      width: 100%;
       min-height: 48px;
 
       // The anchor should stretch to fill the cell.

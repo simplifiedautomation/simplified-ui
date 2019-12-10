@@ -89,3 +89,9 @@
 .mat-row:hover {
   background: #fafafafa !important;
 }
+
+::ng-deep .mat-table {
+  .mat-cell:not(:mat-column-select):not(:mat-column-options) {
+    min-width: 100px;
+  }
+}

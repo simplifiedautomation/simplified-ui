@@ -50,12 +50,14 @@
 
 
 .mat-column-select {
-  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
   padding-left: 0px !important;
 }
 
 .mat-column-options {
-  max-width: 30px;
+  max-width: 40px;
+  min-width: 40px;
 }
 
 // Make rows relatively positioned so that the child cell can use absolute
@@ -90,8 +92,6 @@
   background: #fafafafa !important;
 }
 
-::ng-deep .mat-table {
-  .mat-cell:not(:mat-column-select):not(:mat-column-options) {
-    min-width: 100px;
-  }
+.mat-cell:not(.mat-column-options):not(.mat-column-select) {
+  min-width: 100px;
 }

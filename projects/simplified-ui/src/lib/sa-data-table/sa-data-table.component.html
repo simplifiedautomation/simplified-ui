@@ -3,7 +3,7 @@
 
     <div fxFlex fxLayout="column" fxLayoutAlign="start strech" fxLayoutGap="8px" class="parent-container">
 
-      <div class="filters_row" fxFlex fxLayout="row" fxLayoutAlign="start center">
+      <div fxFlex="nogrow" fxLayout="row" fxLayoutAlign="start center">
         <div fxFlex="grow">
           <sa-data-filter *ngIf="(dataTable.showFilters == null) || dataTable.showFilters" [filters]="filterArray"
             (filterChange)="filterChange($event)"></sa-data-filter>

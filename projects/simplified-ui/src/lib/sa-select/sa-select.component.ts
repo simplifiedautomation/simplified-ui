@@ -162,10 +162,10 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     // Previous options are removed automatically when next
     // time `selectOptions` subject is observed with `didFilter`
     // flag set to true.
-    if (!this.isGetResultsCallbackNull()) {
-      if (this.value instanceof Array) {
-        this._selectOptions.next(<Array<T>>this.value);
-      } else {
+    if (this.value instanceof Array) {
+      this._selectOptions.next(<Array<T>>this.value);
+    } else {
+      if (!this.isGetResultsCallbackNull()) {
         let val = this.value ? [this.value] : [];
         this._selectOptions.next(val);
       }
@@ -185,6 +185,12 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
       var filteredData = this.config.options.value.filter(x => {
         for (let key in x) {
           if (x[key] && x[key].toString().toLowerCase().indexOf(this.searchTerm) > -1) {
+
+            // Check required when client side multiple select is enable to remove duplicates.
+            if (this.value instanceof Array) {
+              return !(this.value.indexOf(x) > -1);
+            }
+
             return true;
           }
         }

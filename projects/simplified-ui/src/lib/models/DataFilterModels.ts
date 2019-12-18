@@ -3,8 +3,10 @@ export interface IDataFilterViewModel {
   filterType: FilterTypeEnum,
   config: any,
   title?: string,
-  defaults?: any[]
+  defaults?: Date[] | SelectDefault[]
 }
+
+export type SelectDefault = { value: any, displayValue: string };
 
 export enum FilterTypeEnum {
   select,

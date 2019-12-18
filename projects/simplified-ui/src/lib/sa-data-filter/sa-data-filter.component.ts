@@ -2,7 +2,7 @@ import { Component, OnInit, Input, QueryList, ViewChildren, Output, EventEmitter
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { MatSelectChange, MatOption } from '@angular/material';
-import { IDataFilterViewModel, IFilterModel, FilterTypeEnum, IFilterChip } from '../models/DataFilterModels';
+import { IDataFilterViewModel, IFilterModel, FilterTypeEnum, IFilterChip, SelectDefault } from '../models/DataFilterModels';
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
 import { SaSelectComponent } from '../sa-select/sa-select.component';
 
@@ -69,6 +69,12 @@ export class SaDataFilterComponent implements OnInit {
           this.pushDatesToFilterModel(y, x);
         })
       }
+
+      if (x.filterType == this.filterType.select && x.defaults) {
+        (x.defaults as SelectDefault[]).forEach(y => {
+          this.addSelectItemToFilter(y.value, y.displayValue, x);
+        })
+      }
     })
   }
 
@@ -78,21 +84,28 @@ export class SaDataFilterComponent implements OnInit {
     if (val == null)
       return;
 
+    this.addSelectItemToFilter(val,
+      (<MatOption>event.source.selected).viewValue.trim(),
+      filter);
+
+    event.source.value = null;
+  }
+
+  private addSelectItemToFilter(val: any, displayValue: string, filter: IDataFilterViewModel) {
+
     let filterProperty = this.filterModel[filter.key];
     let isExist: boolean = filterProperty.filter(x => x == val).length > 0;
 
     if (!isExist) {
       filterProperty.push(val);
       this.chips.push({
-        displayValue: (<MatOption>event.source.selected).viewValue.trim(),
+        displayValue: displayValue,
         key: filter.key,
         title: filter.title,
         value: val
       });
       this.filterChange.emit(this.filterModel);
     }
-
-    event.source.value = null;
   }
 
   removeChip(chip: IFilterChip) {

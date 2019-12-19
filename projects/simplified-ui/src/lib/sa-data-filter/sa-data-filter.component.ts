@@ -65,7 +65,7 @@ export class SaDataFilterComponent implements OnInit {
 
     this.filters.forEach(x => {
       if (x.filterType == this.filterType.date && x.defaults) {
-        x.defaults.forEach(y => {
+        (x.defaults as Date[][]).forEach(y => {
           this.pushDatesToFilterModel(y, x);
         })
       }

@@ -21,7 +21,8 @@ export interface IDataTableColumn {
   filter: IDataFilterViewModel,
   sticky?: boolean,
   stickyEnd?: boolean,
-  template?: TemplateRef<any>;
+  template?: TemplateRef<any>,
+  headerTemplate?: TemplateRef<any>;
 }
 
 export interface IRequestModel {

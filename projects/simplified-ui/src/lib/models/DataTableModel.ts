@@ -23,6 +23,7 @@ export interface IDataTableColumn {
   stickyEnd?: boolean,
   template?: TemplateRef<any>,
   headerTemplate?: TemplateRef<any>;
+  data?: any;
 }
 
 export interface IRequestModel {

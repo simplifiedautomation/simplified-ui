@@ -42,6 +42,7 @@ export class DataTable<T>
   private columnsUpdatedSubject: ReplaySubject<IDataTableColumn[]> = new ReplaySubject();
   private columnAddedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
   private columnRemovedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
+  private addFilterSubject: ReplaySubject<IDataFilterViewModel> = new ReplaySubject();
 
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
 
@@ -193,6 +194,18 @@ export class DataTable<T>
 
   refresh() {
     this.refreshTableSubject.next();
+  }
+
+  /**
+   * Adds a new filter
+   * @param filter Filter to be added 
+   */
+  addFilter(filter: IDataFilterViewModel) {
+    this.addFilterSubject.next(filter);
+  }
+
+  onFilterAdded(): Observable<IDataFilterViewModel> {
+    return this.addFilterSubject.asObservable();
   }
 }
 

@@ -187,6 +187,7 @@ export class AppComponent implements OnInit {
     this.dataTable.showColumnToggle = true;
     this.dataTable.routerLinkEnabled = false;
     this.dataTable.showCheckboxColumn = true;
+    this.dataTable.addFilter(this.dataFilterConfig);
 
 
     this.dataTable.addColumn({

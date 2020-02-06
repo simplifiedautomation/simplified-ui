@@ -107,6 +107,10 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       }
     });
 
+    this.dataTable.onFilterAdded().subscribe(filter => {
+      this.filterArray.push(filter);
+    });
+
     this.dataTable.onRowDelete().subscribe(itemOrIndexOrPredicate => {
       if (typeof itemOrIndexOrPredicate == 'function') {
         this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList)

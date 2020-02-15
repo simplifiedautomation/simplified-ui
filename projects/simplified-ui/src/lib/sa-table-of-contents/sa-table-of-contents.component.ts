@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { NavigationItem } from '../models/NavigationItem';
 
@@ -8,7 +8,7 @@ import { NavigationItem } from '../models/NavigationItem';
   templateUrl: './sa-table-of-contents.component.html',
   styleUrls: ['./sa-table-of-contents.component.scss']
 })
-export class SaTableOfContentsComponent implements OnInit, AfterViewInit {
+export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChanges {
 
   href: string = ""
 
@@ -30,22 +30,10 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.primaryMenu.forEach(function (menuItem) {
-      menuItem.obs$.subscribe(
-        function (result) {
-          document.getElementsByClassName("selected")[0].classList.remove("selected");
-          const menuItemElement = document.querySelector('a[href="' + window.location.pathname + '#' + result + '"]');
-          menuItemElement.closest("mat-list-item").className += " selected";
-        }
-      );
+      this.subscribeNavigableMenu(menuItem);
     });
     this.secondaryMenu.forEach(function (menuItem) {
-      menuItem.obs$.subscribe(
-        function (result) {
-          document.getElementsByClassName("selected")[0].classList.remove("selected");
-          const menuItemElement = document.querySelector('a[href="' + window.location.pathname + '#' + result + '"]');
-          menuItemElement.closest("mat-list-item").className += " selected";
-        }
-      );
+      this.subscribeNavigableMenu(menuItem);
     });
 
     this.scrollDispatcher.scrolled().subscribe(
@@ -63,6 +51,42 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit {
         }
       });
 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void
+  {
+
+    if(changes.primaryMenu != undefined && changes.primaryMenu != null)
+    {
+      changes.primaryMenu.previousValue.forEach((x: NavigationItem)=> {
+        x.obs.unsubscribe();
+      })
+
+      changes.primaryMenu.currentValue.forEach((x: NavigationItem)=> {
+        this.subscribeNavigableMenu(x);
+      })
+    }
+
+    if(changes.secondaryMenu != undefined && changes.secondaryMenu != null)
+    {
+      changes.secondaryMenu.previousValue.forEach((x: NavigationItem)=> {
+        x.obs.unsubscribe();
+      })
+
+      changes.secondaryMenu.currentValue.forEach((x: NavigationItem)=> {
+        this.subscribeNavigableMenu(x);
+      })
+    }
+  }
+
+  private subscribeNavigableMenu(menuItem: NavigationItem){
+    menuItem.obs$.subscribe(
+      function (result) {
+        document.getElementsByClassName("selected")[0].classList.remove("selected");
+        const menuItemElement = document.querySelector('a[href="' + window.location.pathname + '#' + result + '"]');
+        menuItemElement.closest("mat-list-item").className += " selected";
+      }
+    );
   }
 
   getItemOffsets() {

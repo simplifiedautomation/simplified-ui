@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { NavigationItem } from '../models/NavigationItem';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
     document.getElementsByClassName("selected")[0].classList.remove("selected");
     item.closest("mat-list-item").className += " selected";
   }
-
+  private primaryMenuSubscription: Subscription[] = [];
+  private secondaryMenuSubscription: Subscription[] = [];
   constructor(private scrollDispatcher: ScrollDispatcher) {
 
   }
@@ -30,10 +32,10 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
 
   ngAfterViewInit() {
     this.primaryMenu.forEach((menuItem) => {
-      this.subscribeNavigableMenu(menuItem);
+      this.primaryMenuSubscription.push(this.subscribeNavigableMenu(menuItem));
     });
     this.secondaryMenu.forEach((menuItem) => {
-      this.subscribeNavigableMenu(menuItem);
+      this.secondaryMenuSubscription.push(this.subscribeNavigableMenu(menuItem));
     });
 
     this.scrollDispatcher.scrolled().subscribe(
@@ -61,12 +63,14 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
       if(changes.primaryMenu.previousValue != undefined)
       {
         changes.primaryMenu.previousValue.forEach((x: NavigationItem)=> {
-          x.obs.unsubscribe();
+          this.primaryMenuSubscription.forEach((y:Subscription)=>{
+            y.unsubscribe();
+          });
         })
       }
         
       changes.primaryMenu.currentValue.forEach((x: NavigationItem)=> {
-        this.subscribeNavigableMenu(x);
+        this.primaryMenuSubscription.push(this.subscribeNavigableMenu(x));
       })
     }
 
@@ -74,17 +78,19 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
     {
       if(changes.secondaryMenu.previousValue != undefined){
         changes.secondaryMenu.previousValue.forEach((x: NavigationItem)=> {
-          x.obs.unsubscribe();
+          this.secondaryMenuSubscription.forEach((y:Subscription)=>{
+            y.unsubscribe();
+          });
         })
       }
       changes.secondaryMenu.currentValue.forEach((x: NavigationItem)=> {
-        this.subscribeNavigableMenu(x);
+        this.secondaryMenuSubscription.push(this.subscribeNavigableMenu(x));
       })
     }
   }
 
-  private subscribeNavigableMenu(menuItem: NavigationItem){
-    menuItem.obs$.subscribe(
+  private subscribeNavigableMenu(menuItem: NavigationItem): Subscription{
+    return menuItem.obs$.subscribe(
       function (result) {
         document.getElementsByClassName("selected")[0].classList.remove("selected");
         const menuItemElement = document.querySelector('a[href="' + window.location.pathname + '#' + result + '"]');

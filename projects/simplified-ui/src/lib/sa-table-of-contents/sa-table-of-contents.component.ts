@@ -29,10 +29,10 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
   }
 
   ngAfterViewInit() {
-    this.primaryMenu.forEach(function (menuItem) {
+    this.primaryMenu.forEach((menuItem) => {
       this.subscribeNavigableMenu(menuItem);
     });
-    this.secondaryMenu.forEach(function (menuItem) {
+    this.secondaryMenu.forEach((menuItem) => {
       this.subscribeNavigableMenu(menuItem);
     });
 
@@ -58,10 +58,13 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
 
     if(changes.primaryMenu != undefined && changes.primaryMenu != null)
     {
-      changes.primaryMenu.previousValue.forEach((x: NavigationItem)=> {
-        x.obs.unsubscribe();
-      })
-
+      if(changes.primaryMenu.previousValue != undefined)
+      {
+        changes.primaryMenu.previousValue.forEach((x: NavigationItem)=> {
+          x.obs.unsubscribe();
+        })
+      }
+        
       changes.primaryMenu.currentValue.forEach((x: NavigationItem)=> {
         this.subscribeNavigableMenu(x);
       })
@@ -69,10 +72,11 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
 
     if(changes.secondaryMenu != undefined && changes.secondaryMenu != null)
     {
-      changes.secondaryMenu.previousValue.forEach((x: NavigationItem)=> {
-        x.obs.unsubscribe();
-      })
-
+      if(changes.secondaryMenu.previousValue != undefined){
+        changes.secondaryMenu.previousValue.forEach((x: NavigationItem)=> {
+          x.obs.unsubscribe();
+        })
+      }
       changes.secondaryMenu.currentValue.forEach((x: NavigationItem)=> {
         this.subscribeNavigableMenu(x);
       })

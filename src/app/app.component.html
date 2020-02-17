@@ -7,11 +7,18 @@
       <sa-header [header]="headerConfig" (primaryClick)="onPrimaryClick($event)"
         (secondaryClick)="onSecondaryClick($event)"></sa-header>
     </div>
-
-    <div class="page-body">
-
-    </div>
   </sa-base-page>
+
+  <h3> Short Number Pipe </h3>
+  <ul>
+    <li>{{ 10 | shortNumber}}</li>
+    <li>{{ 143 | shortNumber}}</li>
+    <li>{{ 1000000 | shortNumber}}</li>
+    <li>{{ 100000000000 | shortNumber}}</li>
+    <li>{{ 10006578344444884000 | shortNumber}}</li>
+    <li>{{ '100065783884000' | shortNumber}}</li>
+    <li>{{ 'fffff' | shortNumber}}</li>
+  </ul>
 
   <p>{{date | dateTime:dateFormats.timeZoneAbb}}</p>
   <p>{{date1 | dateTime:dateFormats.timeZoneAbb}}</p>
@@ -59,7 +66,7 @@
   <form [formGroup]="editorForm">
     <mat-form-field style="width: 100%">
       <mat-label>Text Editor</mat-label>
-      <sa-text-editor formControlName="description" name="Description"></sa-text-editor>
+      <sa-text-editor [required]="true" [formControl]="description" name="Description"></sa-text-editor>
     </mat-form-field>
   </form>
 
@@ -85,8 +92,8 @@
     <div matTooltip="my tooltip ">
       Something very long that 
     </div> 
-  </ng-template>
+  </ng-template> -->
 
 
 
-</sa-navigable-page>
+<!-- </sa-navigable-page>

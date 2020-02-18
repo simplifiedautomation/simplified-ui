@@ -185,9 +185,19 @@ export class SaTextEditorComponent implements MatFormFieldControl<any>, ControlV
 
   ngDoCheck(): void {
     if (this.ngControl) {
-      this.errorState = this.ngControl.invalid && this.ngControl.touched;
+      let isWhitespace = false;
+      if (this._required){
+        isWhitespace = this.getTextFromHtml(this.ngControl.value).trim().length === 0;
+      }
+      this.errorState = (isWhitespace || this.ngControl.invalid) && this.ngControl.touched ;
       this.stateChanges.next();
     }
+  }
+
+  private getTextFromHtml(html: string): string{
+    var htmlDocumentBody = document.implementation.createHTMLDocument("New").body;
+    htmlDocumentBody.innerHTML = html;
+    return htmlDocumentBody.textContent || htmlDocumentBody.innerText || "";
   }
 
 }

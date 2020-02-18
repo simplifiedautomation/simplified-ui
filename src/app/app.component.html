@@ -11,13 +11,14 @@
 
   <h3> Short Number Pipe </h3>
   <ul>
-    <li>{{ 10 | shortNumber}}</li>
-    <li>{{ 143 | shortNumber}}</li>
-    <li>{{ 1000000 | shortNumber}}</li>
-    <li>{{ 100000000000 | shortNumber}}</li>
-    <li>{{ 10006578344444884000 | shortNumber}}</li>
-    <li>{{ '100065783884000' | shortNumber}}</li>
-    <li>{{ 'fffff' | shortNumber}}</li>
+    <li>{{ 10 | abbreviateNumber}}</li>
+    <li>{{ 143 | abbreviateNumber}}</li>
+    <li>{{ 1434 | abbreviateNumber}}</li>
+    <li>{{ 1000000 | abbreviateNumber}}</li>
+    <li>{{ 100000000000 | abbreviateNumber}}</li>
+    <li>{{ 10006578344444884000 | abbreviateNumber}}</li>
+    <li>{{ '100065783884000' | abbreviateNumber}}</li>
+    <li>{{ 'fffff' | abbreviateNumber}}</li>
   </ul>
 
   <p>{{date | dateTime:dateFormats.timeZoneAbb}}</p>
@@ -92,8 +93,8 @@
     <div matTooltip="my tooltip ">
       Something very long that 
     </div> 
-  </ng-template> -->
+  </ng-template>
 
 
 
-<!-- </sa-navigable-page>
+</sa-navigable-page>

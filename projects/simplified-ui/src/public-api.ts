@@ -46,7 +46,7 @@ export * from './lib/sa-button/sa-button.component';
  */
 export * from './lib/pipes/sa-date-time.pipe';
 export * from './lib/pipes/sa-value-formatter.pipe';
-export * from './lib/pipes/short-number.pipe';
+export * from './lib/pipes/abbreviate-number.pipe';
 
 /*
  * Public API Surface For Directives

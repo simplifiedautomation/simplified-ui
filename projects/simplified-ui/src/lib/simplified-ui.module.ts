@@ -29,7 +29,7 @@ import { SaButtonComponent } from './sa-button/sa-button.component';
 import { SaSpinnerDirective } from './directives/sa-spinner.directive';
 import { MatProgressSpinner } from '@angular/material';
 import { RouterModule } from '@angular/router';
-import { ShortNumberPipe } from './pipes/short-number.pipe';
+import { AbbreviateNumberPipe } from './pipes/abbreviate-number.pipe';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     SaMoreMenuComponent,
     SaButtonComponent,
     SaSpinnerDirective,
-    ShortNumberPipe
+    AbbreviateNumberPipe
   ],
   imports: [
     MaterialModule,
@@ -92,7 +92,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     SaMoreMenuComponent,
     SaButtonComponent,
     SaSpinnerDirective,
-    ShortNumberPipe
+    AbbreviateNumberPipe
   ],
   entryComponents: [MatProgressSpinner],
   providers: [

@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'shortNumber'
+  name: 'abbreviateNumber'
 })
-export class ShortNumberPipe implements PipeTransform {
+export class AbbreviateNumberPipe implements PipeTransform {
 
   transform(value: number | string, args?: any): any {
     let number = Number(value);
@@ -29,7 +29,7 @@ export class ShortNumberPipe implements PipeTransform {
         break;
       }
     }
-    return (isNegative ? '-' : '') + absValue.toFixed(2) + key;
+    return (isNegative ? '-' : '') + (Math.round(absValue * 100) / 100) + ' ' + key;
   }
 
 }

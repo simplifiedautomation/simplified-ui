@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats, DatePickerType, DatePickerMode, DatePickerSelectMode } from 'projects/simplified-ui/src/public-api';
-import { FormControl, FormBuilder } from '@angular/forms';
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 import * as moment_ from 'moment-timezone';
 import { HttpClient } from '@angular/common/http';
@@ -107,8 +107,9 @@ export class AppComponent implements OnInit {
   ];
 
   editorForm = this.form.group({
-    description: new FormControl(),
+    description: new FormControl(null, Validators.required),
   });
+  description = new FormControl(null, Validators.required);
 
   dataTable: DataTable<any> = new DataTable();
 

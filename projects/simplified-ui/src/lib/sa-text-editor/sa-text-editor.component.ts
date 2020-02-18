@@ -194,7 +194,7 @@ export class SaTextEditorComponent implements MatFormFieldControl<any>, ControlV
     }
   }
 
-  getTextFromHtml(html: string): string{
+  private getTextFromHtml(html: string): string{
     var htmlDocumentBody = document.implementation.createHTMLDocument("New").body;
     htmlDocumentBody.innerHTML = html;
     return htmlDocumentBody.textContent || htmlDocumentBody.innerText || "";

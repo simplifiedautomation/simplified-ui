@@ -190,6 +190,12 @@ export class SaTextEditorComponent implements MatFormFieldControl<any>, ControlV
         isWhitespace = this.getTextFromHtml(this.ngControl.value).trim().length === 0;
       }
       this.errorState = (isWhitespace || this.ngControl.invalid) && this.ngControl.touched ;
+      if(this.ngControl.control){
+        if (this.errorState)
+          this.ngControl.control.setErrors({required: true});
+        else
+          this.ngControl.control.setErrors(null);
+      }
       this.stateChanges.next();
     }
   }

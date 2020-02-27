@@ -1,12 +1,29 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Inject, LOCALE_ID } from '@angular/core';
+import { getCurrencySymbol } from '@angular/common';
+import { symbolFormatEnum } from './sa-value-formatter.pipe';
 
 @Pipe({
   name: 'abbreviateNumber'
 })
 export class AbbreviateNumberPipe implements PipeTransform {
 
-  transform(value: number | string, args?: any): any {
-    let number = Number(value);
+  constructor(@Inject(LOCALE_ID) private locale: string) {
+
+  }
+
+  transform(value: number | string, isCurrency: boolean = false): any {
+
+    let number: number;    
+
+    let CurrencySymbol: string;
+
+    if (isCurrency){
+      CurrencySymbol = getCurrencySymbol("USD", symbolFormatEnum.narrow, this.locale);
+      number = Number(value.toString().replace(CurrencySymbol, '').match(/[+-]?\d+(?:\.\d+)?/g).join(''));
+    } else {
+      number = Number(value); 
+    }
+
     if (isNaN(number)) return value;
     if (number === null) return null;
     if (number === 0) return value;
@@ -20,7 +37,7 @@ export class AbbreviateNumberPipe implements PipeTransform {
       { key: 'M', value: Math.pow(10, 6) },
       { key: 'K', value: 1000 }
     ];
-
+ 
     for (let i = 0; i < powers.length; i++) {
       let reduced = absValue / powers[i].value;
       if (reduced >= 1) {
@@ -29,7 +46,7 @@ export class AbbreviateNumberPipe implements PipeTransform {
         break;
       }
     }
-    return (isNegative ? '-' : '') + (Math.round(absValue * 100) / 100) + ' ' + key;
+    return (isNegative ? '-' : '') + (isCurrency ? CurrencySymbol : '') + (Math.round(absValue * 100) / 100) + ' ' + key;
   }
 
 }

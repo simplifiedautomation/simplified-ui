@@ -13,15 +13,15 @@ export class AbbreviateNumberPipe implements PipeTransform {
 
   transform(value: number | string, isCurrency: boolean = false): any {
 
-    let number: number;    
+    let number: number;
 
     let CurrencySymbol: string;
 
-    if (isCurrency){
+    if (isCurrency) {
       CurrencySymbol = getCurrencySymbol("USD", symbolFormatEnum.narrow, this.locale);
       number = Number(value.toString().replace(CurrencySymbol, '').match(/[+-]?\d+(?:\.\d+)?/g).join(''));
     } else {
-      number = Number(value); 
+      number = Number(value);
     }
 
     if (isNaN(number)) return value;
@@ -37,7 +37,7 @@ export class AbbreviateNumberPipe implements PipeTransform {
       { key: 'M', value: Math.pow(10, 6) },
       { key: 'K', value: 1000 }
     ];
- 
+
     for (let i = 0; i < powers.length; i++) {
       let reduced = absValue / powers[i].value;
       if (reduced >= 1) {

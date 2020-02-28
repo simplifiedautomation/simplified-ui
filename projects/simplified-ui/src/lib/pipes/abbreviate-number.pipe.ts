@@ -15,11 +15,11 @@ export class AbbreviateNumberPipe implements PipeTransform {
 
     let number: number;
 
-    let CurrencySymbol: string;
+    let currencySymbol: string;
 
     if (isCurrency) {
-      CurrencySymbol = getCurrencySymbol("USD", symbolFormatEnum.narrow, this.locale);
-      number = Number(value.toString().replace(CurrencySymbol, '').match(/[+-]?\d+(?:\.\d+)?/g).join(''));
+      currencySymbol = getCurrencySymbol("USD", symbolFormatEnum.narrow, this.locale);
+      number = Number(value.toString().replace(currencySymbol, '').match(/[+-]?\d+(?:\.\d+)?/g).join(''));
     } else {
       number = Number(value);
     }
@@ -46,7 +46,7 @@ export class AbbreviateNumberPipe implements PipeTransform {
         break;
       }
     }
-    return (isNegative ? '-' : '') + (isCurrency ? CurrencySymbol : '') + (Math.round(absValue * 100) / 100) + ' ' + key;
+    return (isNegative ? '-' : '') + (isCurrency ? currencySymbol : '') + (Math.round(absValue * 100) / 100) + ' ' + key;
   }
 
 }

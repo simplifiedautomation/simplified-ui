@@ -11,14 +11,13 @@
 
   <h3> Short Number Pipe </h3>
   <ul>
-    <li>{{ 10 | abbreviateNumber}}</li>
-    <li>{{ 143 | abbreviateNumber}}</li>
-    <li>{{ 1434 | abbreviateNumber}}</li>
-    <li>{{ 1000000 | abbreviateNumber}}</li>
-    <li>{{ 100000000000 | abbreviateNumber}}</li>
-    <li>{{ 10006578344444884000 | abbreviateNumber}}</li>
-    <li>{{ '100065783884000' | abbreviateNumber}}</li>
-    <li>{{ 'fffff' | abbreviateNumber}}</li>
+    <li>10 => {{ 10 | abbreviateNumber: true}}</li>
+    <li>143 => {{ 143 | abbreviateNumber: true}}</li>
+    <li>-14.34 => {{ -14.34 | abbreviateNumber: true}}</li>
+    <li>-$1,000000.00 => {{ '-$1,000000.00' | abbreviateNumber: true}}</li>
+    <li>-$100000000000 => {{ '$-100000000000' | abbreviateNumber: true}}</li>
+    <li>100065783884000 => {{ '100065783884000$' | abbreviateNumber: true}}</li>
+    <li>fffff => {{ 'fffff' | abbreviateNumber}}</li>
   </ul>
 
   <p>{{date | dateTime:dateFormats.timeZoneAbb}}</p>

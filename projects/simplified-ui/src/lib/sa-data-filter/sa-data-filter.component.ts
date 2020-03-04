@@ -37,8 +37,6 @@ export class SaDataFilterComponent implements OnInit {
 
   textFilters: IDataFilterViewModel[];
 
-  saSelectFormControl = new FormControl();
-
   constructor() {
 
   }
@@ -90,7 +88,6 @@ export class SaDataFilterComponent implements OnInit {
       (<MatOption>event.source.selected).viewValue.trim(),
       filter);
 
-    this.saSelectFormControl.setValue(null);
     event.source.value = null;
   }
 

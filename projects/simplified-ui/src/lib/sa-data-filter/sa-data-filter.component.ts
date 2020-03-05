@@ -110,7 +110,7 @@ export class SaDataFilterComponent implements OnInit {
 
   removeChip(chip: IFilterChip) {
     if (chip.value instanceof Array) {
-      this.filterModel[chip.key] = this.filterModel[chip.key].filter(x => x.from != chip.value[0] && x.to != chip.value[1]);
+      this.filterModel[chip.key] = this.filterModel[chip.key].filter(x => x.from != chip.value[0] || x.to != chip.value[1]);
     }
     else {
       this.filterModel[chip.key] = this.filterModel[chip.key].filter(x => x != chip.value);
@@ -130,7 +130,6 @@ export class SaDataFilterComponent implements OnInit {
   datePickerChange(dates: Date[], filter: IDataFilterViewModel, ref: SaDatePickerComponent) {
     if (dates == null)
       return;
-
     this.pushDatesToFilterModel(dates, filter);
 
     ref.value = null;

@@ -28,7 +28,7 @@ export class SaStepperComponent implements OnInit {
   }
 
   decrement() {
-    if (!this.max || this.value > this.min) {
+    if (!this.min || this.value > this.min) {
       this.value--;
       this.valueChanged.emit(this.value);
     }

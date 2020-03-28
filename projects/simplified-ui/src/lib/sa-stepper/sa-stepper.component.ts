@@ -21,14 +21,14 @@ export class SaStepperComponent implements OnInit {
   }
 
   increment() {
-    if (!this.max || this.value < this.max) {
+    if (this.max == null || this.max == undefined || this.value < this.max) {
       this.value++;
       this.valueChanged.emit(this.value);
     }
   }
 
   decrement() {
-    if (!this.min || this.value > this.min) {
+    if (this.min == null || this.min == undefined || this.value > this.min) {
       this.value--;
       this.valueChanged.emit(this.value);
     }

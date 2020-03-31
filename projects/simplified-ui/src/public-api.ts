@@ -19,6 +19,7 @@ export * from './lib/models/SaTableDataSource';
 export * from './lib/models/SaSelectModels';
 export * from './lib/models/NavigationItem';
 export * from './lib/models/HeaderViewModels';
+export * from './lib/models/RequestModel';
 
 /*
  * Public API Surface For Components

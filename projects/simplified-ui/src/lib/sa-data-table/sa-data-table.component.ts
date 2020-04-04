@@ -87,10 +87,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 
     var scroller = document.getElementById('scroller');
     var table = document.getElementById('table');
-
-    console.log(table.offsetWidth)
-    console.log(table.getBoundingClientRect().width)
-
     let xValue = 0;
     let marginLeft = 0;
     var maxMargin = 150 - 100;
@@ -181,7 +177,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
           if (this.dataTable.selectedRowPredicate) {
 
             res.List.forEach(row => {
-              
+
               if (!this.selection.isSelected(row) &&
                 this.dataTable.selectedRowPredicate(row)) {
                 this.selection.select(row);

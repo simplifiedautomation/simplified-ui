@@ -108,3 +108,23 @@
 ::-webkit-scrollbar-thumb {
   background: #bdbdbd;
 }
+
+#scroll-container{
+  height: 40px;
+  width: 150px;
+  background-color: #c1c1c1;
+}
+
+#scroller{
+  height: 60px; 
+  margin-top:-10px; 
+  width: 100px; 
+  background-color: #e1e1e170; 
+  cursor:all-scroll; 
+  position: absolute;
+
+  p{
+    font-size: 11px; 
+    user-select: none;
+  }
+}

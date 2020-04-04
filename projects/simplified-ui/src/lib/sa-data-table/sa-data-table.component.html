@@ -30,7 +30,17 @@
     </div>
   </div>
 
-  <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start strech" class="table-container">
+  <div fxLayout="row" fxLayoutAlign="end" style="margin-bottom: 16px !important;">
+    <mat-card>
+      <div id="scroll-container">
+        <div id="scroller" fxLayoutAlign="center center">
+          <p>Drag to scroll table</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start strech" class="table-container" id="table">
 
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <table mat-table [dataSource]="tableDataSource" matSort>
@@ -44,9 +54,8 @@
           </th>
           <td mat-cell *matCellDef="let row">
             <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-checkbox (click)="$event.stopPropagation()"
-                (change)="$event ? onCheckBoxChange($event, row) : null" [checked]="selection.isSelected(row)"
-                [aria-label]="checkboxLabel(row)">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onCheckBoxChange($event, row) : null"
+                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
               </mat-checkbox>
             </div>
           </td>
@@ -108,8 +117,8 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnToDisplay; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnToDisplay;"
-          [ngStyle]="{'display': !isRender ? 'none' : null}"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnToDisplay;" [ngStyle]="{'display': !isRender ? 'none' : null}">
+        </tr>
       </table>
     </div>
 
@@ -129,9 +138,8 @@
     </div>
 
     <mat-paginator *ngIf="(dataTable.showPaginator == null) || dataTable.showPaginator"
-      [pageSizeOptions]="[5, 10, 20, 30, 40, 100]" [length]="totalCount"
-      [pageSize]="tableDataSource.filter.pageSize" [pageIndex]="tableDataSource.filter.pageNo" showFirstLastButtons
-      style="position: sticky;left: 0;right: 0;">
+      [pageSizeOptions]="[5, 10, 20, 30, 40, 100]" [length]="totalCount" [pageSize]="tableDataSource.filter.pageSize"
+      [pageIndex]="tableDataSource.filter.pageNo" showFirstLastButtons style="position: sticky;left: 0;right: 0;">
     </mat-paginator>
   </div>
 </div>

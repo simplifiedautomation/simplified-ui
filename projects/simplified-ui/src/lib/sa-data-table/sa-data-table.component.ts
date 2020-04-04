@@ -85,6 +85,44 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+    var scroller = document.getElementById('scroller');
+    var table = document.getElementById('table');
+
+    console.log(table.offsetWidth)
+    console.log(table.getBoundingClientRect().width)
+
+    let xValue = 0;
+    let marginLeft = 0;
+    var maxMargin = 150 - 100;
+
+    var isDown = false;
+    scroller.addEventListener('mousedown', function (e) {
+      isDown = true;
+      xValue = e.clientX;
+    }, true);
+
+    document.addEventListener('mouseup', function () {
+      isDown = false;
+    }, true);
+
+    document.addEventListener('mousemove', function (e) {     
+      if (isDown) {
+        table.scrollLeft += ((e.clientX - xValue));
+        marginLeft += (e.clientX - xValue);
+        if (marginLeft > maxMargin) {
+          marginLeft = maxMargin;
+          scroller.style.marginLeft = maxMargin.toString() + "px";
+        }
+        else if (marginLeft <= 0) {
+          marginLeft = 0;
+          scroller.style.marginLeft = "0px";
+        }
+        else {
+          scroller.style.marginLeft = marginLeft + "px";
+        }
+      }
+    }, true);
+
     this.dataTable.onColumnUpdated().subscribe(columns => {
       this.filterArray = [];
       columns.forEach(z => {

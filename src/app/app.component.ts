@@ -217,6 +217,30 @@ export class AppComponent implements OnInit {
     });
 
     this.dataTable.addColumn({
+      key: "area11",
+      title: "Area that is too big to fit in a row",
+      type: DataTableColumnTypeEnum.text,
+      filter: {
+        config: null,
+        filterType: FilterTypeEnum.text,
+        key: "column1"
+      },
+      template: this.colTemplate
+    });
+
+    this.dataTable.addColumn({
+      key: "area12",
+      title: "Area that is too big to fit in a row",
+      type: DataTableColumnTypeEnum.text,
+      filter: {
+        config: null,
+        filterType: FilterTypeEnum.text,
+        key: "column1"
+      },
+      template: this.colTemplate
+    });
+
+    this.dataTable.addColumn({
       key: "area2",
       title: "Area",
       type: DataTableColumnTypeEnum.text,

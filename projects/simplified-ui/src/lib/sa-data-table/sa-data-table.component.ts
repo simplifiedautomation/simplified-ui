@@ -291,38 +291,47 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
           if (isDown) {
             table.scrollLeft += ((e.clientX - xValue) * ratio);
             marginLeft += ((e.clientX - xValue));
-            if (marginLeft > maxMargin) {
-              marginLeft = maxMargin;
-              scroller.style.marginLeft = maxMargin.toString() + "px";
-            }
-            else if (marginLeft <= 0) {
-              marginLeft = 0;
-              scroller.style.marginLeft = "0px";
-            }
-            else {
-              scroller.style.marginLeft = marginLeft + "px";
+
+            switch (true) {
+              case marginLeft > maxMargin:
+                marginLeft = maxMargin;
+                scroller.style.marginLeft = maxMargin.toString() + "px";
+                break;
+
+              case marginLeft <= 0:
+                marginLeft = 0;
+                scroller.style.marginLeft = "0px";
+                break;
+
+              default:
+                scroller.style.marginLeft = marginLeft + "px";
+                break;
             }
           }
         }, true);
 
         scrollerContainer.addEventListener('click', function (e) {
-          if (!isDown) {
+          if (!isDown && (<HTMLElement>e.target).id == "scroll-container") {
             var cardOffsetLeft = document.getElementById("card").offsetLeft;
             var clickOffsetLeft = e.clientX;
 
-            table.scrollLeft += ((clickOffsetLeft - cardOffsetLeft -100) * ratio);
+            table.scrollLeft += ((clickOffsetLeft - cardOffsetLeft - 100) * ratio);
             marginLeft += ((clickOffsetLeft - cardOffsetLeft) - 100);
 
-            if (marginLeft > maxMargin) {
-              marginLeft = maxMargin;
-              scroller.style.marginLeft = maxMargin.toString() + "px";
-            }
-            else if (marginLeft <= 0) {
-              marginLeft = 0;
-              scroller.style.marginLeft = "0px";
-            }
-            else {
-              scroller.style.marginLeft = marginLeft + "px";
+            switch (true) {
+              case marginLeft > maxMargin:
+                marginLeft = maxMargin;
+                scroller.style.marginLeft = maxMargin.toString() + "px";
+                break;
+
+              case marginLeft <= 0:
+                marginLeft = 0;
+                scroller.style.marginLeft = "0px";
+                break;
+
+              default:
+                scroller.style.marginLeft = marginLeft + "px";
+                break;
             }
           }
         }, true);

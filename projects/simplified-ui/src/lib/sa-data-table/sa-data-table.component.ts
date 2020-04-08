@@ -85,54 +85,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    addEventListener("load", function () {
-      var scroller = document.getElementById('scroller');
-      var table = document.getElementById('table');
-
-      var elementWidth = table.offsetWidth;
-      var scrollableWidth = table.scrollWidth;
-
-      if (scrollableWidth > elementWidth) {
-
-        var scrollerDiv = document.getElementById('scroller-div');
-        scrollerDiv.style.display = "flex";
-
-        var difference = scrollableWidth - elementWidth;
-        var ratio = difference / 50;
-
-        let xValue = 0;
-        let marginLeft = 0;
-        var maxMargin = 50;
-
-        var isDown = false;
-        scroller.addEventListener('mousedown', function (e) {
-          isDown = true;
-          xValue = e.clientX;
-        }, true);
-
-        document.addEventListener('mouseup', function () {
-          isDown = false;
-        }, true);
-
-        document.addEventListener('mousemove', function (e) {
-          if (isDown) {
-            table.scrollLeft += ((e.clientX - xValue) * ratio);
-            marginLeft += ((e.clientX - xValue));
-            if (marginLeft > maxMargin) {
-              marginLeft = maxMargin;
-              scroller.style.marginLeft = maxMargin.toString() + "px";
-            }
-            else if (marginLeft <= 0) {
-              marginLeft = 0;
-              scroller.style.marginLeft = "0px";
-            }
-            else {
-              scroller.style.marginLeft = marginLeft + "px";
-            }
-          }
-        }, true);
-      }
-    });
+    this.setupTableScroller();
 
     this.dataTable.onColumnUpdated().subscribe(columns => {
       this.filterArray = [];
@@ -241,6 +194,12 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       }
     }
     this._source.complete();
+
+    document.getElementById('scroller').removeEventListener("mousedown", function () { });
+    document.getElementById('scroll-container').removeEventListener("click", function () { });
+    document.removeEventListener('mouseup', function () { });
+    document.removeEventListener('mousemove', function () { });
+
   }
 
 
@@ -294,6 +253,82 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
       rowData: row
     }
     this.rowSelect.emit(eventdata);
+  }
+
+  setupTableScroller() {
+
+    addEventListener("load", function () {
+      var scroller = document.getElementById('scroller');
+      var scrollerContainer = document.getElementById('scroll-container');
+      var table = document.getElementById('table');
+
+      var elementWidth = table.offsetWidth;
+      var scrollableWidth = table.scrollWidth;
+
+      if (scrollableWidth > elementWidth) {
+
+        var scrollerDiv = document.getElementById('scroller-div');
+        scrollerDiv.style.display = "flex";
+
+        var difference = scrollableWidth - elementWidth;
+        var ratio = difference / 50;
+
+        let xValue = 0;
+        let marginLeft = 0;
+        var maxMargin = 50;
+
+        var isDown = false;
+        scroller.addEventListener('mousedown', function (e) {
+          isDown = true;
+          xValue = e.clientX;
+        }, true);
+
+        document.addEventListener('mouseup', function () {
+          isDown = false;
+        }, true);
+
+        document.addEventListener('mousemove', function (e) {
+          if (isDown) {
+            table.scrollLeft += ((e.clientX - xValue) * ratio);
+            marginLeft += ((e.clientX - xValue));
+            if (marginLeft > maxMargin) {
+              marginLeft = maxMargin;
+              scroller.style.marginLeft = maxMargin.toString() + "px";
+            }
+            else if (marginLeft <= 0) {
+              marginLeft = 0;
+              scroller.style.marginLeft = "0px";
+            }
+            else {
+              scroller.style.marginLeft = marginLeft + "px";
+            }
+          }
+        }, true);
+
+        scrollerContainer.addEventListener('click', function (e) {
+          if (!isDown) {
+            var cardOffsetLeft = document.getElementById("card").offsetLeft;
+            var clickOffsetLeft = e.clientX;
+
+            table.scrollLeft += ((clickOffsetLeft - cardOffsetLeft -100) * ratio);
+            marginLeft += ((clickOffsetLeft - cardOffsetLeft) - 100);
+
+            if (marginLeft > maxMargin) {
+              marginLeft = maxMargin;
+              scroller.style.marginLeft = maxMargin.toString() + "px";
+            }
+            else if (marginLeft <= 0) {
+              marginLeft = 0;
+              scroller.style.marginLeft = "0px";
+            }
+            else {
+              scroller.style.marginLeft = marginLeft + "px";
+            }
+          }
+        }, true);
+      }
+    });
+
   }
 }
 

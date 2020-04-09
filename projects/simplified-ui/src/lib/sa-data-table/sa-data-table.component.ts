@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit,  OnDestroy, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { MatSort, MatPaginator, MatCheckboxChange } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableModel';
@@ -17,7 +17,7 @@ import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
   templateUrl: './sa-data-table.component.html',
   styleUrls: ['./sa-data-table.component.scss']
 })
-export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
+export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() dataTable: DataTable<T>;
 
@@ -41,6 +41,13 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 
   public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
   subs: Subscription[] = [];
+  //minimap initializations
+  private _listeners = [];
+  @ViewChild("table") table:ElementRef;
+  @ViewChild("scroller_div") scroller_div:ElementRef;
+  @ViewChild("scroll_container") scroll_container:ElementRef;
+  @ViewChild("scroller") scroller:ElementRef;
+  @ViewChild("scroll_card",  { read: ElementRef }) scroll_card:ElementRef;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -71,7 +78,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row -`;
   }
 
-  constructor() {
+  constructor(private _renderer: Renderer2) {
     this.tableDataSource = new SaTableDataSource(
       this._source.asObservable(),
       new DefaultCommonTableFilter(),
@@ -84,8 +91,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
-    this.setupTableScroller();
 
     this.dataTable.onColumnUpdated().subscribe(columns => {
       this.filterArray = [];
@@ -176,7 +181,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     //attaching sort and paginator directives to the data source, after they are bound to the view
-
+     
     if (this.dataTable.disableSorting) {
       this.sort.disabled = true;
     }
@@ -195,11 +200,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     }
     this._source.complete();
 
-    document.getElementById('scroller').removeEventListener("mousedown", function () { });
-    document.getElementById('scroll-container').removeEventListener("click", function () { });
-    document.removeEventListener('mouseup', function () { });
-    document.removeEventListener('mousemove', function () { });
-
+    this.scroller.nativeElement.remove
   }
 
 
@@ -255,92 +256,83 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit {
     this.rowSelect.emit(eventdata);
   }
 
-  setupTableScroller() {
-
-    addEventListener("load", function () {
-      var scroller = document.getElementById('scroller');
-      var scrollerContainer = document.getElementById('scroll-container');
-      var table = document.getElementById('table');
-
-      var elementWidth = table.offsetWidth;
-      var scrollableWidth = table.scrollWidth;
+  @HostListener('window:load', ['$event']) 
+    onPageLoad(event: Event) {
+      var elementWidth = this.table.nativeElement.offsetWidth;
+      var scrollableWidth = this.table.nativeElement.scrollWidth;
 
       if (scrollableWidth > elementWidth) {
-
-        var scrollerDiv = document.getElementById('scroller-div');
-        scrollerDiv.style.display = "flex";
-
+        this.scroller_div.nativeElement.style.display = 'flex';
         var difference = scrollableWidth - elementWidth;
         var ratio = difference / 50;
 
         let xValue = 0;
         let marginLeft = 0;
         var maxMargin = 50;
-
         var isDown = false;
-        scroller.addEventListener('mousedown', function (e) {
+
+        this._listeners.push(this._renderer.listen(this.scroller.nativeElement,'mousedown',  (e) => {
           isDown = true;
           xValue = e.clientX;
-        }, true);
+        }));
 
-        document.addEventListener('mouseup', function () {
+        this._listeners.push(this._renderer.listen(this.scroller.nativeElement, 'mouseup',  () => {
           isDown = false;
-        }, true);
+        }));
 
-        document.addEventListener('mousemove', function (e) {
+        this._listeners.push(
+          this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
           if (isDown) {
-            table.scrollLeft += ((e.clientX - xValue) * ratio);
+            this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);
             marginLeft += ((e.clientX - xValue));
 
             switch (true) {
               case marginLeft > maxMargin:
                 marginLeft = maxMargin;
-                scroller.style.marginLeft = maxMargin.toString() + "px";
+                this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + "px";
                 break;
 
               case marginLeft <= 0:
                 marginLeft = 0;
-                scroller.style.marginLeft = "0px";
+                this.scroller.nativeElement.style.marginLeft = "0px";
                 break;
 
               default:
-                scroller.style.marginLeft = marginLeft + "px";
+                this.scroller.nativeElement.style.marginLeft = marginLeft + "px";
                 break;
             }
           }
-        }, true);
+        }));
 
-        scrollerContainer.addEventListener('click', function (e) {
+        this._listeners.push(this._renderer.listen(this.scroll_container.nativeElement, 'click',  (e) => {
           if (!isDown && (<HTMLElement>e.target).id == "scroll-container") {
-            var cardOffsetLeft = document.getElementById("card").offsetLeft;
+            var cardOffsetLeft = this.scroll_card.nativeElement.offsetLeft;
             var clickOffsetLeft = e.clientX;
 
-            table.scrollLeft += ((clickOffsetLeft - cardOffsetLeft - 100) * ratio);
+            this.table.nativeElement.scrollLeft += ((clickOffsetLeft - cardOffsetLeft - 100) * ratio);
             marginLeft += ((clickOffsetLeft - cardOffsetLeft) - 100);
 
             switch (true) {
               case marginLeft > maxMargin:
                 marginLeft = maxMargin;
-                scroller.style.marginLeft = maxMargin.toString() + "px";
+                this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + "px";
                 break;
 
               case marginLeft <= 0:
                 marginLeft = 0;
-                scroller.style.marginLeft = "0px";
+                this.scroller.nativeElement.style.marginLeft = "0px";
                 break;
 
               default:
-                scroller.style.marginLeft = marginLeft + "px";
+                this.scroller.nativeElement.style.marginLeft = marginLeft + "px";
                 break;
             }
           }
-        }, true);
+        }));
       }
-    });
+    }
 
-  }
 }
-
 
 export interface RowSelectEventDataModel<T> {
   checked: boolean;

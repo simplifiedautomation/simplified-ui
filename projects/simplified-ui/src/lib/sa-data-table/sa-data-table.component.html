@@ -30,17 +30,17 @@
     </div>
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="end" fxHide id="scroller-div">
-    <mat-card id="card">
-      <div id="scroll-container">
-        <div id="scroller" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="end" fxHide id="scroller-div" #scroller_div>
+    <mat-card id="card" #scroll_card>
+      <div id="scroll-container" #scroll_container>
+        <div id="scroller" fxLayoutAlign="center center" #scroller minimap>
           <p>Drag to scroll table</p>
         </div>
       </div>
     </mat-card>
   </div>
 
-  <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start strech" class="table-container" id="table">
+  <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start strech" class="table-container" id="table" #table>
 
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <table mat-table [dataSource]="tableDataSource" matSort>

@@ -42,7 +42,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
   subs: Subscription[] = [];
   //minimap initializations
-  private _listeners = [];
   @ViewChild("table") table:ElementRef;
   @ViewChild("scroller_div") scroller_div:ElementRef;
   @ViewChild("scroll_container") scroll_container:ElementRef;
@@ -271,18 +270,18 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
         var maxMargin = 50;
         var isDown = false;
 
-        this._listeners.push(this._renderer.listen(this.scroller.nativeElement,'mousedown',  (e) => {
+       this._renderer.listen(this.scroller.nativeElement,'mousedown',  (e) => {
           isDown = true;
           xValue = e.clientX;
-        }));
+        });
 
-        this._listeners.push(this._renderer.listen(this.scroller.nativeElement, 'mouseup',  () => {
+       this._renderer.listen(this.scroller.nativeElement, 'mouseup',  () => {
           isDown = false;
-        }));
+        });
 
-        this._listeners.push(
-          this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
-          if (isDown) {
+       
+        this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
+        if (isDown) {
             this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);
             marginLeft += ((e.clientX - xValue));
 
@@ -302,9 +301,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
                 break;
             }
           }
-        }));
+        });
 
-        this._listeners.push(this._renderer.listen(this.scroll_container.nativeElement, 'click',  (e) => {
+        this._renderer.listen(this.scroll_container.nativeElement, 'click',  (e) => {
           if (!isDown && (<HTMLElement>e.target).id == "scroll-container") {
             var cardOffsetLeft = this.scroll_card.nativeElement.offsetLeft;
             var clickOffsetLeft = e.clientX;
@@ -328,7 +327,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
                 break;
             }
           }
-        }));
+        });
       }
     }
 

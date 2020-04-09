@@ -198,8 +198,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       }
     }
     this._source.complete();
-
-    this.scroller.nativeElement.remove
   }
 
 

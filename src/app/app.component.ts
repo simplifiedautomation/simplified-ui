@@ -204,138 +204,114 @@ export class AppComponent implements OnInit {
       // sticky: true
     });
 
-    this.dataTable.addColumn({
-      key: "area1",
-      title: "Area that is too big to fit in a row",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area1",
+    //   title: "Area that is too big to fit in a row",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
-    this.dataTable.addColumn({
-      key: "area11",
-      title: "Area that is too big to fit in a row",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area2",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
-    this.dataTable.addColumn({
-      key: "area12",
-      title: "Area that is too big to fit in a row",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area3",
+    //   title: "Area that is too big to fit in a row",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
-    this.dataTable.addColumn({
-      key: "area2",
-      title: "Area",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
-
-    this.dataTable.addColumn({
-      key: "area3",
-      title: "Area that is too big to fit in a row",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
-
-    this.dataTable.addColumn({
-      key: "area4",
-      title: "Area",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area4",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
 
-    this.dataTable.addColumn({
-      key: "area5",
-      title: "Area",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area5",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
-    this.dataTable.addColumn({
-      key: "area6",
-      title: "Area",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area6",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
-    this.dataTable.addColumn({
-      key: "area7",
-      title: "Area",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area7",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
-    this.dataTable.addColumn({
-      key: "area8",
-      title: "Area",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area8",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
-    this.dataTable.addColumn({
-      key: "area9",
-      title: "Area",
-      type: DataTableColumnTypeEnum.text,
-      filter: {
-        config: null,
-        filterType: FilterTypeEnum.text,
-        key: "column1"
-      },
-      template: this.colTemplate
-    });
+    // this.dataTable.addColumn({
+    //   key: "area9",
+    //   title: "Area",
+    //   type: DataTableColumnTypeEnum.text,
+    //   filter: {
+    //     config: null,
+    //     filterType: FilterTypeEnum.text,
+    //     key: "column1"
+    //   },
+    //   template: this.colTemplate
+    // });
 
     let datepickerConfig = new DatePickerConfig();
 

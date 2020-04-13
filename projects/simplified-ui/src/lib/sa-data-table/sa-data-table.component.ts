@@ -5,7 +5,7 @@ import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableM
 import { SaTableDataSource } from '../services/sa-table-data-source.service';
 import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { DefaultCommonTableFilter, SaCommonTableFilter } from '../models/SaTableDataSource';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { IGenericPageListViewModel } from '../models/IPagerModel';
 import { SaButton } from '../models/SaButton';
 import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
@@ -216,7 +216,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       sortCol: filter.sortCol
     }
 
-    return this.dataTable.getResults(requestModel);
+    return this.dataTable.getResults(requestModel).pipe(tap(i => this.initializeMinimap()));
   }
 
   filterChange(filter: IFilterModel) {
@@ -253,81 +253,81 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     this.rowSelect.emit(eventdata);
   }
 
-  @HostListener('window:load', ['$event']) 
-    onPageLoad(event: Event) {
-      var elementWidth = this.table.nativeElement.offsetWidth;
-      var scrollableWidth = this.table.nativeElement.scrollWidth;
+  initializeMinimap() {
+    var elementWidth = this.table.nativeElement.offsetWidth;
+    var scrollableWidth = this.table.nativeElement.scrollWidth;
 
-      if (scrollableWidth > elementWidth) {
-        this.scroller_div.nativeElement.style.display = 'flex';
-        var difference = scrollableWidth - elementWidth;
-        var ratio = difference / 50;
 
-        let xValue = 0;
-        let marginLeft = 0;
-        var maxMargin = 50;
-        var isDown = false;
+    if (scrollableWidth > elementWidth) {
+      this.scroller_div.nativeElement.style.display = 'flex';
+      var difference = scrollableWidth - elementWidth;
+      var ratio = difference / 50;
 
-       this._renderer.listen(this.scroller.nativeElement,'mousedown',  (e) => {
-          isDown = true;
-          xValue = e.clientX;
-        });
+      let xValue = 0;
+      let marginLeft = 0;
+      var maxMargin = 50;
+      var isDown = false;
 
-       this._renderer.listen(this.scroller.nativeElement, 'mouseup',  () => {
-          isDown = false;
-        });
+     this._renderer.listen(this.scroller.nativeElement,'mousedown',  (e) => {
+        isDown = true;
+        xValue = e.clientX;
+      });
 
-       
-        this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
-        if (isDown) {
-            this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);
-            marginLeft += ((e.clientX - xValue));
+     this._renderer.listen(this.scroller.nativeElement, 'mouseup',  () => {
+        isDown = false;
+      });
 
-            switch (true) {
-              case marginLeft > maxMargin:
-                marginLeft = maxMargin;
-                this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + "px";
-                break;
+     
+      this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
+      if (isDown) {
+          this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);
+          marginLeft += ((e.clientX - xValue));
 
-              case marginLeft <= 0:
-                marginLeft = 0;
-                this.scroller.nativeElement.style.marginLeft = "0px";
-                break;
+          switch (true) {
+            case marginLeft > maxMargin:
+              marginLeft = maxMargin;
+              this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + "px";
+              break;
 
-              default:
-                this.scroller.nativeElement.style.marginLeft = marginLeft + "px";
-                break;
-            }
+            case marginLeft <= 0:
+              marginLeft = 0;
+              this.scroller.nativeElement.style.marginLeft = "0px";
+              break;
+
+            default:
+              this.scroller.nativeElement.style.marginLeft = marginLeft + "px";
+              break;
           }
-        });
+        }
+      });
 
-        this._renderer.listen(this.scroll_container.nativeElement, 'click',  (e) => {
-          if (!isDown && (<HTMLElement>e.target).id == "scroll-container") {
-            var cardOffsetLeft = this.scroll_card.nativeElement.offsetLeft;
-            var clickOffsetLeft = e.clientX;
+      this._renderer.listen(this.scroll_container.nativeElement, 'click',  (e) => {
+        if (!isDown && (<HTMLElement>e.target).id == "scroll-container") {
+          var cardOffsetLeft = this.scroll_card.nativeElement.offsetLeft;
+          var clickOffsetLeft = e.clientX;
 
-            this.table.nativeElement.scrollLeft += ((clickOffsetLeft - cardOffsetLeft - 100) * ratio);
-            marginLeft += ((clickOffsetLeft - cardOffsetLeft) - 100);
+          this.table.nativeElement.scrollLeft += ((clickOffsetLeft - cardOffsetLeft - 100) * ratio);
+          marginLeft += ((clickOffsetLeft - cardOffsetLeft) - 100);
 
-            switch (true) {
-              case marginLeft > maxMargin:
-                marginLeft = maxMargin;
-                this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + "px";
-                break;
+          switch (true) {
+            case marginLeft > maxMargin:
+              marginLeft = maxMargin;
+              this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + "px";
+              break;
 
-              case marginLeft <= 0:
-                marginLeft = 0;
-                this.scroller.nativeElement.style.marginLeft = "0px";
-                break;
+            case marginLeft <= 0:
+              marginLeft = 0;
+              this.scroller.nativeElement.style.marginLeft = "0px";
+              break;
 
-              default:
-                this.scroller.nativeElement.style.marginLeft = marginLeft + "px";
-                break;
-            }
+            default:
+              this.scroller.nativeElement.style.marginLeft = marginLeft + "px";
+              break;
           }
-        });
-      }
+        }
+      });
     }
+  }
 
 }
 

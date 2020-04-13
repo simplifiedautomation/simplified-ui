@@ -5,7 +5,7 @@ import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableM
 import { SaTableDataSource } from '../services/sa-table-data-source.service';
 import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { DefaultCommonTableFilter, SaCommonTableFilter } from '../models/SaTableDataSource';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { IGenericPageListViewModel } from '../models/IPagerModel';
 import { SaButton } from '../models/SaButton';
 import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
@@ -216,10 +216,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       sortCol: filter.sortCol
     }
 
-    return this.dataTable.getResults(requestModel).pipe(map(i => {
-      this.initializeMinimap();
-      return i;
-    }));
+    return this.dataTable.getResults(requestModel).pipe(tap(i => this.initializeMinimap()));
   }
 
   filterChange(filter: IFilterModel) {

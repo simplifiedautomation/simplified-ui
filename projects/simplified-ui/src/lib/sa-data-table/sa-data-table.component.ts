@@ -47,6 +47,11 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   @ViewChild("scroll_container") scroll_container:ElementRef;
   @ViewChild("scroller") scroller:ElementRef;
   @ViewChild("scroll_card",  { read: ElementRef }) scroll_card:ElementRef;
+  public scrollerContainerWidth = 150;
+  public scrollerWidth = 100;
+  mouseUpEvent: () => void;
+  mouseDownEvent: () => void;
+  mouseMoveEvent: () => void;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -198,6 +203,10 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       }
     }
     this._source.complete();
+
+    this.mouseUpEvent();
+    this.mouseDownEvent();
+    this.mouseMoveEvent();
   }
 
 
@@ -255,30 +264,31 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   initializeMinimap() {
     var elementWidth = this.table.nativeElement.offsetWidth;
-    var scrollableWidth = this.table.nativeElement.scrollWidth;
 
+    var scrollableWidth = this.table.nativeElement.scrollWidth + (this.dataTable.optionsColumnRef != null ? 40 : 0);
+    this.scrollerContainerWidth = scrollableWidth / 10;
+    this.scrollerWidth = elementWidth / 10;
 
     if (scrollableWidth > elementWidth) {
       this.scroller_div.nativeElement.style.display = 'flex';
       var difference = scrollableWidth - elementWidth;
-      var ratio = difference / 50;
+      var maxMargin = this.scrollerContainerWidth - this.scrollerWidth;
+      var ratio = difference / maxMargin;
 
       let xValue = 0;
       let marginLeft = 0;
-      var maxMargin = 50;
       var isDown = false;
 
-     this._renderer.listen(this.scroller.nativeElement,'mousedown',  (e) => {
+     this.mouseDownEvent = this._renderer.listen(this.scroller.nativeElement,'mousedown',  (e) => {
         isDown = true;
         xValue = e.clientX;
       });
 
-     this._renderer.listen(this.scroller.nativeElement, 'mouseup',  () => {
+     this.mouseUpEvent = this._renderer.listen(document, 'mouseup',  () => {
         isDown = false;
       });
-
      
-      this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
+      this.mouseMoveEvent = this._renderer.listen(document, 'mousemove',  (e) => {
       if (isDown) {
           this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);
           marginLeft += ((e.clientX - xValue));
@@ -306,8 +316,8 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
           var cardOffsetLeft = this.scroll_card.nativeElement.offsetLeft;
           var clickOffsetLeft = e.clientX;
 
-          this.table.nativeElement.scrollLeft += ((clickOffsetLeft - cardOffsetLeft - 100) * ratio);
-          marginLeft += ((clickOffsetLeft - cardOffsetLeft) - 100);
+          this.table.nativeElement.scrollLeft += ((clickOffsetLeft - cardOffsetLeft - this.scrollerWidth) * ratio);
+          marginLeft += ((clickOffsetLeft - cardOffsetLeft) - this.scrollerWidth);
 
           switch (true) {
             case marginLeft > maxMargin:

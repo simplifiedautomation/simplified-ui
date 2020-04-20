@@ -288,7 +288,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
         isDown = false;
       });
      
-      this.mouseMoveEvent = this._renderer.listen(document, 'mousemove',  (e) => {
+      this.mouseMoveEvent = this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
       if (isDown) {
           this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);
           marginLeft += ((e.clientX - xValue));

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, HostBinding, Input, ElementRef, OnInit, ViewChild, EventEmitter, Output, forwardRef, Injector, DoCheck } from '@angular/core';
+import { Component, OnDestroy, HostBinding, Input, ElementRef, OnInit, ViewChild, EventEmitter, Output, forwardRef, Injector, DoCheck, Renderer2, AfterViewInit } from '@angular/core';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { MatFormFieldControl } from '@angular/material';
 import { ControlValueAccessor, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -25,7 +25,7 @@ import * as Quill from 'node_modules/quill/dist/quill.js';
   }
   ]
 })
-export class SaTextEditorComponent implements MatFormFieldControl<any>, ControlValueAccessor, OnDestroy, DoCheck, OnInit {
+export class SaTextEditorComponent implements AfterViewInit, MatFormFieldControl<any>, ControlValueAccessor, OnDestroy, DoCheck, OnInit {
 
   @ViewChild('container', { read: ElementRef }) container: ElementRef;
   @Output() changed: EventEmitter<any> = new EventEmitter();
@@ -55,12 +55,16 @@ export class SaTextEditorComponent implements MatFormFieldControl<any>, ControlV
     }
   }
 
-  constructor(public elementRef: ElementRef, public injector: Injector, fm: FocusMonitor) {
-
+  constructor(public elementRef: ElementRef, private renderer: Renderer2,
+    public injector: Injector, fm: FocusMonitor) {
+    
     fm.monitor(elementRef.nativeElement, true).subscribe(origin => {
       this.focused = !!origin;
       this.stateChanges.next();
     });
+  }
+  ngAfterViewInit(): void {
+    this.renderer.addClass(this.elementRef.nativeElement.querySelector('.ql-editor'), 'notranslate');
   }
 
   get value(): any {
@@ -68,6 +72,7 @@ export class SaTextEditorComponent implements MatFormFieldControl<any>, ControlV
   }
   set value(value) {
     this.elementRef.nativeElement.querySelector('.ql-editor').innerHTML = value;
+    
     this.onChange(value);
     this.stateChanges.next();
   }

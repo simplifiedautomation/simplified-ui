@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit,  OnDestroy, ElementRef, HostListener, Renderer2, ContentChild, TemplateRef } from '@angular/core';
-import { MatSort, MatPaginator, MatCheckboxChange } from '@angular/material';
+import { MatSort, MatPaginator, MatCheckboxChange, MatTable, MatNavList } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableModel';
 import { SaTableDataSource } from '../services/sa-table-data-source.service';
@@ -9,7 +9,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { IGenericPageListViewModel } from '../models/IPagerModel';
 import { SaButton } from '../models/SaButton';
 import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
-
+import { MediaObserver, MediaChange } from '@angular/flex-layout';
 
 
 @Component({
@@ -57,6 +57,10 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   selection = new SelectionModel<T>(true, []);
 
   @ContentChild('rowTemplate') rowTemplateRef: TemplateRef<any>;
+  @ViewChild(MatNavList, { read: ElementRef }) matListRef: ElementRef;
+  @ViewChild(MatTable, { read: ElementRef }) dataTableRef: ElementRef;
+  mediaQuery$: Subscription;
+  activeMediaQuery: string;
   matListSource: Array<T>;
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -82,7 +86,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row -`;
   }
 
-  constructor(private _renderer: Renderer2) {
+  constructor(private _renderer: Renderer2, private observableMedia: MediaObserver) {
     this.tableDataSource = new SaTableDataSource(
       this._source.asObservable(),
       new DefaultCommonTableFilter(),
@@ -186,13 +190,26 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   ngAfterViewInit(): void {
     //attaching sort and paginator directives to the data source, after they are bound to the view
-     
+
     if (this.dataTable.disableSorting) {
       this.sort.disabled = true;
     }
 
     this.tableDataSource.sort = this.sort;
     this.tableDataSource.paginator = this.paginator;
+
+    this.mediaQuery$ = this.observableMedia.media$.subscribe((change: MediaChange) => {
+      this.activeMediaQuery = `${change.mqAlias}`;
+      if ((this.activeMediaQuery === 'xs' || this.activeMediaQuery === 'sm') && (this.rowTemplateRef != null || this.rowTemplateRef != undefined)) {
+        this.dataTableRef.nativeElement.style.display = "none";
+        this.matListRef.nativeElement.style.display = "flex";
+        this.scroller_div.nativeElement.style.display = 'none';
+      } else {
+        this.initializeMinimap();
+        this.dataTableRef.nativeElement.style.display = "flex";
+        this.matListRef.nativeElement.style.display = "none";
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -204,6 +221,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       }
     }
     this._source.complete();
+    this.mediaQuery$.unsubscribe();
   }
 
 
@@ -284,7 +302,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
      this._renderer.listen(document, 'mouseup',  () => {
         isDown = false;
       });
-     
+
      this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
       if (isDown) {
           this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);

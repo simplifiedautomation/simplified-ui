@@ -202,11 +202,11 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       this.activeMediaQuery = `${change.mqAlias}`;
       if ((this.activeMediaQuery === 'xs' || this.activeMediaQuery === 'sm') && (this.rowTemplateRef != null || this.rowTemplateRef != undefined)) {
         this.dataTableRef.nativeElement.style.display = "none";
-        this.matListRef.nativeElement.style.display = "flex";
+        this.matListRef.nativeElement.style.display = "block";
         this.scroller_div.nativeElement.style.display = 'none';
       } else {
         this.initializeMinimap();
-        this.dataTableRef.nativeElement.style.display = "flex";
+        this.dataTableRef.nativeElement.style.display = "table";
         this.matListRef.nativeElement.style.display = "none";
       }
     });

@@ -218,7 +218,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       sortCol: filter.sortCol
     }
 
-    return this.dataTable.getResults(requestModel).pipe(tap(i => this.initializeMinimap()));
+    return this.dataTable.getResults(requestModel).pipe(tap(i => setTimeout(() => {
+      this.initializeMinimap()
+    }, 100)));
   }
 
   filterChange(filter: IFilterModel) {
@@ -258,7 +260,8 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   initializeMinimap() {
     var elementWidth = this.table.nativeElement.offsetWidth;
 
-    var scrollableWidth = this.table.nativeElement.scrollWidth + (this.dataTable.optionsColumnRef != null ? 40 : 0);
+    var scrollableWidth = this.table.nativeElement.scrollWidth;
+
     this.scrollerContainerWidth = scrollableWidth / 10;
     this.scrollerWidth = elementWidth / 10;
 

@@ -43,7 +43,14 @@
   <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start strech" class="table-container" id="table" #table>
 
     <div fxLayout="row" fxLayoutAlign="start stretch">
-      <table mat-table [dataSource]="tableDataSource" matSort>
+      <mat-nav-list fxFlexFill fxHide.gt-sm>
+        <div *ngFor="let row of matListSource; let index = index;">
+          <ng-container *ngTemplateOutlet="rowTemplateRef; context: { row: row }"></ng-container>
+          <mat-divider *ngIf="index != matListSource.length - 1"></mat-divider>
+        </div>
+      </mat-nav-list>
+
+      <table mat-table [dataSource]="tableDataSource" matSort fxHide.lt-md>
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select" sticky="true">
           <th mat-header-cell *matHeaderCellDef>

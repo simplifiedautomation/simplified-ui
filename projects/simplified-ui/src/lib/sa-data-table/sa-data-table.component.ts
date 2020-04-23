@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit,  OnDestroy, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit,  OnDestroy, ElementRef, HostListener, Renderer2, ContentChild, TemplateRef } from '@angular/core';
 import { MatSort, MatPaginator, MatCheckboxChange } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableModel';
@@ -55,6 +55,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   highlightedRows = [];
   totalCount: number;
   selection = new SelectionModel<T>(true, []);
+
+  @ContentChild('rowTemplate') rowTemplateRef: TemplateRef<any>;
+  matListSource: Array<T>;
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -145,6 +148,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
         res => {
           this.totalCount = res.Pager.TotalRecords;
           this.sourceList = res.List;
+          this.matListSource = this.sourceList.slice(0, this.tableDataSource.filter.pageSize);
           this.isRender = true;
           this.showFilter = true;
 

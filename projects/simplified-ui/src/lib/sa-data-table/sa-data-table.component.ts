@@ -52,7 +52,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ContentChild('rowTemplate') rowTemplateRef: TemplateRef<any>;
+  @ContentChild('listItemTemplate') listItemTemplateRef: TemplateRef<any>;
   highlightedRows = [];
   totalCount: number;
   selection = new SelectionModel<T>(true, []);

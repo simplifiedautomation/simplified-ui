@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit,  OnDestroy, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit, OnDestroy, ElementRef, HostListener, Renderer2 } from '@angular/core';
 import { MatSort, MatPaginator, MatCheckboxChange } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableModel';
@@ -42,11 +42,11 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
   subs: Subscription[] = [];
   //minimap initializations
-  @ViewChild("table") table:ElementRef;
-  @ViewChild("scroller_div") scroller_div:ElementRef;
-  @ViewChild("scroll_container") scroll_container:ElementRef;
-  @ViewChild("scroller") scroller:ElementRef;
-  @ViewChild("scroll_card",  { read: ElementRef }) scroll_card:ElementRef;
+  @ViewChild("table") table: ElementRef;
+  @ViewChild("scroller_div") scroller_div: ElementRef;
+  @ViewChild("scroll_container") scroll_container: ElementRef;
+  @ViewChild("scroller") scroller: ElementRef;
+  @ViewChild("scroll_card", { read: ElementRef }) scroll_card: ElementRef;
   public scrollerContainerWidth = 150;
   public scrollerWidth = 100;
 
@@ -182,7 +182,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   ngAfterViewInit(): void {
     //attaching sort and paginator directives to the data source, after they are bound to the view
-     
+
     if (this.dataTable.disableSorting) {
       this.sort.disabled = true;
     }
@@ -266,7 +266,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     this.scrollerWidth = elementWidth / 10;
 
     if (scrollableWidth > elementWidth) {
-      this.scroller_div.nativeElement.style.display = 'flex';
       var difference = scrollableWidth - elementWidth;
       var maxMargin = this.scrollerContainerWidth - this.scrollerWidth;
       var ratio = difference / maxMargin;
@@ -275,17 +274,17 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       let marginLeft = 0;
       var isDown = false;
 
-     this._renderer.listen(this.scroller.nativeElement,'mousedown',  (e) => {
+      this._renderer.listen(this.scroller.nativeElement, 'mousedown', (e) => {
         isDown = true;
         xValue = e.clientX;
       });
 
-     this._renderer.listen(document, 'mouseup',  () => {
+      this._renderer.listen(document, 'mouseup', () => {
         isDown = false;
       });
-     
-     this._renderer.listen(this.scroller.nativeElement, 'mousemove',  (e) => {
-      if (isDown) {
+
+      this._renderer.listen(this.scroller.nativeElement, 'mousemove', (e) => {
+        if (isDown) {
           this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);
           marginLeft += ((e.clientX - xValue));
 
@@ -307,7 +306,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
         }
       });
 
-      this._renderer.listen(this.scroll_container.nativeElement, 'click',  (e) => {
+      this._renderer.listen(this.scroll_container.nativeElement, 'click', (e) => {
         if (!isDown && (<HTMLElement>e.target).id == "scroll-container") {
           var cardOffsetLeft = this.scroll_card.nativeElement.offsetLeft;
           var clickOffsetLeft = e.clientX;
@@ -332,6 +331,13 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
           }
         }
       });
+
+      this._renderer.listen(this.table.nativeElement, 'scroll', (e) => {
+        this.scroller.nativeElement.style.marginLeft = (this.table.nativeElement.scrollLeft / 10).toString() + "px";
+      });
+
+    } else {
+      this.scroller_div.nativeElement.style.display = 'none';
     }
   }
 

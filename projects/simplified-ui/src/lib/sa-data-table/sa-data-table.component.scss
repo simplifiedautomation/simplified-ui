@@ -114,9 +114,8 @@
   background-color: rgb(235, 236, 240)
 }
 
-#scrollable-div{
-  display: none !important;
-  margin-bottom: 16px !important;
+#scroller-div{
+  display: flex;
 }
 
 #scroller{
@@ -130,6 +129,7 @@
   p{
     font-size: 10px !important;
     user-select: none;
+    margin: 0px !important;
   }
 }
 

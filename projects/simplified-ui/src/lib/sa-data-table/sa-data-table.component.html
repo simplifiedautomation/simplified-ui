@@ -44,9 +44,8 @@
 
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <mat-nav-list fxFlexFill fxHide [fxShow.lt-md]="listItemTemplateRef != null && listItemTemplateRef != undefined">
-        <div *ngFor="let row of sourceList; let index = index;">
+        <div *ngFor="let row of sourceList;">
           <ng-container *ngTemplateOutlet="listItemTemplateRef; context: { row: row }"></ng-container>
-          <mat-divider *ngIf="index != sourceList.length - 1"></mat-divider>
         </div>
       </mat-nav-list>
 

@@ -3,8 +3,7 @@
   <div class="page-body">
     <mat-sidenav-container>
 
-      <mat-sidenav *ngIf="!isScreenSmall()" #tableOfContents mode="side" [disableClose]="true" opened position="end"
-        [fixedInViewport]="true" [fixedTopGap]="64">
+      <mat-sidenav *ngIf="!isScreenSmall()" #tableOfContents mode="side" [disableClose]="true" opened position="end" [fixedInViewport]="true" [fixedTopGap]="64">
         <sa-table-of-contents [primaryMenu]="primaryMenu" [secondaryMenu]="secondaryMenu">
         </sa-table-of-contents>
       </mat-sidenav>

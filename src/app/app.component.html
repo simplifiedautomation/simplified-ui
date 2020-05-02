@@ -74,7 +74,12 @@
   <sa-button [config]="saveButtonConfig" (onClick)="updateTable()"></sa-button>
   <button mat-raised-button (click)="refreshTable()">Refresh Table</button>
 
-  <sa-data-table [dataTable]="dataTable"></sa-data-table>
+  <sa-data-table [dataTable]="dataTable">
+    <ng-template #listItemTemplate let-row="row">
+      <mat-list-item>Area: {{row.area}} Line: {{row.line}} Machine: {{row.machine}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-template>
+  </sa-data-table>
   <ng-template #selectOptionBody let-item>{{item}}</ng-template>
 
   <ng-template #myTemplate let-item>
@@ -90,8 +95,8 @@
 
   <ng-template #colTemplate let-column="column" let-row="row">
     <div matTooltip="my tooltip ">
-      Something very long that 
-    </div> 
+      Something very long that
+    </div>
   </ng-template>
 
 

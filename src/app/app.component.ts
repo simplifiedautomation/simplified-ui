@@ -16,9 +16,9 @@ const moment = moment_;
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild("selectOptionBody") selectOptionBody;
-  @ViewChild("myTemplate") dataTableOptionsRef: TemplateRef<any>;
-  @ViewChild("colTemplate") colTemplate: TemplateRef<any>;
+  @ViewChild("selectOptionBody", { static: true }) selectOptionBody;
+  @ViewChild("myTemplate", { static: true }) dataTableOptionsRef: TemplateRef<any>;
+  @ViewChild("colTemplate", { static: true }) colTemplate: TemplateRef<any>;
 
   dateFormats = DateFormats;
 

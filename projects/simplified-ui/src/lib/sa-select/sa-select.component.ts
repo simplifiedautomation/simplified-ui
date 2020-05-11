@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding, Optional, Self, ElementRef, ViewChild, DoCheck, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject, Subscription, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { MatSelectChange, MatFormFieldControl } from '@angular/material';
+import { MatFormFieldControl } from '@angular/material/form-field';
+import { MatSelectChange } from '@angular/material/select';
 import { NgControl, ControlValueAccessor, FormControl } from '@angular/forms';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -71,8 +72,8 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   id: string;
   private _required = false;
 
-  @ViewChild("matSelectRef") matSelectRef;
-  @ViewChild('searchInput') searchInput: ElementRef;
+  @ViewChild("matSelectRef", { static: true }) matSelectRef;
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
 
   constructor(@Optional() @Self() public ngControl: NgControl, private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
     if (this.ngControl != null) {

@@ -15,6 +15,8 @@ export class SaNavigablePageComponent implements OnInit {
 
   navigationList: NavigationItem[];
 
+  panelOpenState: boolean;
+
   private mediaMatcher: MediaQueryList =
     matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
 

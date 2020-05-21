@@ -1,5 +1,5 @@
 <h3 style="float:right"> Navigation Menu Component </h3>
-<!-- <sa-navigable-page [secondaryMenu]="secondaryNavMenu"> -->
+<sa-navigable-page [secondaryMenu]="secondaryNavMenu">
 
   <h3> Header Component </h3>
   <sa-base-page>
@@ -101,21 +101,4 @@
 
 
 
-  <ng-template #headerMenuTemplate>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu>
-      <a mat-menu-item (click)="excelExport()">Normal menu</a>
-    </mat-menu>
-  </ng-template>
-
-  <ng-template #headerResponsiveMenuTemplate>
-    <button mat-icon-button [matMenuTriggerFor]="menu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #menu>
-      <a mat-menu-item (click)="excelExport()">Mobile menu</a>
-    </mat-menu>
-  </ng-template>
-<!-- </sa-navigable-page> -->
+</sa-navigable-page>

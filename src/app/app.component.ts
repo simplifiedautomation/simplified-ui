@@ -19,8 +19,6 @@ export class AppComponent implements OnInit {
   @ViewChild("selectOptionBody") selectOptionBody;
   @ViewChild("myTemplate") dataTableOptionsRef: TemplateRef<any>;
   @ViewChild("colTemplate") colTemplate: TemplateRef<any>;
-  @ViewChild("headerMenuTemplate") headerMenuTemplate: TemplateRef<any>;
-  @ViewChild("headerResponsiveMenuTemplate") headerResponsiveMenuTemplate: TemplateRef<any>;
 
   dateFormats = DateFormats;
 
@@ -53,7 +51,9 @@ export class AppComponent implements OnInit {
   headerConfig: IHeaderViewModel = {
     title: "Header",
     primaryButton: this.primarButton,
-    secondaryButton: this.secondaryButton
+    secondaryButton: this.secondaryButton,
+    moreMenu: null,
+    tooltip: "Hello THere!"
   }
 
   currencyForm = this.form.group({
@@ -119,9 +119,7 @@ export class AppComponent implements OnInit {
     private client: HttpClient) { }
 
   ngOnInit() {
-    this.headerConfig.tooltip= "Hello THere!";
-    this.headerConfig.responsiveMenuTemplate=this.headerResponsiveMenuTemplate;
-    this.headerConfig.menuTemplate=this.headerMenuTemplate;
+
     this.selectOptions.templateRef = this.selectOptionBody;
     this.selectOptions.getResults = (page, term) => {
       return this.client.get(`https://localhost:44386/api/v2/team/teams?term=${term}&pageNumber=${page}`).pipe(map(x => {

@@ -5,7 +5,17 @@ export interface IHeaderViewModel {
   title: string;
   primaryButton: SaButtonConfig;
   secondaryButton: SaButtonConfig;
-  responsiveMenuTemplate?: TemplateRef<any>;
-  menuTemplate?: TemplateRef<any>;
+  moreMenu?: IMoreMenuViewModel;
+  menuTemplate?: TemplateRef<any>
   tooltip? : string;
+}
+
+export interface IMoreMenuViewModel {
+  primaryMenu: Array<IMenuItemViewModel>,
+  secondaryMenu: Array<IMenuItemViewModel>
+}
+
+export interface IMenuItemViewModel {
+  title: string;
+  action: Function;
 }

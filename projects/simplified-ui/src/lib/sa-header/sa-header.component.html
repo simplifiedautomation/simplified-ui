@@ -12,8 +12,5 @@
     <div fxFlex="nogrow" fxFlexOffset="5px" *ngIf="header.menuTemplate">
       <ng-container *ngTemplateOutlet="header.menuTemplate"></ng-container>
     </div>
-    <div fxHide fxShow.lt-md fxFlex="nogrow" fxFlexOffset="5px" *ngIf="header.responsiveMenuTemplate">
-      <ng-container *ngTemplateOutlet="header.responsiveMenuTemplate"></ng-container>
-    </div>
   </div>
 </sa-base-header>

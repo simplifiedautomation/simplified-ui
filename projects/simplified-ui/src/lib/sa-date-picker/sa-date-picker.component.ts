@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, ElementRef, Optional, Self, HostBinding, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NgControl, FormControl } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
@@ -18,7 +18,7 @@ import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
 })
 export class SaDatePickerComponent implements ControlValueAccessor, MatFormFieldControl<Date | Date[]>, OnDestroy, OnInit {
 
-  @ViewChild("input") inputRef: ElementRef;
+  @ViewChild("input", { static: true }) inputRef: ElementRef;
 
   @Input() dateConfig: DatePickerConfig;
 

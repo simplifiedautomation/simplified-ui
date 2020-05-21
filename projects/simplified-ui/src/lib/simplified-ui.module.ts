@@ -27,7 +27,7 @@ import { SaStepperComponent } from './sa-stepper/sa-stepper.component';
 import { SaMoreMenuComponent } from './sa-more-menu/sa-more-menu.component';
 import { SaButtonComponent } from './sa-button/sa-button.component';
 import { SaSpinnerDirective } from './directives/sa-spinner.directive';
-import { MatProgressSpinner } from '@angular/material';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { AbbreviateNumberPipe } from './pipes/abbreviate-number.pipe';
 

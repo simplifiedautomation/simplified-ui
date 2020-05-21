@@ -4,7 +4,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { debounceTime } from 'rxjs/operators';
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
-import { MatFormFieldControl } from '@angular/material';
+import { MatFormFieldControl } from '@angular/material/form-field';
 import { ControlValueAccessor, FormControl, NgControl, Validators } from '@angular/forms';
 import { symbolFormatEnum } from '../pipes/sa-value-formatter.pipe';
 
@@ -17,7 +17,7 @@ import { symbolFormatEnum } from '../pipes/sa-value-formatter.pipe';
 })
 export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy, DoCheck {
 
-  @ViewChild("input") inputRef: ElementRef;
+  @ViewChild("input", { static: false }) inputRef: ElementRef;
 
   static nextId = 0;
   private decimalSeparator: string;

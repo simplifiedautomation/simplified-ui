@@ -2,7 +2,9 @@ import { DataSource } from '@angular/cdk/table';
 import { Observable, BehaviorSubject, of, Subscription, merge, combineLatest, Subject } from 'rxjs';
 import { SaCommonTableFilter, DefaultCommonTableFilter, SortDirection } from '../models/SaTableDataSource';
 import { map, tap, debounceTime } from 'rxjs/operators';
-import { MatSort, MatPaginator, Sort, PageEvent, MatTableDataSource } from '@angular/material';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { IFilterModel } from '../models/DataFilterModels';
 
 /**

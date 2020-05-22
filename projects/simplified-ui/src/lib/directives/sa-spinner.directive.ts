@@ -1,5 +1,5 @@
 import { Directive, Input, ElementRef, Renderer2, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
-import { MatProgressSpinner } from '@angular/material';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Directive({
   selector: '[saSpinner]'

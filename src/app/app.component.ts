@@ -16,9 +16,9 @@ const moment = moment_;
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild("selectOptionBody") selectOptionBody;
-  @ViewChild("myTemplate") dataTableOptionsRef: TemplateRef<any>;
-  @ViewChild("colTemplate") colTemplate: TemplateRef<any>;
+  @ViewChild("selectOptionBody", { static: true }) selectOptionBody;
+  @ViewChild("myTemplate", { static: true }) dataTableOptionsRef: TemplateRef<any>;
+  @ViewChild("colTemplate", { static: true }) colTemplate: TemplateRef<any>;
 
   dateFormats = DateFormats;
 
@@ -356,7 +356,7 @@ export class AppComponent implements OnInit {
 
     this.dataTable.getResults = (requestModel) => {
 
-      return this.client.post<IGenericPageListViewModel<any>>(`https://localhost:44386/api/v2/tool/all?pageNumber=${requestModel.pageNumber}&pageSize=5`, requestModel);
+      // return this.client.post<IGenericPageListViewModel<any>>(`https://localhost:44386/api/v2/tool/all?pageNumber=${requestModel.pageNumber}&pageSize=5`, requestModel);
 
       let res = this.json.filter(x => x.area.includes(requestModel.filter.keyword));
 
@@ -368,9 +368,9 @@ export class AppComponent implements OnInit {
           Pager: {
             CurrentPage: 1,
             PagenumberToDisplay: [1],
-            PageSize: 20,
-            Pages: 1,
-            TotalRecords: 1,
+            PageSize: 5,
+            Pages: 2,
+            TotalRecords: 9,
             UrlFormat: ''
           }
         }
@@ -424,6 +424,42 @@ export class AppComponent implements OnInit {
       area: "Area 2",
       line: "Line 3",
       machine: "Machine 3"
+    },
+    {
+      key: 4,
+      area: "Area 4",
+      line: "Line 4",
+      machine: "Machine 4"
+    },
+    {
+      key: 5,
+      area: "Area 5",
+      line: "Line 5",
+      machine: "Machine 5"
+    },
+    {
+      key: 6,
+      area: "Area 6",
+      line: "Line 6",
+      machine: "Machine 6"
+    },
+    {
+      key: 7,
+      area: "Area 7",
+      line: "Line 7",
+      machine: "Machine 7"
+    },
+    {
+      key: 8,
+      area: "Area 8",
+      line: "Line 8",
+      machine: "Machine 8"
+    },
+    {
+      key: 9,
+      area: "Area 9",
+      line: "Line 9",
+      machine: "Machine 9"
     },
   ]
 

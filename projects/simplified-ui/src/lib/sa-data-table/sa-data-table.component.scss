@@ -114,22 +114,25 @@
   background-color: rgb(235, 236, 240)
 }
 
-#scrollable-div{
-  display: none !important;
-  margin-bottom: 16px !important;
+#scroller-div{
+  display: flex;
 }
 
 #scroller{
-  height: 44px; 
-  margin-top:-2px; 
+  height: 44px;
+  margin-top:-2px;
   border-radius: 3px;
   border: 2px solid rgb(76, 154, 255);
-  cursor:all-scroll; 
+  cursor:all-scroll;
   position: absolute;
 
   p{
-    font-size: 10px !important; 
+    font-size: 10px !important;
     user-select: none;
     margin: 0px !important;
   }
+}
+
+mat-nav-list {
+  background-color: #fff;
 }

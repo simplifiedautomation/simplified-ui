@@ -2,6 +2,37 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
+export class SaButtonConfig {
+  isDisabled: boolean = false;
+  type: SaButtonType = SaButtonType.Primary;
+  loadingText: string;
+
+  private _isSpinning: boolean = false;
+  get isSpinning(): boolean {
+    return this._isSpinning;
+  }
+  set isSpinning(val: boolean) {
+    if (this._isSpinning == true && val == false) {
+      this.loadingSubject.next(true);
+    }
+    this._isSpinning = val;
+  }
+
+  private loadingSubject: Subject<boolean> = new Subject();
+
+  get loadingStopped(): Observable<boolean> {
+    return this.loadingSubject.asObservable();
+  }
+
+  constructor(public title: string) { }
+}
+
+export enum SaButtonType {
+  Primary,
+  Secondary,
+  Anchor
+}
+
 @Component({
   selector: 'sa-button',
   templateUrl: './sa-button.component.html',
@@ -53,35 +84,4 @@ export class SaButtonComponent {
     this.onClick.emit(evt);
   }
 
-}
-
-export class SaButtonConfig {
-  isDisabled: boolean = false;
-  type: SaButtonType = SaButtonType.Primary;
-  loadingText: string;
-
-  private _isSpinning: boolean = false;
-  get isSpinning(): boolean {
-    return this._isSpinning;
-  }
-  set isSpinning(val: boolean) {
-    if (this._isSpinning == true && val == false) {
-      this.loadingSubject.next(true);
-    }
-    this._isSpinning = val;
-  }
-
-  private loadingSubject: Subject<boolean> = new Subject();
-
-  get loadingStopped(): Observable<boolean> {
-    return this.loadingSubject.asObservable();
-  }
-
-  constructor(public title: string) { }
-}
-
-export enum SaButtonType {
-  Primary,
-  Secondary,
-  Anchor
 }

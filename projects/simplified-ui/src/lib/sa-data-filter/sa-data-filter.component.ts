@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, QueryList, ViewChildren, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { MatSelectChange, MatOption } from '@angular/material';
+import { MatOption } from '@angular/material/core';
+import { MatSelectChange } from '@angular/material/select';
 import { IDataFilterViewModel, IFilterModel, FilterTypeEnum, IFilterChip, SelectDefault } from '../models/DataFilterModels';
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
 import { SaSelectComponent } from '../sa-select/sa-select.component';

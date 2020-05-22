@@ -2,7 +2,6 @@ import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationItem } from '../models/NavigationItem';
 
-const SMALL_WIDTH_BREAKPOINT = 720;
 @Component({
   selector: 'sa-navigable-page',
   templateUrl: './sa-navigable-page.component.html',
@@ -17,17 +16,7 @@ export class SaNavigablePageComponent implements OnInit {
 
   panelOpenState: boolean;
 
-  private mediaMatcher: MediaQueryList =
-    matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
-
-  constructor(zone: NgZone, private route: ActivatedRoute) {
-    this.mediaMatcher.addListener(mql =>
-      zone.run(() => this.mediaMatcher = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`)));
-  }
-
-  isScreenSmall(): boolean {
-    return this.mediaMatcher.matches;
-  };
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.navigationList = this.primaryMenu.concat(this.secondaryMenu);

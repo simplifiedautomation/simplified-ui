@@ -1,16 +1,13 @@
 <sa-base-header>
   <div class="sa-base-header-content" fxLayout="row" fxLayoutAlign="start center">
-    <button mat-button class="sidenav-toggle">
-      <mat-icon>menu</mat-icon>
-    </button>
     <div fxLayout="row" fxLayoutGap="2px">
       <span fxFlex="none" fxLayoutAlign=" center">{{header.title}}</span>
-      <mat-icon *ngIf="header.tooltip" [matTooltip]="header.tooltip" matTooltipClass="multilineTooltip">info_outline</mat-icon>
+      <mat-icon *ngIf="header.tooltip" fxHide.lt-md [matTooltip]="header.tooltip" matTooltipClass="multilineTooltip">info_outline</mat-icon>
     </div>
     <span fxFlex></span>
     <div fxFlex="nogrow" fxLayoutGap="5px">
-      <sa-button [config]="header.secondaryButton" *ngIf="header.secondaryButton" (onClick)="onSecodaryClick($event)"></sa-button>
-      <sa-button [config]="header.primaryButton" *ngIf="header.primaryButton" (onClick)="onPrimaryClick($event)"></sa-button>
+      <sa-button fxHide.lt-md [config]="header.secondaryButton" *ngIf="header.secondaryButton" (onClick)="onSecodaryClick($event)"></sa-button>
+      <sa-button fxHide.lt-md [config]="header.primaryButton" *ngIf="header.primaryButton" (onClick)="onPrimaryClick($event)"></sa-button>
     </div>
     <div fxFlex="nogrow" fxFlexOffset="5px" *ngIf="header.menuTemplate">
       <ng-container *ngTemplateOutlet="header.menuTemplate"></ng-container>

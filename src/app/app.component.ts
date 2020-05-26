@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
     {
       this.quillform = form.group({
         editor: new FormControl(),
-        matEditor: new FormControl(null, [Validators.minLength(1), Validators.maxLength(10)])
+        matEditor: new FormControl(null)
       })
     }
 

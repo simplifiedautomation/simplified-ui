@@ -137,9 +137,9 @@ Required: {{isRequired}}</p>
       #matEditor [style.display]="hide ? 'none' : 'block'"
       [styles]="{ backgroundColor:backgroundColor }"
       formControlName="matEditor"  
-      [maxLength]="10" [minLength]="1" [required]="isRequired"
+      [maxLength]="10" [min]="1" [required]="isRequired"
       [readOnly]="isReadOnly"
-      [trimOnValidation]=true
+      [trim]=true
       (onContentChanged)="logChange($event);"
       (onSelectionChanged)="logSelection($event);">
     </sa-text-editor>

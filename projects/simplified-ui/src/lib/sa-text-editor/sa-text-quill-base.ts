@@ -90,7 +90,7 @@ export abstract class _MatQuillBase
   ) {
     super(
       defaultErrorStateMatcher, parentForm, parentFormGroup, ngControl,
-      elementRef, domSanitizer, doc, platformId, renderer, zone, service
+      elementRef, domSanitizer, doc, platformId, renderer, zone,  service
     )
 
     if (this.ngControl != null) {
@@ -151,6 +151,18 @@ export abstract class _MatQuillBase
   }
   protected _required = false
 
+  @Input()
+  get trim(): boolean { return this.trimOnValidation }
+  set trim(value: boolean) {
+    this.trimOnValidation = value
+  }
+
+  @Input()
+  get min(): number { return this.minLength }
+  set min(value: number) {
+    this.minLength = value
+  }
+ 
   @HostBinding('class.floating')
   get shouldLabelFloat() {
     return this.focused || !this.empty
@@ -193,6 +205,4 @@ export abstract class _MatQuillBase
     }
   }
 
-  static ngAcceptInputType_disabled: boolean | string | null | undefined
-  static ngAcceptInputType_required: boolean | string | null | undefined
 }

@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
     tooltip: "Hello THere!"
   }
 
-  currencyForm = this.form.group({
+  currencyForm = this.fb.group({
     currency: new FormControl()
   }
   );
@@ -154,7 +154,7 @@ export class AppComponent implements OnInit {
   }
 
   //end
-  editorForm = this.form.group({
+  editorForm = this.fb.group({
     description: new FormControl(null, Validators.required),
   });
   description = new FormControl(null, Validators.required);
@@ -163,10 +163,10 @@ export class AppComponent implements OnInit {
 
   select = new FormControl();
 
-  constructor(private form: FormBuilder,
+  constructor(private fb: FormBuilder,
     private client: HttpClient) 
     {
-      this.quillform = form.group({
+      this.quillform = fb.group({
         editor: new FormControl(),
         matEditor: new FormControl(null)
       })

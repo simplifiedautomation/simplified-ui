@@ -10,7 +10,6 @@ import { SaDateTimePipe, MOMENT_FORMATS } from './pipes/sa-date-time.pipe';
 import { SaValueFormatterPipe } from './pipes/sa-value-formatter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SaSelectComponent } from './sa-select/sa-select.component';
-import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from 'ng-pick-datetime';
 import { MatSelectInfiniteScrollModule } from 'ng-mat-select-infinite-scroll';
 import { SaSecondaryButtonComponent } from './sa-secondary-button/sa-secondary-button.component';
 import { SaAnchorButtonComponent } from './sa-anchor-button/sa-anchor-button.component';
@@ -31,6 +30,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { AbbreviateNumberPipe } from './pipes/abbreviate-number.pipe';
 import Counter from './sa-text-editor/counter';
+import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from '@danielmoncada/angular-datetime-picker';
 
 @NgModule({
   declarations: [

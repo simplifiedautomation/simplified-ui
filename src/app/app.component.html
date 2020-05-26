@@ -104,7 +104,7 @@
   hide / show
 </button>
 
-<button type="button" (click)="form.enabled ? form.disable() : form.enable()">
+<button type="button" (click)="quillform.enabled ? quillform.disable() : quillform.enable()">
     disable / enable
 </button>
 
@@ -133,16 +133,14 @@ Required: {{isRequired}}</p>
   <pre>{{ quillform.get('matEditor').value }}</pre>
   FormControl valid: {{ quillform.get('matEditor').valid }}<br>
   <mat-form-field appearance="fill" style="display: block !important;">
-    <sa-text-editor
-      #matEditor [style.display]="hide ? 'none' : 'block'"
-      [styles]="{ backgroundColor:backgroundColor }"
+     <sa-text-editor
+      #matEditor [style.display]="hide ? 'none' : 'block'"     
       formControlName="matEditor"  
-      [maxLength]="10" [min]="1" [required]="isRequired"
+      [maxLength]="10"  [required]="isRequired"
       [readOnly]="isReadOnly"
-      [trim]=true
       (onContentChanged)="logChange($event);"
       (onSelectionChanged)="logSelection($event);">
-    </sa-text-editor>
+    </sa-text-editor> 
   </mat-form-field>
 </form>
 

@@ -22,20 +22,15 @@ import {
     Validator
   } from '@angular/forms'
   import { DomSanitizer } from '@angular/platform-browser'
-  import { coerceBooleanProperty } from '@angular/cdk/coercion'
-  import {
-    CanDisable,
-    CanDisableCtor,
-    CanUpdateErrorState,
-    CanUpdateErrorStateCtor,
-    ErrorStateMatcher,
-    mixinDisabled,
-    mixinErrorState
-  } from '@angular/material/core'
+
   import { QuillEditorBase, QuillService } from 'ngx-quill'
-import { HasErrorState } from '@angular/material/core/typings/common-behaviors/error-state'
-import { MatFormFieldControl } from '@angular/material'
-  
+import { CanDisableCtor, CanUpdateErrorStateCtor, 
+  mixinDisabled, mixinErrorState, CanDisable, CanUpdateErrorState, 
+  ErrorStateMatcher } from '@angular/material/core'
+import { HasErrorState } from '@angular/material/core/common-behaviors/error-state'
+import { MatFormFieldControl } from '@angular/material/form-field'
+import { coerceBooleanProperty } from '@angular/cdk/coercion'
+
 class SaTextQuillBase extends QuillEditorBase
 {
   constructor(
@@ -57,13 +52,9 @@ class SaTextQuillBase extends QuillEditorBase
     )
   }
 }
-
 const _MatQuillMixinBase: CanUpdateErrorStateCtor & CanDisableCtor & typeof SaTextQuillBase =
   mixinErrorState(mixinDisabled(SaTextQuillBase))
-
-@Directive({
-    selector: '[text-editor-directive]'
-})
+@Directive()
 export abstract class _MatQuillBase
   extends _MatQuillMixinBase
   implements AfterViewInit, CanDisable, CanUpdateErrorState,
@@ -74,7 +65,6 @@ export abstract class _MatQuillBase
   abstract controlType: string
   focused = false
   abstract id: string
-
   constructor(
     defaultErrorStateMatcher: ErrorStateMatcher,
     @Optional() parentForm: NgForm,
@@ -90,13 +80,11 @@ export abstract class _MatQuillBase
   ) {
     super(
       defaultErrorStateMatcher, parentForm, parentFormGroup, ngControl,
-      elementRef, domSanitizer, doc, platformId, renderer, zone,  service
+      elementRef, domSanitizer, doc, platformId, renderer, zone, service
     )
-
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
-
     this.onBlur.subscribe(() => {
       this.focused = false
       this.stateChanges.next()
@@ -106,11 +94,9 @@ export abstract class _MatQuillBase
       this.stateChanges.next()
     })
   }
-
   /*
    * GETTERS & SETTERS
    */
-
   @Input()
   get disabled(): boolean
   {
@@ -122,7 +108,6 @@ export abstract class _MatQuillBase
   set disabled(value: boolean)
   {
     this._disabled = coerceBooleanProperty(value)
-
     // Browsers may not fire the blur event if the input is disabled too quickly.
     // Reset from here to ensure that the element doesn't become stuck.
     if (this.focused) {
@@ -131,11 +116,9 @@ export abstract class _MatQuillBase
     }
   }
   protected _disabled = false
-
   get empty() {
     return coerceBooleanProperty(this.value)
   }
-
   @Input()
   get placeholder(): string { return this._placeholder }
   set placeholder(value: string) {
@@ -143,31 +126,16 @@ export abstract class _MatQuillBase
     this.stateChanges.next()
   }
   protected _placeholder: string
-
   @Input()
   get required(): boolean { return this._required }
   set required(value: boolean) {
     this._required = coerceBooleanProperty(value)
   }
   protected _required = false
-
-  @Input()
-  get trim(): boolean { return this.trimOnValidation }
-  set trim(value: boolean) {
-    this.trimOnValidation = value
-  }
-
-  @Input()
-  get min(): number { return this.minLength }
-  set min(value: number) {
-    this.minLength = value
-  }
- 
   @HostBinding('class.floating')
   get shouldLabelFloat() {
     return this.focused || !this.empty
   }
-
   get value(): any
   {
     try {
@@ -180,29 +148,25 @@ export abstract class _MatQuillBase
     this.writeValue(value)
     this.stateChanges.next()
   }
-
   /*
    * METHODS
    */
-
   blur() {
     (this.editorElem.childNodes as NodeListOf<HTMLElement>)[0]['blur']()
   }
-
   focus() {
     this.quillEditor.focus()
   }
-
   @HostBinding('attr.aria-describedby') _describedBy = ''
   setDescribedByIds(ids: string[]) {
     this._describedBy = ids.join(' ')
   }
-
   onContainerClick(event: MouseEvent)
   {
     if (!this.focused) {
       this.quillEditor.focus()
     }
   }
-
+  static ngAcceptInputType_disabled: boolean | string | null | undefined
+  static ngAcceptInputType_required: boolean | string | null | undefined
 }

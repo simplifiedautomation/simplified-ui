@@ -29,7 +29,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   columnToDisplay: string[] = [];
   columns: IDataTableColumn[] = [];
 
-  @ViewChild('iconSelector', { static: false }) iconSelector;
+  @ViewChild('iconSelector') iconSelector;
   filterArray: IDataFilterViewModel[] = [];
 
   /** list of paginated  rendered within the table */
@@ -52,7 +52,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   public scrollerContainerWidth = 150;
   public scrollerWidth = 100;
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ContentChild('listItemTemplate', { static: true }) listItemTemplateRef: TemplateRef<any>;
   highlightedRows = [];

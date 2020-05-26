@@ -17,7 +17,7 @@ import { symbolFormatEnum } from '../pipes/sa-value-formatter.pipe';
 })
 export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy, DoCheck {
 
-  @ViewChild("input", { static: false }) inputRef: ElementRef;
+  @ViewChild("input") inputRef: ElementRef;
 
   static nextId = 0;
   private decimalSeparator: string;

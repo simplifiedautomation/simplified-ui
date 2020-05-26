@@ -30,6 +30,7 @@ import { SaSpinnerDirective } from './directives/sa-spinner.directive';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { AbbreviateNumberPipe } from './pipes/abbreviate-number.pipe';
+import Counter from './sa-text-editor/counter';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,16 @@ import { AbbreviateNumberPipe } from './pipes/abbreviate-number.pipe';
     ReactiveFormsModule,
     OwlDateTimeModule,
     MatSelectInfiniteScrollModule,
-    QuillModule,
+    QuillModule.forRoot({
+      customModules: [{
+        implementation: Counter,
+        path: 'modules/counter'
+      }],
+      customOptions: [{
+        import: 'formats/font',
+        whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
+      }]
+    }),
     FlexLayoutModule,
     RouterModule
   ],

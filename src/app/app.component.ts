@@ -1,10 +1,14 @@
 import { Component, OnInit, ViewChild, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig, DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn, DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats, DatePickerType, DatePickerMode, DatePickerSelectMode } from 'projects/simplified-ui/src/public-api';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { SaButtonConfig, SaButtonType, IDataFilterViewModel, FilterTypeEnum, SaSelectConfig,
+   DatePickerConfig, IHeaderViewModel, SaMoreMenuItem, NavigationItem, DataTable, IDataTableColumn,
+   DataTableColumnTypeEnum, IRequestModel, IGenericPageListViewModel, DateFormats, DatePickerType, DatePickerMode, DatePickerSelectMode,
+  SaTextEditorComponent } from 'projects/simplified-ui/src/public-api';
+import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { of } from 'rxjs';
 import * as moment_ from 'moment-timezone';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { QuillEditorComponent, ContentChange, SelectionChange } from 'ngx-quill';
 
 const moment = moment_;
 
@@ -26,6 +30,7 @@ export class AppComponent implements OnInit {
   date1 = moment.tz(moment(), "America/Toronto");                 //string timezone
   date2 = moment.tz();                                            //UTC timezone
 
+  content = 'abc';
 
   items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
 
@@ -106,6 +111,49 @@ export class AppComponent implements OnInit {
     new NavigationItem("Nav 2", null),
   ];
 
+  //example new quil
+  hide = false
+  quillform: FormGroup;
+  backgroundColor = ''
+  @ViewChild('editor', {
+    static: true
+  }) editor: QuillEditorComponent
+  @ViewChild('matEditor', {
+    static: true
+  }) matEditor: SaTextEditorComponent
+  isReadOnly = false
+  isRequired = false
+
+
+  setControl() {
+    this.quillform.setControl('editor', new FormControl('test - new Control'))
+    this.quillform.setControl('matEditor', new FormControl('test - new Control'))
+  }
+
+  patchValue() {
+    this.quillform.get('editor').patchValue(`${this.quillform.get('editor').value} patched!`)
+    this.quillform.get('matEditor').patchValue(`${this.quillform.get('matEditor').value} patched!`);
+  }
+
+  logChange($event: ContentChange) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+  }
+
+  logSelection($event: SelectionChange) {
+    // tslint:disable-next-line:no-console
+    console.log($event)
+  }
+
+  toggleReadOnly() {
+    this.isReadOnly = !this.isReadOnly
+  }
+
+  toggleRequired() {
+    this.isRequired = !this.isRequired
+  }
+
+  //end
   editorForm = this.form.group({
     description: new FormControl(null, Validators.required),
   });
@@ -116,9 +164,49 @@ export class AppComponent implements OnInit {
   select = new FormControl();
 
   constructor(private form: FormBuilder,
-    private client: HttpClient) { }
+    private client: HttpClient) 
+    {
+      this.quillform = form.group({
+        editor: new FormControl(),
+        matEditor: new FormControl(null, [Validators.minLength(1), Validators.maxLength(10)])
+      })
+    }
 
   ngOnInit() {
+
+    this.quillform
+      .controls
+      .editor
+      .valueChanges.pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe((data) => {
+        // tslint:disable-next-line:no-console
+        console.log('native fromControl value changes with debounce', data)
+      })
+
+    this.editor
+      .onContentChanged
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe((data: ContentChange) => {
+        // tslint:disable-next-line:no-console
+        console.log('view child + directly subscription', data)
+      })
+
+    this.matEditor
+      .onContentChanged
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe((data: ContentChange) => {
+        // tslint:disable-next-line:no-console
+        console.log('view child + directly subscription', data)
+      })
 
     this.selectOptions.templateRef = this.selectOptionBody;
     this.selectOptions.getResults = (page, term) => {
@@ -164,6 +252,8 @@ export class AppComponent implements OnInit {
 
   onPrimaryClick(event) {
     this.primarButton.isSpinning = true;
+    this.editorForm.disable();
+    this.editorForm.controls.description
   }
 
   onSecondaryClick(event) {

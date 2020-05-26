@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationItem } from '../models/NavigationItem';
 
@@ -12,10 +12,14 @@ export class SaNavigablePageComponent implements OnInit {
   @Input() primaryMenu: NavigationItem[] = [];
   @Input() secondaryMenu: NavigationItem[] = [];
 
-  constructor(private route: ActivatedRoute) {
-  }
+  navigationList: NavigationItem[];
+
+  panelOpenState: boolean;
+
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.navigationList = this.primaryMenu.concat(this.secondaryMenu);
     this.route.fragment.subscribe(f => {
       const element = document.querySelector("a[name='" + f + "']")
       if (element) {

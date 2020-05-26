@@ -137,12 +137,12 @@ export class AppComponent implements OnInit {
 
   logChange($event: ContentChange) {
     // tslint:disable-next-line:no-console
-    console.log($event)
+   
   }
 
   logSelection($event: SelectionChange) {
     // tslint:disable-next-line:no-console
-    console.log($event)
+   
   }
 
   toggleReadOnly() {
@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
     {
       this.quillform = fb.group({
         editor: new FormControl(),
-        matEditor: new FormControl(null)
+        matEditor: new FormControl()
       })
     }
 

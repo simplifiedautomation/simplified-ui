@@ -11,7 +11,9 @@ import {
     PLATFORM_ID,
     Renderer2,
     Self,
-    Directive
+    Directive,
+    DoCheck,
+    OnInit
   } from '@angular/core'
   import { DOCUMENT } from '@angular/common'
   import {
@@ -19,7 +21,8 @@ import {
     FormGroupDirective,
     NgControl,
     NgForm,
-    Validator
+    Validator,
+    FormControl
   } from '@angular/forms'
   import { DomSanitizer } from '@angular/platform-browser'
 
@@ -50,6 +53,7 @@ class SaTextQuillBase extends QuillEditorBase
       elementRef, domSanitizer, doc, platformId,
       renderer, zone, service
     )
+
   }
 }
 const _MatQuillMixinBase: CanUpdateErrorStateCtor & CanDisableCtor & typeof SaTextQuillBase =
@@ -60,7 +64,7 @@ export abstract class _MatQuillBase
   implements AfterViewInit, CanDisable, CanUpdateErrorState,
     ControlValueAccessor, HasErrorState,
     MatFormFieldControl<any>, OnChanges,
-    OnDestroy, Validator
+    OnDestroy, Validator,  DoCheck
 {
   abstract controlType: string
   focused = false
@@ -84,6 +88,7 @@ export abstract class _MatQuillBase
     )
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
+      
     }
     this.onBlur.subscribe(() => {
       this.focused = false
@@ -93,7 +98,16 @@ export abstract class _MatQuillBase
       this.focused = true
       this.stateChanges.next()
     })
+
   }
+  ngDoCheck(): void {
+    if(this.ngControl != null)
+    {
+      this.ngControl.control.setValidators([this.validate.bind(this)]);
+      this.ngControl.control.updateValueAndValidity();
+    }
+  }
+
   /*
    * GETTERS & SETTERS
    */
@@ -167,6 +181,9 @@ export abstract class _MatQuillBase
       this.quillEditor.focus()
     }
   }
+
+
   static ngAcceptInputType_disabled: boolean | string | null | undefined
   static ngAcceptInputType_required: boolean | string | null | undefined
+
 }

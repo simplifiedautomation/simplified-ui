@@ -253,7 +253,6 @@ export class AppComponent implements OnInit {
   onPrimaryClick(event) {
     this.primarButton.isSpinning = true;
     this.editorForm.disable();
-    this.editorForm.controls.description
   }
 
   onSecondaryClick(event) {

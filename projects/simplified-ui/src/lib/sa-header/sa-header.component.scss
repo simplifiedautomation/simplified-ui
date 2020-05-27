@@ -32,12 +32,6 @@ mat-toolbar {
 
 @media (max-width: 720px) {
   .sidenav-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .header-page {
-    margin-top: 10px;
+    padding-left: 50px;
   }
 }

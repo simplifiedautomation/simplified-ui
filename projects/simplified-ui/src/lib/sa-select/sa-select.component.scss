@@ -6,3 +6,16 @@ span {
 :host.floating span {
   opacity: 1;
 }
+
+.custom-option {
+  background-color: #f5f5f5;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #eeeeee;
+  box-shadow: 1px -2px 10px 0px #eeeeee;
+}
+
+.custom-option:hover {
+  background-color: #f5f5f5;
+}

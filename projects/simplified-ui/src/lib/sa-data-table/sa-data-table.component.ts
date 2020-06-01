@@ -163,7 +163,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
               this.selection.selected.forEach(selected => {
 
                 if (this.dataTable.selectedRowPredicate(row, selected) &&
-                  !this.selection.isSelected(row)
+                  this.selection.isSelected(row)
                 ) {
                   this.selection.deselect(selected);
                   this.selection.select(row);

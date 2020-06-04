@@ -65,6 +65,8 @@ export class DataTable<T>
 
   showColumnToggle?: boolean = true;
 
+  showTableMinimap?: boolean = true;
+
   optionsColumnRef: TemplateRef<ElementRef>;
 
   defaultPageSize?: number;
@@ -72,21 +74,21 @@ export class DataTable<T>
   getResults?: (requestModel: IRequestModel) => Observable<IGenericPageListViewModel<T>>;
 
   /**
-   * This method implementation is required when selection and server-side data 
+   * This method implementation is required when selection and server-side data
    * rendering is enabled together. Because the instance of same data is dynamic,
-   * the state for selection does not match between the selection array and incoming 
-   * data with same values. 
-   * 
-   * By implementing this method, you will allow the data table to understand 
+   * the state for selection does not match between the selection array and incoming
+   * data with same values.
+   *
+   * By implementing this method, you will allow the data table to understand
    * if the row should be selected or not when data is refreshed or page changes.
-   * 
+   *
    * @param insertedRow The instance of row that is inserted in data table
-   * @param selected The instance of selected row from selection array. This is 
+   * @param selected The instance of selected row from selection array. This is
    * optional to allow pre-selected rows.
-   * 
+   *
    * @returns Boolean value indicating if the row should be selected or not. If this
    * is true, the row will be in selected state. Otherwise, it will not be selected.
-   * 
+   *
    */
   selectedRowPredicate?: (insertedRow: T, selected?: T) => boolean;
 
@@ -198,7 +200,7 @@ export class DataTable<T>
 
   /**
    * Adds a new filter
-   * @param filter Filter to be added 
+   * @param filter Filter to be added
    */
   addFilter(filter: IDataFilterViewModel) {
     this.addFilterSubject.next(filter);
@@ -208,4 +210,3 @@ export class DataTable<T>
     return this.addFilterSubject.asObservable();
   }
 }
-

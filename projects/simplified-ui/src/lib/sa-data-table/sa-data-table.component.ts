@@ -262,8 +262,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
     var scrollableWidth = this.table.nativeElement.scrollWidth;
 
-    this.scrollerContainerWidth = scrollableWidth / 10;
-    this.scrollerWidth = elementWidth / 10;
+    var scrollerRatio = scrollableWidth / elementWidth;
+
+    this.scrollerWidth = this.scrollerWidth / scrollerRatio;
 
     if (scrollableWidth > elementWidth) {
       var difference = scrollableWidth - elementWidth;
@@ -285,8 +286,8 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
       this._renderer.listen(this.scroller.nativeElement, 'mousemove', (e) => {
         if (isDown) {
-          this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio);
-          marginLeft += ((e.clientX - xValue));
+          this.table.nativeElement.scrollLeft += (((e.clientX - xValue) * ratio) / 50);
+          marginLeft += ((e.clientX - xValue) / 50);
 
           switch (true) {
             case marginLeft > maxMargin:
@@ -333,7 +334,8 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       });
 
       this._renderer.listen(this.table.nativeElement, 'scroll', (e) => {
-        this.scroller.nativeElement.style.marginLeft = (this.table.nativeElement.scrollLeft / 10).toString() + "px";
+        var denominator = difference / (this.scrollerContainerWidth - this.scrollerWidth)
+        this.scroller.nativeElement.style.marginLeft = (this.table.nativeElement.scrollLeft / denominator).toString() + "px";
       });
 
     } else {

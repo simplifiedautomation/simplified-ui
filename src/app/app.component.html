@@ -66,7 +66,7 @@
   <form [formGroup]="editorForm">
     <mat-form-field style="width: 100%">
       <mat-label>Text Editor</mat-label>
-      <sa-text-editor [required]="true" [formControl]="description" name="Description"></sa-text-editor>
+      <sa-text-editor [required]="true"  formControlName="description" name="Description"></sa-text-editor>
     </mat-form-field>
   </form>
 
@@ -98,7 +98,52 @@
       Something very long that
     </div>
   </ng-template>
+  <h3 id="reactiveForms">Reactive Forms and patch value</h3>
 
+<button type="button" (click)="hide=!(!!hide)">
+  hide / show
+</button>
+
+<button type="button" (click)="quillform.enabled ? quillform.disable() : quillform.enable()">
+    disable / enable
+</button>
+
+<button type="button" (click)="backgroundColor = backgroundColor ? '' : 'grey'">toggle
+  backgroundColor
+</button>
+
+<pre>{{ quillform.get('editor').value }}</pre>
+<button type="button" (click)="patchValue()">patchValue</button>
+<button type="button" (click)="setControl()">setControl</button>
+<button (click)="toggleReadOnly()">Toggle ReadOnly</button>
+<button (click)="toggleRequired()">Toggle Required</button>
+<p>Readonly: {{isReadOnly}}
+Required: {{isRequired}}</p>
+
+<form [formGroup]="quillform">
+  FormControl valid: {{ quillform.get('editor').valid }}<br>
+  <quill-editor
+    #editor [style.display]="hide ? 'none' : 'block'"
+    [styles]="{ backgroundColor:backgroundColor }"
+    formControlName="editor"  [maxLength]="10" [trimOnValidation]="isRequired" [required]="isRequired">
+  </quill-editor>
+
+  <h4>Material Quill</h4>
+
+  <pre>{{ quillform.get('matEditor').value }}</pre>
+  FormControl valid: {{ quillform.get('matEditor').valid }}<br>
+  <mat-form-field appearance="fill" style="display: block !important;">
+     <sa-text-editor
+      #matEditor [style.display]="hide ? 'none' : 'block'"     
+      formControlName="matEditor"  
+      [maxLength]="10"  [required]="isRequired"
+      [readOnly]="isReadOnly"
+      [trimOnValidation]="isRequired" 
+      (onContentChanged)="logChange($event);"
+      (onSelectionChanged)="logSelection($event);">
+    </sa-text-editor> 
+  </mat-form-field>
+</form>
 
 
 </sa-navigable-page>

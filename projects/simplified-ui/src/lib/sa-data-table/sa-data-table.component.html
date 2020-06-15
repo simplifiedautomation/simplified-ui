@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="end" id="scroller-div" #scroller_div>
+  <div fxLayout="row" fxLayoutAlign="end" id="scroller-div" #scroller_div fxHide.lt-md>
     <mat-card id="parent"> 
       <div id="scroll-container" #scroll_container [style.width.px]="scrollerContainerWidth">
         <div id="scroller" fxLayoutAlign="center center" #scroller [style.width.px]="scrollerWidth">

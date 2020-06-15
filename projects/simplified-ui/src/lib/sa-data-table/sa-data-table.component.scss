@@ -110,16 +110,17 @@
 }
 
 #scroll-container{
-  height: 40px;
-  background-color: rgb(235, 236, 240)
+  height: 30px;
+  background-color: rgb(235, 236, 240);
+  border-radius: 5px;
 }
 
 #scroller-div{
-  display: flex;
+  visibility: hidden;
 }
 
 #scroller{
-  height: 44px;
+  height: 34px;
   margin-top:-2px;
   border-radius: 3px;
   border: 2px solid rgb(76, 154, 255);
@@ -131,6 +132,15 @@
     user-select: none;
     margin: 0px !important;
   }
+}
+
+#parent {
+  display: inherit;
+  position: fixed;
+  z-index: 5;
+  border-radius: 5px;
+  padding: 10px !important;
+  box-shadow: 3px 6px 19px 2px grey;
 }
 
 mat-nav-list {

@@ -48,9 +48,8 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   @ViewChild("scroller_div", { static: true }) scroller_div: ElementRef;
   @ViewChild("scroll_container", { static: true }) scroll_container: ElementRef;
   @ViewChild("scroller", { static: true }) scroller: ElementRef;
-  @ViewChild("scroll_card", { read: ElementRef, static: true }) scroll_card: ElementRef;
-  public scrollerContainerWidth = 150;
-  public scrollerWidth = 100;
+  scrollerContainerWidth = 150;
+  scrollerWidth = 100;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -219,7 +218,13 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     }
 
     return this.dataTable.getResults(requestModel).pipe(tap(i => setTimeout(() => {
-      this.initializeMinimap()
+      if (i.List.length > 10) 
+      {
+        this.initializeMinimap()
+      }
+      else {
+        this.scroller_div.nativeElement.style.display = "none !important";
+      }
     }, 100)));
   }
 
@@ -264,7 +269,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
     var scrollerRatio = scrollableWidth / elementWidth;
 
-    this.scrollerWidth = this.scrollerWidth / scrollerRatio;
+    this.scrollerWidth = this.scrollerContainerWidth / scrollerRatio;
 
     if (scrollableWidth > elementWidth) {
       var difference = scrollableWidth - elementWidth;
@@ -274,6 +279,27 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       let xValue = 0;
       let marginLeft = 0;
       var isDown = false;
+
+      var right = (document.body.clientWidth - this.table.nativeElement.clientWidth + 40).toString() + "px";
+
+      this.scroller_div.nativeElement.style.visibility = "visible";
+
+      document.getElementById("parent").style.right = right;
+
+      document.getElementById("parent").style.bottom = "40px";
+
+      if (this.table.nativeElement.getBoundingClientRect().top > ((window.innerHeight || document.documentElement.clientHeight) - 200)) {
+        document.getElementById("parent").style.cssText = "display: none !important";
+      }
+
+      this._renderer.listen(document, 'scroll', (e) => {
+        var bounds = this.table.nativeElement.getBoundingClientRect();
+        if ((bounds.bottom < (window.innerHeight || document.documentElement.clientHeight)) || (bounds.top > ((window.innerHeight || document.documentElement.clientHeight) - 200))) {
+          document.getElementById("parent").style.cssText = "display: none !important";
+        } else {
+          document.getElementById("parent").style.cssText = `position: fixed; top: unset; bottom: 40px; right: ${ right } !important`;
+        }
+      });
 
       this._renderer.listen(this.scroller.nativeElement, 'mousedown', (e) => {
         isDown = true;
@@ -309,11 +335,10 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
       this._renderer.listen(this.scroll_container.nativeElement, 'click', (e) => {
         if (!isDown && (<HTMLElement>e.target).id == "scroll-container") {
-          var cardOffsetLeft = this.scroll_card.nativeElement.offsetLeft;
           var clickOffsetLeft = e.clientX;
 
-          this.table.nativeElement.scrollLeft += ((clickOffsetLeft - cardOffsetLeft - this.scrollerWidth) * ratio);
-          marginLeft += ((clickOffsetLeft - cardOffsetLeft) - this.scrollerWidth);
+          this.table.nativeElement.scrollLeft += ((clickOffsetLeft - this.scrollerWidth) * ratio);
+          marginLeft += (clickOffsetLeft - this.scrollerWidth);
 
           switch (true) {
             case marginLeft > maxMargin:
@@ -338,8 +363,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
         this.scroller.nativeElement.style.marginLeft = (this.table.nativeElement.scrollLeft / denominator).toString() + "px";
       });
 
-    } else {
-      this.scroller_div.nativeElement.style.display = 'none';
     }
   }
 

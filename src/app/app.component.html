@@ -1,4 +1,4 @@
-<h3 style="float:right"> Navigation Menu Component </h3>
+<!-- <h3 style="float:right"> Navigation Menu Component </h3>
 <sa-navigable-page [secondaryMenu]="secondaryNavMenu">
 
   <h3> Header Component </h3>
@@ -101,4 +101,12 @@
 
 
 
-</sa-navigable-page>
+</sa-navigable-page> -->
+
+<sa-data-table [dataTable]="dataTable">
+  <ng-template #listItemTemplate let-row="row">
+    <mat-list-item>Area: {{row.area}} Line: {{row.line}} Machine: {{row.machine}}</mat-list-item>
+    <mat-divider></mat-divider>
+  </ng-template>
+</sa-data-table>
+<div style="height: 1000px;">j</div>

@@ -35,7 +35,7 @@
             "scripts": [
               "node_modules/quill/dist/quill.min.js"
             ],
-            "es5BrowserSupport": true
+            "aot": true
           },
           "configurations": {
             "production": {

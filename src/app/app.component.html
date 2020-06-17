@@ -25,12 +25,6 @@
   <p>{{date2 | dateTime:dateFormats.timeZoneAbb}}</p>
 
 
-  <mat-list>
-    <mat-list-item [saSpinner]="isSpin">Peach</mat-list-item>
-    <mat-list-item>Mango</mat-list-item>
-    <mat-list-item [saSpinner]="isSpin" [backgroundColor]="'green'" [diameter]="'15'">Apple</mat-list-item>
-  </mat-list>
-
   <h3> Button Component </h3>
   <sa-button [config]="saveButtonConfig" (onClick)="onClick()"></sa-button>
 

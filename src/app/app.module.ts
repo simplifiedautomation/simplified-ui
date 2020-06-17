@@ -1,18 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { QuillModule } from 'ngx-quill';
+import Counter from 'projects/simplified-ui/src/lib/sa-text-editor/counter';
 import { SimplifiedUiModule } from '../../projects/simplified-ui/src/lib/simplified-ui.module'
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-import { QuillModule } from 'ngx-quill';
-import 'quill'
-import Counter from 'projects/simplified-ui/src/lib/sa-text-editor/counter';
+
 
 
 @NgModule({
@@ -21,8 +21,7 @@ import Counter from 'projects/simplified-ui/src/lib/sa-text-editor/counter';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    SimplifiedUiModule,
+    AppRoutingModule, 
     BrowserAnimationsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
@@ -31,17 +30,16 @@ import Counter from 'projects/simplified-ui/src/lib/sa-text-editor/counter';
     ReactiveFormsModule,
     FlexLayoutModule,
     HttpClientModule,
+    MatFormFieldModule,
     QuillModule.forRoot({
-      customModules: [{
-        implementation: Counter,
-        path: 'modules/counter'
-      }],
       customOptions: [{
         import: 'formats/font',
         whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
       }]
-    })
+    }),
+    SimplifiedUiModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
   bootstrap: [AppComponent]
 })

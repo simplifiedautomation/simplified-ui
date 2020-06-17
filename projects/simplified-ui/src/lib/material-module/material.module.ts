@@ -30,7 +30,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatFormFieldModule } from '@angular/material/form-field'
 import { CdkTableModule } from '@angular/cdk/table';
 import { OverlayModule } from '@angular/cdk/overlay';
 
@@ -70,6 +70,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatFormFieldModule,
     OverlayModule
   ],
   exports: [
@@ -106,7 +107,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    OverlayModule
+    OverlayModule,
+    MatFormFieldModule
   ]
 })
 export class MaterialModule {

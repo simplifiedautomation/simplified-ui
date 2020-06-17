@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SimplifiedUiComponent } from './simplified-ui.component';
 import { MaterialModule } from './material-module/material.module';
 import { SaPrimaryButtonComponent } from './sa-primary-button/sa-primary-button.component';
@@ -31,6 +31,7 @@ import { RouterModule } from '@angular/router';
 import { AbbreviateNumberPipe } from './pipes/abbreviate-number.pipe';
 import Counter from './sa-text-editor/counter';
 import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from '@danielmoncada/angular-datetime-picker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -59,23 +60,16 @@ import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from '@danielmoncada/angular
     AbbreviateNumberPipe
   ],
   imports: [
-    MaterialModule,
+    
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     OwlDateTimeModule,
     MatSelectInfiniteScrollModule,
-    QuillModule.forRoot({
-      customModules: [{
-        implementation: Counter,
-        path: 'modules/counter'
-      }],
-      customOptions: [{
-        import: 'formats/font',
-        whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
-      }]
-    }),
     FlexLayoutModule,
+    QuillModule,
+    MaterialModule,
+    MatFormFieldModule,
     RouterModule
   ],
   exports: [
@@ -104,6 +98,7 @@ import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from '@danielmoncada/angular
     SaSpinnerDirective,
     AbbreviateNumberPipe
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [MatProgressSpinner],
   providers: [
     { provide: OWL_DATE_TIME_FORMATS, useValue: MOMENT_FORMATS },

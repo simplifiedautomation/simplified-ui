@@ -167,8 +167,8 @@ export class AppComponent implements OnInit {
     private client: HttpClient) 
     {
       this.quillform = fb.group({
-        editor: new FormControl(),
-        matEditor: new FormControl()
+        editor: ['<ol><li>test</li><li>123</li></ol>'],
+        matEditor: ['<ol><li>test</li><li>123</li></ol>']
       })
     }
 

@@ -130,8 +130,9 @@ export abstract class _MatQuillBase
     }
   }
   protected _disabled = false
+  private _empty = false;
   get empty() {
-    return coerceBooleanProperty(this.value)
+    return this._empty;
   }
   @Input()
   get placeholder(): string { return this._placeholder }

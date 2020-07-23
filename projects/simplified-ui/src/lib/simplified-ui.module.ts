@@ -68,6 +68,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatSelectInfiniteScrollModule,
     FlexLayoutModule,
     QuillModule.forRoot({
+      formats: [
+        'background', 'bold', 'color', 'font', 'code',
+        'italic', 'link', 'size', 'strike', 'script', 'underline',
+        'blockquote', 'header', 'indent', 'list',
+        'align', 'direction', 'code-block', 'formula'
+      ],
       customOptions: [{
         import: 'formats/font',
         whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']

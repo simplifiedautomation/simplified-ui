@@ -1,6 +1,6 @@
 <mat-select msInfiniteScroll [placeholder]="placeholder" (infiniteScroll)="getNextBatch()" [complete]="isComplete"
   (blur)="markAsTouched()" (selectionChange)="onSelect($event)" required="required" [multiple]="this.config.isMultiple"
-  #matSelectRef [formControl]="matSelect" (openedChange)="selectOpenChanged($event)">
+  #matSelectRef [formControl]="matSelect" (openedChange)="selectOpenChanged($event)" [panelClass]="panelClass">
   <mat-option [value]="null" class="custom-option">
     <input matInput [(ngModel)]="searchTerm" [placeholder]="this.config.searchPlaceholder" (click)="clicked($event)"
       (keydown)="$event.stopPropagation()" (keyup)="searchTermChanged($event)" #searchInput>

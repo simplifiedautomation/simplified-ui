@@ -61,7 +61,6 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   page = 0;
 
   private _placeholder: string;
-  private _panelClass: string;
   static nextId = 0;
   stateChanges = new Subject<void>();
   focused: boolean = false;
@@ -330,16 +329,6 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
 
   set placeholder(plh) {
     this._placeholder = plh;
-    this.stateChanges.next();
-  }
-
-  @Input()
-  get panelClass() {
-    return this._panelClass;
-  }
-
-  set panelClass(panelClass) {
-    this._panelClass = panelClass;
     this.stateChanges.next();
   }
 

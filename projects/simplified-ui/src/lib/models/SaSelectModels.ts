@@ -65,6 +65,11 @@ export class SaSelectConfig<T> {
    */
   isMultiple: boolean = false;
 
+   /**
+   *  panel class for mat select
+   */
+  panelClass: string = "";
+
   private cancelSubject: Subject<any> = new Subject();
 
   cancel() {

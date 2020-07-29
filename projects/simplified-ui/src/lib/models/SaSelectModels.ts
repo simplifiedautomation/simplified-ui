@@ -66,7 +66,7 @@ export class SaSelectConfig<T> {
   isMultiple: boolean = false;
 
    /**
-   *  panel class for mat select
+   *  Classes to be passed to the select panel. Supports the same syntax as ngClass.
    */
   panelClass: string = "";
 

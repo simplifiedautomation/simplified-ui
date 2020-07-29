@@ -65,6 +65,11 @@ export class SaSelectConfig<T> {
    */
   isMultiple: boolean = false;
 
+   /**
+   *  Classes to be passed to the select panel. Supports the same syntax as ngClass.
+   */
+  panelClass: string = "";
+
   private cancelSubject: Subject<any> = new Subject();
 
   cancel() {

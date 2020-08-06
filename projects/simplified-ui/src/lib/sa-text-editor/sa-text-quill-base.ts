@@ -104,7 +104,6 @@ export abstract class _MatQuillBase
     if(this.ngControl != null)
     {
       this.ngControl.control.setValidators([this.validate.bind(this)]);
-      // this.ngControl.control.up();
     }
   }
 

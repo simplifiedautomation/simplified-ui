@@ -8,9 +8,8 @@ describe('SaStepperComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaStepperComponent ]
-    })
-    .compileComponents();
+      declarations: [SaStepperComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

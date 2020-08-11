@@ -46,7 +46,6 @@
   }
 }
 
-
 .mat-column-select {
   width: 40px;
   min-width: 40px;
@@ -96,9 +95,9 @@
   min-width: 100px;
 }
 
-.table-container{
+.table-container {
   border-radius: 4px;
-  border: 1px solid rgba(0,0,0,.12);
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 ::-webkit-scrollbar {
@@ -109,25 +108,25 @@
   background: #bdbdbd;
 }
 
-#scroll-container{
+#scroll-container {
   height: 30px;
   background-color: rgb(235, 236, 240);
   border-radius: 5px;
 }
 
-#scroller-div{
+#scroller-div {
   visibility: hidden;
 }
 
-#scroller{
+#scroller {
   height: 34px;
-  margin-top:-2px;
+  margin-top: -2px;
   border-radius: 3px;
   border: 2px solid rgb(76, 154, 255);
-  cursor:all-scroll;
+  cursor: all-scroll;
   position: absolute;
 
-  p{
+  p {
     font-size: 10px !important;
     user-select: none;
     margin: 0px !important;

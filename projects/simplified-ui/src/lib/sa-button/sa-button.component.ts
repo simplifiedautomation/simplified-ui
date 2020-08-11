@@ -24,7 +24,7 @@ export class SaButtonConfig {
     return this.loadingSubject.asObservable();
   }
 
-  constructor(public title: string) { }
+  constructor(public title: string) {}
 }
 
 export enum SaButtonType {
@@ -41,11 +41,11 @@ export enum SaButtonType {
     trigger('Fading', [
       state('false', style({ opacity: 1 })),
       state('true', style({ opacity: 0 })),
-      transition('false => true', animate('800ms ease-out')),
-    ])]
+      transition('false => true', animate('800ms ease-out'))
+    ])
+  ]
 })
 export class SaButtonComponent {
-
   @Input() config: SaButtonConfig;
   @Output() onClick: EventEmitter<Event> = new EventEmitter();
 
@@ -55,7 +55,7 @@ export class SaButtonComponent {
 
   showAnimation: boolean = false;
 
-  constructor() { }
+  constructor() {}
 
   @Input() set isDisabled(val: boolean) {
     this.config.isDisabled = val;
@@ -66,7 +66,7 @@ export class SaButtonComponent {
   }
 
   ngOnInit() {
-    this.config.loadingStopped.subscribe(res => {
+    this.config.loadingStopped.subscribe((res) => {
       if (res) {
         this.showCheckmark = true;
         setTimeout(() => {
@@ -77,11 +77,10 @@ export class SaButtonComponent {
           }, 800);
         }, 1600);
       }
-    })
+    });
   }
 
   onButtonClick(evt: Event) {
     this.onClick.emit(evt);
   }
-
 }

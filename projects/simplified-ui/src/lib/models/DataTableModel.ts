@@ -1,43 +1,41 @@
-import { IGenericPageListViewModel } from "./IPagerModel";
-import { Observable, Subject, ReplaySubject } from "rxjs";
-import { IDataFilterViewModel, IFilterModel } from "../models/DataFilterModels";
-import { SortDirection } from "./SaTableDataSource";
+import { IGenericPageListViewModel } from './IPagerModel';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
+import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
+import { SortDirection } from './SaTableDataSource';
 import { SaButtonConfig } from '../sa-button/sa-button.component';
 import { TemplateRef, ElementRef } from '@angular/core';
 
 //data for each column in a table
 export enum DataTableColumnTypeEnum {
-  text = "text",
-  number = "number",
-  date = "date",
-  dateTime = "dateTime"
+  text = 'text',
+  number = 'number',
+  date = 'date',
+  dateTime = 'dateTime'
 }
 
 //data for each column in a table
 export interface IDataTableColumn {
   key: string;
   title: string;
-  type: DataTableColumnTypeEnum,
-  filter: IDataFilterViewModel,
-  sticky?: boolean,
-  stickyEnd?: boolean,
-  template?: TemplateRef<any>,
+  type: DataTableColumnTypeEnum;
+  filter: IDataFilterViewModel;
+  sticky?: boolean;
+  stickyEnd?: boolean;
+  template?: TemplateRef<any>;
   headerTemplate?: TemplateRef<any>;
   data?: any;
 }
 
 export interface IRequestModel {
-  pageNumber: number,
-  pageSize: number,
-  sortCol: string | number,
-  sortDir: SortDirection,
-  filter: IFilterModel
+  pageNumber: number;
+  pageSize: number;
+  sortCol: string | number;
+  sortDir: SortDirection;
+  filter: IFilterModel;
 }
 
 //abstract class which each data table/track pages will implement
-export class DataTable<T>
-{
-
+export class DataTable<T> {
   private columns: IDataTableColumn[] = [];
   private columnsUpdatedSubject: ReplaySubject<IDataTableColumn[]> = new ReplaySubject();
   private columnAddedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
@@ -141,11 +139,11 @@ export class DataTable<T>
     if (!keyOrIndex) {
       removedColumn = this.columns.pop();
     }
-    if (typeof keyOrIndex === "string") {
-      removedColumn = this.columns.find(x => x.key != keyOrIndex);
-      this.columns = this.columns.filter(x => x.key != keyOrIndex);
+    if (typeof keyOrIndex === 'string') {
+      removedColumn = this.columns.find((x) => x.key != keyOrIndex);
+      this.columns = this.columns.filter((x) => x.key != keyOrIndex);
     }
-    if (typeof keyOrIndex === "number") {
+    if (typeof keyOrIndex === 'number') {
       removedColumn = this.columns.splice(<number>keyOrIndex, 1)[0];
     }
 
@@ -179,17 +177,17 @@ export class DataTable<T>
    * Deletes the row by matching object reference
    * @param item Item to be deleted
    */
-  deleteRow(item: T)
+  deleteRow(item: T);
   /**
    * Deletes the row by index
    * @param index Zero based index where the row should be deleted
    */
-  deleteRow(index: number)
+  deleteRow(index: number);
   /**
    * Recieves the source list from which the item can be deleted using custom logic.
    * @param predicate Method receiving the source list. Must return the updated source List
    */
-  deleteRow(predicate: (sourceList: T[]) => T[])
+  deleteRow(predicate: (sourceList: T[]) => T[]);
   deleteRow(itemOrIndexOrPredicate: T | number | ((sourceList: T[]) => T[])) {
     this.deleteRowSubect.next(itemOrIndexOrPredicate);
   }

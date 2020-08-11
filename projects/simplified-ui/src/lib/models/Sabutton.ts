@@ -1,12 +1,11 @@
-import { Subject } from "rxjs";
-import { ElementRef } from "@angular/core";
+import { Subject } from 'rxjs';
+import { ElementRef } from '@angular/core';
 
 export class SaButton {
-
-  constructor(public title: string) { }
+  constructor(public title: string) {}
 
   obs = new Subject<ElementRef>();
-  public obs$ = this.obs.asObservable();;
+  public obs$ = this.obs.asObservable();
 
   triggerNext(elRef) {
     this.obs.next(elRef);
@@ -15,5 +14,4 @@ export class SaButton {
   unsubscribeEvent() {
     this.obs.unsubscribe();
   }
-
 }

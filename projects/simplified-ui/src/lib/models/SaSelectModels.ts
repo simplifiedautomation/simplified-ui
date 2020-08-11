@@ -1,6 +1,6 @@
-import { Observable, BehaviorSubject, Subject } from "rxjs";
-import { IGenericPageListViewModel } from "./IPagerModel";
-import { TemplateRef } from "@angular/core";
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { IGenericPageListViewModel } from './IPagerModel';
+import { TemplateRef } from '@angular/core';
 
 /**
  * Configuration class for searchable select
@@ -43,12 +43,12 @@ export class SaSelectConfig<T> {
   /**
    * Text shown when no results are found for search term
    */
-  emptyResultsText?: string = "No records found";
+  emptyResultsText?: string = 'No records found';
 
   /**
    * Placeholder for search box
    */
-  searchPlaceholder?: string = "Search";
+  searchPlaceholder?: string = 'Search';
 
   /**
    * Template for mat-option UI
@@ -65,10 +65,10 @@ export class SaSelectConfig<T> {
    */
   isMultiple: boolean = false;
 
-   /**
+  /**
    *  Classes to be passed to the select panel. Supports the same syntax as ngClass.
    */
-  panelClass: string = "";
+  panelClass: string = '';
 
   private cancelSubject: Subject<any> = new Subject();
 

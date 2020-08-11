@@ -8,9 +8,8 @@ describe('SaAnchorButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaAnchorButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [SaAnchorButtonComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

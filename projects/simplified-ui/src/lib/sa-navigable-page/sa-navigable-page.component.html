@@ -2,10 +2,17 @@
   <ng-content class="page-header" select=".page-header"></ng-content>
   <div class="page-body">
     <mat-sidenav-container>
-
-      <mat-sidenav fxHide.lt-sm #tableOfContents mode="side" [disableClose]="true" opened position="end" [fixedInViewport]="true" [fixedTopGap]="64">
-        <sa-table-of-contents [primaryMenu]="primaryMenu" [secondaryMenu]="secondaryMenu">
-        </sa-table-of-contents>
+      <mat-sidenav
+        fxHide.lt-sm
+        #tableOfContents
+        mode="side"
+        [disableClose]="true"
+        opened
+        position="end"
+        [fixedInViewport]="true"
+        [fixedTopGap]="64"
+      >
+        <sa-table-of-contents [primaryMenu]="primaryMenu" [secondaryMenu]="secondaryMenu"> </sa-table-of-contents>
       </mat-sidenav>
 
       <mat-sidenav-content>
@@ -20,14 +27,12 @@
                   Show Table of Contents
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <sa-table-of-contents [primaryMenu]="navigationList">
-              </sa-table-of-contents>
+              <sa-table-of-contents [primaryMenu]="navigationList"> </sa-table-of-contents>
             </mat-expansion-panel>
           </mat-accordion>
           <ng-content></ng-content>
         </div>
       </mat-sidenav-content>
-
     </mat-sidenav-container>
   </div>
 </sa-base-page>

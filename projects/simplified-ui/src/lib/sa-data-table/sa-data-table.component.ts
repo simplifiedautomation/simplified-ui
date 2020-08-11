@@ -1,4 +1,18 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit,  OnDestroy, ElementRef, HostListener, Renderer2, TemplateRef, ContentChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+  OnDestroy,
+  ElementRef,
+  HostListener,
+  Renderer2,
+  TemplateRef,
+  ContentChild
+} from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -12,15 +26,12 @@ import { IGenericPageListViewModel } from '../models/IPagerModel';
 import { SaButton } from '../models/SaButton';
 import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
 
-
-
 @Component({
   selector: 'sa-data-table',
   templateUrl: './sa-data-table.component.html',
   styleUrls: ['./sa-data-table.component.scss']
 })
 export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy {
-
   @Input() dataTable: DataTable<T>;
 
   @Output() rowClick = new EventEmitter<T>();
@@ -33,8 +44,12 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   filterArray: IDataFilterViewModel[] = [];
 
   /** list of paginated  rendered within the table */
-  public get sourceList(): T[] { return this._source.value };
-  public set sourceList(list) { this._source.next(list); }
+  public get sourceList(): T[] {
+    return this._source.value;
+  }
+  public set sourceList(list) {
+    this._source.next(list);
+  }
   private _source = new BehaviorSubject<T[]>([]);
   public requestModel: IRequestModel = null;
   public baseUrl: string;
@@ -44,10 +59,10 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   public tableDataSource: SaTableDataSource<T, DefaultCommonTableFilter>;
   subs: Subscription[] = [];
   //minimap initializations
-  @ViewChild("table", { static: true }) table: ElementRef;
-  @ViewChild("scroller_div", { static: true }) scroller_div: ElementRef;
-  @ViewChild("scroll_container", { static: true }) scroll_container: ElementRef;
-  @ViewChild("scroller", { static: true }) scroller: ElementRef;
+  @ViewChild('table', { static: true }) table: ElementRef;
+  @ViewChild('scroller_div', { static: true }) scroller_div: ElementRef;
+  @ViewChild('scroll_container', { static: true }) scroll_container: ElementRef;
+  @ViewChild('scroller', { static: true }) scroller: ElementRef;
   scrollerContainerWidth = 150;
   scrollerWidth = 100;
 
@@ -69,9 +84,9 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.tableDataSource.dataStream.subscribe(row => row.forEach(r => this.selection.select(r)));
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.tableDataSource.dataStream.subscribe((row) => row.forEach((r) => this.selection.select(r)));
   }
 
   checkboxLabel(row?: T): string {
@@ -94,17 +109,15 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngOnInit() {
-
-    this.dataTable.onColumnUpdated().subscribe(columns => {
+    this.dataTable.onColumnUpdated().subscribe((columns) => {
       this.filterArray = [];
-      columns.forEach(z => {
-        if (z.filter != null)
-          this.filterArray.push(z.filter);
+      columns.forEach((z) => {
+        if (z.filter != null) this.filterArray.push(z.filter);
       });
 
       this.columns = columns;
 
-      this.columnToDisplay = columns.map(z => {
+      this.columnToDisplay = columns.map((z) => {
         return z.key;
       });
 
@@ -117,64 +130,61 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       }
     });
 
-    this.dataTable.onFilterAdded().subscribe(filter => {
+    this.dataTable.onFilterAdded().subscribe((filter) => {
       this.filterArray.push(filter);
     });
 
-    this.dataTable.onRowDelete().subscribe(itemOrIndexOrPredicate => {
+    this.dataTable.onRowDelete().subscribe((itemOrIndexOrPredicate) => {
       if (typeof itemOrIndexOrPredicate == 'function') {
-        this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList)
-      }
-      else if (typeof itemOrIndexOrPredicate == 'number') {
+        this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList);
+      } else if (typeof itemOrIndexOrPredicate == 'number') {
         this.sourceList = this.sourceList.filter((_, i) => i != itemOrIndexOrPredicate);
       } else {
-        this.sourceList = this.sourceList.filter(x => x != itemOrIndexOrPredicate)
+        this.sourceList = this.sourceList.filter((x) => x != itemOrIndexOrPredicate);
       }
     });
 
-    this.dataTable.onRefresh().subscribe(_ => {
+    this.dataTable.onRefresh().subscribe((_) => {
       this.tableDataSource.triggerFilterChange();
-    })
-
+    });
 
     // listen to dataSource filter change
-    this.subs.push(this.tableDataSource.onFilterChange
-      // here we return a new observable to get the new records on filter change using switchMap,
-      // which also discards any pending subscription if a new filter change event is emitted
-      // while the previous request hasn't been completed
-      .pipe(switchMap(filter => this._getRecords(filter)))
-      .subscribe(
-        res => {
-          this.totalCount = res.Pager.TotalRecords;
-          this.sourceList = res.List;
-          this.isRender = true;
-          this.showFilter = true;
+    this.subs.push(
+      this.tableDataSource.onFilterChange
+        // here we return a new observable to get the new records on filter change using switchMap,
+        // which also discards any pending subscription if a new filter change event is emitted
+        // while the previous request hasn't been completed
+        .pipe(switchMap((filter) => this._getRecords(filter)))
+        .subscribe(
+          (res) => {
+            this.totalCount = res.Pager.TotalRecords;
+            this.sourceList = res.List;
+            this.isRender = true;
+            this.showFilter = true;
 
-          if (this.dataTable.selectedRowPredicate) {
-
-            res.List.forEach(row => {
-
-              if (!this.selection.isSelected(row) &&
-                this.dataTable.selectedRowPredicate(row)) {
-                this.selection.select(row);
-              }
-
-              this.selection.selected.forEach(selected => {
-
-                if (!this.dataTable.selectedRowPredicate(selected)) {
-                  this.selection.deselect(selected);
+            if (this.dataTable.selectedRowPredicate) {
+              res.List.forEach((row) => {
+                if (!this.selection.isSelected(row) && this.dataTable.selectedRowPredicate(row)) {
+                  this.selection.select(row);
                 }
+
+                this.selection.selected.forEach((selected) => {
+                  if (!this.dataTable.selectedRowPredicate(selected)) {
+                    this.selection.deselect(selected);
+                  }
+                });
               });
-            });
-          }
-        },
-        e => console.log(e)
-      )
+            }
+          },
+          (e) => console.log(e)
+        )
     );
 
-    this.subs.push(this.dataTable.onRowAdded().subscribe(x => {
-      this._source.next([...[x], ...this._source.value]);
-    }));
+    this.subs.push(
+      this.dataTable.onRowAdded().subscribe((x) => {
+        this._source.next([...[x], ...this._source.value]);
+      })
+    );
 
     this.tableDataSource.filter.pageSize = this.dataTable.defaultPageSize || this.tableDataSource.filter.pageSize;
   }
@@ -201,7 +211,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     this._source.complete();
   }
 
-
   //* Callback for when table filter change is triggered.
   //  * Returns a new observable to fetch the new list of records using the updated filter model
   //*
@@ -215,17 +224,19 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       sortDir: filter.sortDir,
       filter: filter.filterModel,
       sortCol: filter.sortCol
-    }
+    };
 
-    return this.dataTable.getResults(requestModel).pipe(tap(i => setTimeout(() => {
-      if (i.List.length > 10) 
-      {
-        this.initializeMinimap()
-      }
-      else {
-        this.scroller_div.nativeElement.style.display = "none !important";
-      }
-    }, 100)));
+    return this.dataTable.getResults(requestModel).pipe(
+      tap((i) =>
+        setTimeout(() => {
+          if (i.List.length > 10) {
+            this.initializeMinimap();
+          } else {
+            this.scroller_div.nativeElement.style.display = 'none !important';
+          }
+        }, 100)
+      )
+    );
   }
 
   filterChange(filter: IFilterModel) {
@@ -245,12 +256,12 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     if (event.checked) {
       this.columnToDisplay.splice(-1, 0, column.key);
     } else {
-      this.columnToDisplay = this.columnToDisplay.filter(x => x != column.key);
+      this.columnToDisplay = this.columnToDisplay.filter((x) => x != column.key);
     }
   }
 
   isColumnVisible(column: IDataTableColumn): boolean {
-    return this.columnToDisplay.some(x => x == column.key);
+    return this.columnToDisplay.some((x) => x == column.key);
   }
 
   onCheckBoxChange(event, row) {
@@ -258,7 +269,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     const eventdata: RowSelectEventDataModel<T> = {
       checked: event.checked,
       rowData: row
-    }
+    };
     this.rowSelect.emit(eventdata);
   }
 
@@ -280,24 +291,32 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       let marginLeft = 0;
       var isDown = false;
 
-      var right = (document.body.clientWidth - this.table.nativeElement.clientWidth + 40).toString() + "px";
+      var right = (document.body.clientWidth - this.table.nativeElement.clientWidth + 40).toString() + 'px';
 
-      this.scroller_div.nativeElement.style.visibility = "visible";
+      this.scroller_div.nativeElement.style.visibility = 'visible';
 
-      document.getElementById("parent").style.right = right;
+      document.getElementById('parent').style.right = right;
 
-      document.getElementById("parent").style.bottom = "40px";
+      document.getElementById('parent').style.bottom = '40px';
 
-      if (this.table.nativeElement.getBoundingClientRect().top > ((window.innerHeight || document.documentElement.clientHeight) - 200)) {
-        document.getElementById("parent").style.cssText = "display: none !important";
+      if (
+        this.table.nativeElement.getBoundingClientRect().top >
+        (window.innerHeight || document.documentElement.clientHeight) - 200
+      ) {
+        document.getElementById('parent').style.cssText = 'display: none !important';
       }
 
       this._renderer.listen(document, 'scroll', (e) => {
         var bounds = this.table.nativeElement.getBoundingClientRect();
-        if ((bounds.bottom < (window.innerHeight || document.documentElement.clientHeight)) || (bounds.top > ((window.innerHeight || document.documentElement.clientHeight) - 200))) {
-          document.getElementById("parent").style.cssText = "display: none !important";
+        if (
+          bounds.bottom < (window.innerHeight || document.documentElement.clientHeight) ||
+          bounds.top > (window.innerHeight || document.documentElement.clientHeight) - 200
+        ) {
+          document.getElementById('parent').style.cssText = 'display: none !important';
         } else {
-          document.getElementById("parent").style.cssText = `position: fixed; top: unset; bottom: 40px; right: ${ right } !important`;
+          document.getElementById(
+            'parent'
+          ).style.cssText = `position: fixed; top: unset; bottom: 40px; right: ${right} !important`;
         }
       });
 
@@ -312,60 +331,59 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
       this._renderer.listen(this.scroller.nativeElement, 'mousemove', (e) => {
         if (isDown) {
-          this.table.nativeElement.scrollLeft += (((e.clientX - xValue) * ratio) / 50);
-          marginLeft += ((e.clientX - xValue) / 50);
+          this.table.nativeElement.scrollLeft += ((e.clientX - xValue) * ratio) / 50;
+          marginLeft += (e.clientX - xValue) / 50;
 
           switch (true) {
             case marginLeft > maxMargin:
               marginLeft = maxMargin;
-              this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + "px";
+              this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + 'px';
               break;
 
             case marginLeft <= 0:
               marginLeft = 0;
-              this.scroller.nativeElement.style.marginLeft = "0px";
+              this.scroller.nativeElement.style.marginLeft = '0px';
               break;
 
             default:
-              this.scroller.nativeElement.style.marginLeft = marginLeft + "px";
+              this.scroller.nativeElement.style.marginLeft = marginLeft + 'px';
               break;
           }
         }
       });
 
       this._renderer.listen(this.scroll_container.nativeElement, 'click', (e) => {
-        if (!isDown && (<HTMLElement>e.target).id == "scroll-container") {
+        if (!isDown && (<HTMLElement>e.target).id == 'scroll-container') {
           var clickOffsetLeft = e.clientX;
 
-          this.table.nativeElement.scrollLeft += ((clickOffsetLeft - this.scrollerWidth) * ratio);
-          marginLeft += (clickOffsetLeft - this.scrollerWidth);
+          this.table.nativeElement.scrollLeft += (clickOffsetLeft - this.scrollerWidth) * ratio;
+          marginLeft += clickOffsetLeft - this.scrollerWidth;
 
           switch (true) {
             case marginLeft > maxMargin:
               marginLeft = maxMargin;
-              this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + "px";
+              this.scroller.nativeElement.style.marginLeft = maxMargin.toString() + 'px';
               break;
 
             case marginLeft <= 0:
               marginLeft = 0;
-              this.scroller.nativeElement.style.marginLeft = "0px";
+              this.scroller.nativeElement.style.marginLeft = '0px';
               break;
 
             default:
-              this.scroller.nativeElement.style.marginLeft = marginLeft + "px";
+              this.scroller.nativeElement.style.marginLeft = marginLeft + 'px';
               break;
           }
         }
       });
 
       this._renderer.listen(this.table.nativeElement, 'scroll', (e) => {
-        var denominator = difference / (this.scrollerContainerWidth - this.scrollerWidth)
-        this.scroller.nativeElement.style.marginLeft = (this.table.nativeElement.scrollLeft / denominator).toString() + "px";
+        var denominator = difference / (this.scrollerContainerWidth - this.scrollerWidth);
+        this.scroller.nativeElement.style.marginLeft =
+          (this.table.nativeElement.scrollLeft / denominator).toString() + 'px';
       });
-
     }
   }
-
 }
 
 export interface RowSelectEventDataModel<T> {

@@ -8,9 +8,8 @@ describe('SaDataTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaDataTableComponent ]
-    })
-    .compileComponents();
+      declarations: [SaDataTableComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

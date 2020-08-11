@@ -8,7 +8,6 @@ import { NavigationItem } from '../models/NavigationItem';
   styleUrls: ['./sa-navigable-page.component.scss']
 })
 export class SaNavigablePageComponent implements OnInit {
-
   @Input() primaryMenu: NavigationItem[] = [];
   @Input() secondaryMenu: NavigationItem[] = [];
 
@@ -20,12 +19,11 @@ export class SaNavigablePageComponent implements OnInit {
 
   ngOnInit() {
     this.navigationList = this.primaryMenu.concat(this.secondaryMenu);
-    this.route.fragment.subscribe(f => {
-      const element = document.querySelector("a[name='" + f + "']")
+    this.route.fragment.subscribe((f) => {
+      const element = document.querySelector("a[name='" + f + "']");
       if (element) {
         element.scrollIntoView();
       }
-    })
+    });
   }
-
 }

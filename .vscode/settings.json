@@ -1,0 +1,10 @@
+{
+  "editor.rulers": [80, 120],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "gitlens.currentLine.enabled": false,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.codeLens.scopes": ["document", "containers", "blocks"],
+  "git.autofetch": true,
+  "git.confirmSync": false
+}

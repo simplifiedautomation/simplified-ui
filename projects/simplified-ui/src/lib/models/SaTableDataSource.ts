@@ -42,12 +42,13 @@ export class DefaultCommonTableFilter implements SaCommonTableFilter {
    * Note: setting keyword trigger's keywordChange event*/
   get filterModel(): IFilterModel {
     return this.filterModelChange.value;
-  };
-  set filterModel(model: IFilterModel) { this.filterModelChange.next(model) };
+  }
+  set filterModel(model: IFilterModel) {
+    this.filterModelChange.next(model);
+  }
   filterModelChange = new BehaviorSubject<IFilterModel>({
-    keyword: ""
+    keyword: ''
   });
-
 
   /**
    * Provides a new instance of the CommonTableFilter with the configured default values.
@@ -60,4 +61,3 @@ export class DefaultCommonTableFilter implements SaCommonTableFilter {
     }
   }
 }
-

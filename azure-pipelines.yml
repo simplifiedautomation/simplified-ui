@@ -1,16 +1,16 @@
 trigger: none
 
 pool:
- name: Hosted VS2017
+  name: Hosted VS2017
 
 steps:
-- task: Npm@1
-  displayName: "NPM Install"
-  inputs:
-    command: 'install'
+  - task: Npm@1
+    displayName: 'NPM Install'
+    inputs:
+      command: 'install'
 
-- task: Npm@1
-  displayName: "Build simplified-ui library"
-  inputs:
-    command: 'custom'
-    customCommand: 'run ng build simplified-ui'
+  - task: Npm@1
+    displayName: 'Build simplified-ui library'
+    inputs:
+      command: 'custom'
+      customCommand: 'run ng build simplified-ui'

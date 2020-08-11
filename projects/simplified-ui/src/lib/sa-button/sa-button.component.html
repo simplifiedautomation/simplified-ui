@@ -1,7 +1,12 @@
-<button mat-flat-button [class.no-pointer]="config.isSpinning" color="primary"
-  [disabled]="config.isDisabled && !config.isSpinning" class="button" (click)="onButtonClick($event)"
-  *ngIf="config.type == buttonType.Primary">
-
+<button
+  mat-flat-button
+  [class.no-pointer]="config.isSpinning"
+  color="primary"
+  [disabled]="config.isDisabled && !config.isSpinning"
+  class="button"
+  (click)="onButtonClick($event)"
+  *ngIf="config.type == buttonType.Primary"
+>
   <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
     <span>
       {{ config.isSpinning && config.loadingText ? config.loadingText : config.title }}
@@ -11,10 +16,15 @@
   </span>
 </button>
 
-<button mat-stroked-button [class.no-pointer]="config.isSpinning" color="primary"
-  [disabled]="config.isDisabled && !config.isSpinning" class="button secondary" (click)="onButtonClick($event)"
-  *ngIf="config.type == buttonType.Secondary">
-
+<button
+  mat-stroked-button
+  [class.no-pointer]="config.isSpinning"
+  color="primary"
+  [disabled]="config.isDisabled && !config.isSpinning"
+  class="button secondary"
+  (click)="onButtonClick($event)"
+  *ngIf="config.type == buttonType.Secondary"
+>
   <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
     <span>
       {{ config.isSpinning && config.loadingText ? config.loadingText : config.title }}
@@ -24,10 +34,14 @@
   </span>
 </button>
 
-<button mat-button [class.no-pointer]="config.isSpinning" color="primary"
-  [disabled]="config.isDisabled && !config.isSpinning" (click)="onButtonClick($event)"
-  *ngIf="config.type == buttonType.Anchor">
-
+<button
+  mat-button
+  [class.no-pointer]="config.isSpinning"
+  color="primary"
+  [disabled]="config.isDisabled && !config.isSpinning"
+  (click)="onButtonClick($event)"
+  *ngIf="config.type == buttonType.Anchor"
+>
   <span fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
     <span>
       {{ config.isSpinning && config.loadingText ? config.loadingText : config.title }}

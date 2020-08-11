@@ -8,9 +8,8 @@ describe('SaTableOfContentsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaTableOfContentsComponent ]
-    })
-    .compileComponents();
+      declarations: [SaTableOfContentsComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

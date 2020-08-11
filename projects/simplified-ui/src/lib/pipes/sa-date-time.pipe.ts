@@ -4,7 +4,6 @@ import { DatePipe } from '@angular/common';
 @Pipe({
   name: 'dateTime'
 })
-
 export class SaDateTimePipe extends DatePipe implements PipeTransform {
   transform(value: any, args?: any): any {
     switch (args) {
@@ -25,13 +24,12 @@ export class SaDateTimePipe extends DatePipe implements PipeTransform {
       }
     }
   }
-
 }
 export class DateFormats {
   static readonly shortDate = 'MMM d, yyy';
   static readonly shortTime = 'h:mm a';
   static readonly shortDateTime = `${DateFormats.shortDate} \'at\' ${DateFormats.shortTime}`;
-  static readonly timeZoneAbb = "z";
+  static readonly timeZoneAbb = 'z';
 }
 
 export const MOMENT_FORMATS = {
@@ -41,5 +39,5 @@ export const MOMENT_FORMATS = {
   timePickerInput: 'LT',
   monthYearLabel: 'MMM YYYY',
   dateA11yLabel: 'LL',
-  monthYearA11yLabel: 'MMMM YYYY',
+  monthYearA11yLabel: 'MMMM YYYY'
 };

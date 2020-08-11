@@ -8,9 +8,8 @@ describe('SaNavigablePageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaNavigablePageComponent ]
-    })
-    .compileComponents();
+      declarations: [SaNavigablePageComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

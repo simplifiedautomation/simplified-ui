@@ -1,4 +1,16 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef, Optional, Self, HostBinding, ViewChild, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ElementRef,
+  Optional,
+  Self,
+  HostBinding,
+  ViewChild,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { ControlValueAccessor, NgControl, FormControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
@@ -16,9 +28,9 @@ import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
   styleUrls: ['./sa-date-picker.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: SaDatePickerComponent }]
 })
-export class SaDatePickerComponent implements ControlValueAccessor, MatFormFieldControl<Date | Date[]>, OnDestroy, OnInit {
-
-  @ViewChild("input", { static: true }) inputRef: ElementRef;
+export class SaDatePickerComponent
+  implements ControlValueAccessor, MatFormFieldControl<Date | Date[]>, OnDestroy, OnInit {
+  @ViewChild('input', { static: true }) inputRef: ElementRef;
 
   @Input() dateConfig: DatePickerConfig;
 
@@ -27,8 +39,8 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   @Output() onSelection: EventEmitter<any> = new EventEmitter();
 
   id: string;
-  onChange = (_: any) => { };
-  onTouched = () => { };
+  onChange = (_: any) => {};
+  onTouched = () => {};
 
   writeValue(date: Date): void {
     this._empty = false;
@@ -66,7 +78,7 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
 
   focused: boolean;
   errorState: false;
-  controlType = "app-date-picker";
+  controlType = 'app-date-picker';
   autofilled?: boolean;
 
   @Input()
@@ -79,7 +91,6 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   }
   private _placeholder: string;
 
-
   onContainerClick(event: MouseEvent): void {
     this.focused = true;
   }
@@ -88,8 +99,7 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   @Input()
   get value(): Date | Date[] | null {
     this.datePickerContent = this.dateTime;
-    if (this.datePickerContent)
-      return this.datePickerContent;
+    if (this.datePickerContent) return this.datePickerContent;
     return null;
   }
   set value(date: Date | Date[] | null) {
@@ -97,7 +107,6 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
     this.onChange(date);
     this.stateChanges.next();
   }
-
 
   private _empty = true;
   get empty() {
@@ -115,13 +124,15 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
   private _required = false;
 
   @Input()
-  get disabled(): boolean { return this._disabled; }
+  get disabled(): boolean {
+    return this._disabled;
+  }
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
-    if (this._disabled){
-      this.elRef.nativeElement.setAttribute("style", "pointer-events: none");
+    if (this._disabled) {
+      this.elRef.nativeElement.setAttribute('style', 'pointer-events: none');
     } else {
-      this.elRef.nativeElement.setAttribute("style", "pointer-events: auto");
+      this.elRef.nativeElement.setAttribute('style', 'pointer-events: auto');
     }
     this.stateChanges.next();
   }
@@ -132,32 +143,31 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
     this.fm.stopMonitoring(this.elRef.nativeElement);
   }
 
-
-  constructor(@Optional() @Self() public ngControl: NgControl, private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
+  constructor(
+    @Optional() @Self() public ngControl: NgControl,
+    private fm: FocusMonitor,
+    private elRef: ElementRef<HTMLElement>
+  ) {
     if (this.ngControl != null) {
       // Setting the value accessor directly (instead of using
       // the providers) to avoid running into a circular import.
       this.ngControl.valueAccessor = this;
     }
 
-    fm.monitor(elRef.nativeElement, true).subscribe(origin => {
+    fm.monitor(elRef.nativeElement, true).subscribe((origin) => {
       this.focused = !!origin;
       this.stateChanges.next();
     });
   }
 
   ngOnInit() {
-
     if (!this.dateConfig.dateFormat) {
       if (this.dateConfig.selectMode == DatePickerSelectMode.range) {
-        this.dateConfig.dateFormat = MOMENT_FORMATS.dateA11yLabel
-
+        this.dateConfig.dateFormat = MOMENT_FORMATS.dateA11yLabel;
       } else if (this.dateConfig.pickerType == DatePickerType.calendar) {
         this.dateConfig.dateFormat = MOMENT_FORMATS.datePickerInput;
-
       } else if (this.dateConfig.pickerType == DatePickerType.timer) {
         this.dateConfig.dateFormat = MOMENT_FORMATS.timePickerInput;
-
       } else if (this.dateConfig.pickerType == DatePickerType.both) {
         this.dateConfig.dateFormat = MOMENT_FORMATS.fullPickerInput;
       }
@@ -165,11 +175,8 @@ export class SaDatePickerComponent implements ControlValueAccessor, MatFormField
 
     this.dateTime.valueChanges.subscribe((x) => {
       if (x instanceof Array) {
-        this.value = x.map(date => moment(date).format(this.dateConfig.dateFormat))
-      }
-      else this.value = moment(x).format(this.dateConfig.dateFormat);
-
-    })
+        this.value = x.map((date) => moment(date).format(this.dateConfig.dateFormat));
+      } else this.value = moment(x).format(this.dateConfig.dateFormat);
+    });
   }
-
 }

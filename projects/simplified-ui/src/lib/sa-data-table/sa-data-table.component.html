@@ -1,54 +1,68 @@
 <div fxFlex fxLayout="column" fxLayoutAlign="start strech" fxLayoutGap="8px" class="parent-container">
-
   <div fxFlex="nogrow" fxLayout="row" fxLayoutAlign="start center">
     <div fxFlex="grow">
-      <sa-data-filter *ngIf="(dataTable.showFilters == null) || dataTable.showFilters" [filters]="filterArray"
-        (filterChange)="filterChange($event)"></sa-data-filter>
+      <sa-data-filter
+        *ngIf="dataTable.showFilters == null || dataTable.showFilters"
+        [filters]="filterArray"
+        (filterChange)="filterChange($event)"
+      ></sa-data-filter>
     </div>
     <div fxFlex="nogrow">
       <button mat-button *ngIf="dataTable.mainActionMenu.length > 0" color="primary" [matMenuTriggerFor]="menu">
         Action
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item color="primary" *ngFor="let action of dataTable.mainActionMenu"
-          (click)="menuItemClicked(action, $event)">
+        <button
+          mat-menu-item
+          color="primary"
+          *ngFor="let action of dataTable.mainActionMenu"
+          (click)="menuItemClicked(action, $event)"
+        >
           {{ action.title }}
         </button>
       </mat-menu>
     </div>
-    <div fxFlex="nogrow" *ngIf="(dataTable.showColumnToggle == null) || dataTable.showColumnToggle">
+    <div fxFlex="nogrow" *ngIf="dataTable.showColumnToggle == null || dataTable.showColumnToggle">
       <button mat-button color="primary" [matMenuTriggerFor]="columnMenu">
         Columns <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
       <mat-menu #columnMenu>
-        <mat-checkbox class="mat-menu-item" *ngFor="let column of columns"
-          (change)="columnChangeClicked($event, column)" [checked]="isColumnVisible(column)"
-          (click)="$event.stopPropagation()">
-          {{column.title}}
+        <mat-checkbox
+          class="mat-menu-item"
+          *ngFor="let column of columns"
+          (change)="columnChangeClicked($event, column)"
+          [checked]="isColumnVisible(column)"
+          (click)="$event.stopPropagation()"
+        >
+          {{ column.title }}
         </mat-checkbox>
       </mat-menu>
     </div>
   </div>
 
   <div fxLayout="row" fxLayoutAlign="end" id="scroller-div" #scroller_div fxHide.lt-md>
-    <mat-card id="parent"> 
+    <mat-card id="parent">
       <div id="scroll-container" #scroll_container [style.width.px]="scrollerContainerWidth">
-        <div id="scroller" fxLayoutAlign="center center" #scroller [style.width.px]="scrollerWidth">
-        </div>
+        <div id="scroller" fxLayoutAlign="center center" #scroller [style.width.px]="scrollerWidth"> </div>
       </div>
     </mat-card>
   </div>
 
   <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start stretch" class="table-container" id="table" #table>
-
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <mat-nav-list fxFlexFill fxHide [fxShow.lt-md]="listItemTemplateRef != null && listItemTemplateRef != undefined">
-        <div *ngFor="let row of sourceList;">
+        <div *ngFor="let row of sourceList">
           <ng-container *ngTemplateOutlet="listItemTemplateRef; context: { row: row }"></ng-container>
         </div>
       </mat-nav-list>
 
-      <table mat-table [dataSource]="tableDataSource" matSort fxShow [fxHide.lt-md]="listItemTemplateRef != null && listItemTemplateRef != undefined">
+      <table
+        mat-table
+        [dataSource]="tableDataSource"
+        matSort
+        fxShow
+        [fxHide.lt-md]="listItemTemplateRef != null && listItemTemplateRef != undefined"
+      >
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select" sticky="true">
           <th mat-header-cell *matHeaderCellDef>
@@ -59,8 +73,12 @@
           </th>
           <td mat-cell *matCellDef="let row">
             <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? onCheckBoxChange($event, row) : null"
-                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? onCheckBoxChange($event, row) : null"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)"
+              >
               </mat-checkbox>
             </div>
           </td>
@@ -68,22 +86,23 @@
 
         <!-- button Column -->
         <ng-container matColumnDef="options" stickyEnd>
-          <th mat-header-cell *matHeaderCellDef>
-          </th>
+          <th mat-header-cell *matHeaderCellDef> </th>
           <td mat-cell *matCellDef="let row">
-            <ng-container *ngTemplateOutlet="dataTable.optionsColumnRef; context: { $implicit: row }">
-            </ng-container>
+            <ng-container *ngTemplateOutlet="dataTable.optionsColumnRef; context: { $implicit: row }"> </ng-container>
           </td>
         </ng-container>
 
         <!-- Sliced 1 to not to reinitilize the select controller-->
-        <ng-container *ngFor="let col of columns" [matColumnDef]="col.key" [sticky]="col.sticky"
-          [stickyEnd]="col.stickyEnd">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{col.title}}">
-            <div *ngIf="!col.headerTemplate" class="truncate">{{col.title | uppercase}}</div>
+        <ng-container
+          *ngFor="let col of columns"
+          [matColumnDef]="col.key"
+          [sticky]="col.sticky"
+          [stickyEnd]="col.stickyEnd"
+        >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ col.title }}">
+            <div *ngIf="!col.headerTemplate" class="truncate">{{ col.title | uppercase }}</div>
             <div *ngIf="col.headerTemplate">
-              <ng-container *ngTemplateOutlet="col.headerTemplate; context: { column: col }">
-              </ng-container>
+              <ng-container *ngTemplateOutlet="col.headerTemplate; context: { column: col }"> </ng-container>
             </div>
           </th>
           <ng-container *ngIf="col.template">
@@ -95,10 +114,8 @@
                 </a>
               </div>
               <div class="cell-container" *ngIf="!dataTable.routerLinkEnabled" fxLayoutAlign="start center">
-                <ng-container *ngTemplateOutlet="col.template; context: { column: col, row: element }">
-                </ng-container>
+                <ng-container *ngTemplateOutlet="col.template; context: { column: col, row: element }"> </ng-container>
               </div>
-
             </td>
           </ng-container>
 
@@ -106,15 +123,15 @@
             <td mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
               <div class="cell-container" *ngIf="dataTable.routerLinkEnabled">
                 <a [routerLink]="[element['route']]" fxLayoutAlign="start center">
-                  <span matTooltip="{{element[col.key] | valueFormatter: col.type}}" class="truncate">
-                    {{element[col.key] | valueFormatter: col.type}}
+                  <span matTooltip="{{ element[col.key] | valueFormatter: col.type }}" class="truncate">
+                    {{ element[col.key] | valueFormatter: col.type }}
                   </span>
                 </a>
               </div>
 
               <div class="cell-container" *ngIf="!dataTable.routerLinkEnabled" fxLayoutAlign="start center">
-                <span matTooltip="{{element[col.key] | valueFormatter: col.type}}" class="truncate">
-                  {{element[col.key] | valueFormatter: col.type}}
+                <span matTooltip="{{ element[col.key] | valueFormatter: col.type }}" class="truncate">
+                  {{ element[col.key] | valueFormatter: col.type }}
                 </span>
               </div>
             </td>
@@ -122,13 +139,12 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnToDisplay; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnToDisplay;" [ngStyle]="{'display': !isRender ? 'none' : null}">
+        <tr mat-row *matRowDef="let row; columns: columnToDisplay" [ngStyle]="{ display: !isRender ? 'none' : null }">
         </tr>
       </table>
     </div>
 
-
-    <ng-container *ngIf="((tableDataSource.dataStream | async)?.length == 0) && isRender">
+    <ng-container *ngIf="(tableDataSource.dataStream | async)?.length == 0 && isRender">
       <div class="blank-card">
         <p>
           There are no items to show currently.
@@ -136,15 +152,21 @@
       </div>
     </ng-container>
 
-    <div *ngIf="!isRender" style="background-color:white;">
-      <div fxFlex="row" fxLayoutAlign="space-around" style="padding:8px;">
+    <div *ngIf="!isRender" style="background-color: white;">
+      <div fxFlex="row" fxLayoutAlign="space-around" style="padding: 8px;">
         <mat-spinner diameter="50"></mat-spinner>
       </div>
     </div>
 
-    <mat-paginator *ngIf="(dataTable.showPaginator == null) || dataTable.showPaginator"
-      [pageSizeOptions]="[5, 10, 20, 30, 40, 100]" [length]="totalCount" [pageSize]="tableDataSource.filter.pageSize"
-      [pageIndex]="tableDataSource.filter.pageNo" showFirstLastButtons style="position: sticky;left: 0;right: 0;">
+    <mat-paginator
+      *ngIf="dataTable.showPaginator == null || dataTable.showPaginator"
+      [pageSizeOptions]="[5, 10, 20, 30, 40, 100]"
+      [length]="totalCount"
+      [pageSize]="tableDataSource.filter.pageSize"
+      [pageIndex]="tableDataSource.filter.pageNo"
+      showFirstLastButtons
+      style="position: sticky; left: 0; right: 0;"
+    >
     </mat-paginator>
   </div>
 </div>

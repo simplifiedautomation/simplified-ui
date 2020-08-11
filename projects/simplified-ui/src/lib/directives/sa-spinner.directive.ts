@@ -5,7 +5,6 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   selector: '[saSpinner]'
 })
 export class SaSpinnerDirective {
-
   private _isSpinning: boolean = false;
   @Input('saSpinner')
   set isSpinning(val: boolean) {
@@ -32,7 +31,7 @@ export class SaSpinnerDirective {
   set opacity(val: string) {
     this._opacity = val;
     this.updateSpinner();
-  };
+  }
 
   private parentDiv: any;
 
@@ -41,9 +40,9 @@ export class SaSpinnerDirective {
     private renderer: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
     private viewContainerRef: ViewContainerRef
-  ) { }
+  ) {}
 
-  private updateSpinner(){
+  private updateSpinner() {
     if (this._isSpinning) {
       this.removeSpinner();
       this.addSpinner();
@@ -53,40 +52,39 @@ export class SaSpinnerDirective {
   }
 
   private addSpinner() {
-
     // Create Mat-Spinner
     const factory = this.componentFactoryResolver.resolveComponentFactory(MatProgressSpinner);
     const spinner = this.viewContainerRef.createComponent(factory, 2);
     spinner.instance.diameter = this._diameter || 35;
     spinner.instance.mode = 'indeterminate';
     let spinnerElement = spinner.injector.get(MatProgressSpinner)._elementRef.nativeElement;
-    spinnerElement.style.position = "absolute";
-    spinnerElement.style.zIndex = "10";
+    spinnerElement.style.position = 'absolute';
+    spinnerElement.style.zIndex = '10';
 
     // The host element must be relatively positioned to use the directive
-    this.el.nativeElement.style.position = "relative";
+    this.el.nativeElement.style.position = 'relative';
 
     // Create a parent div to hold transparency and mat-spinner
-    this.parentDiv = this.renderer.createElement("div");
-    this.parentDiv.style.width = "100%";
-    this.parentDiv.style.height = "100%";
-    this.parentDiv.style.position = "absolute";
-    this.parentDiv.style.top = "0px";
-    this.parentDiv.style.left = "0px";
-    this.parentDiv.style.display = "flex";
-    this.parentDiv.style.justifyContent = "center";
-    this.parentDiv.style.alignItems = "center";
-    this.renderer.addClass(this.parentDiv, "saSpinner-parent")
+    this.parentDiv = this.renderer.createElement('div');
+    this.parentDiv.style.width = '100%';
+    this.parentDiv.style.height = '100%';
+    this.parentDiv.style.position = 'absolute';
+    this.parentDiv.style.top = '0px';
+    this.parentDiv.style.left = '0px';
+    this.parentDiv.style.display = 'flex';
+    this.parentDiv.style.justifyContent = 'center';
+    this.parentDiv.style.alignItems = 'center';
+    this.renderer.addClass(this.parentDiv, 'saSpinner-parent');
 
     // Create a transclucent background to show spinner on.
-    var newDiv = this.renderer.createElement("div");
-    newDiv.style.width = "100%";
-    newDiv.style.height = "100%";
-    newDiv.style.backgroundColor = this._backgroundColor || "#bdbdbd";
-    newDiv.style.opacity = this._opacity || "0.25";
-    newDiv.style.position = "absolute";
-    newDiv.style.top = "0px";
-    newDiv.style.left = "0px";
+    var newDiv = this.renderer.createElement('div');
+    newDiv.style.width = '100%';
+    newDiv.style.height = '100%';
+    newDiv.style.backgroundColor = this._backgroundColor || '#bdbdbd';
+    newDiv.style.opacity = this._opacity || '0.25';
+    newDiv.style.position = 'absolute';
+    newDiv.style.top = '0px';
+    newDiv.style.left = '0px';
 
     // Add transclusent background and spinner in parent div.
     this.renderer.appendChild(this.parentDiv, newDiv);
@@ -102,5 +100,4 @@ export class SaSpinnerDirective {
     let container = this.el.nativeElement;
     this.renderer.removeChild(container, this.parentDiv);
   }
-
 }

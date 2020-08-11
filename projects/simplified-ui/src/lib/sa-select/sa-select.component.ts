@@ -1,4 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostBinding, Optional, Self, ElementRef, ViewChild, DoCheck, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostBinding,
+  Optional,
+  Self,
+  ElementRef,
+  ViewChild,
+  DoCheck,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { BehaviorSubject, Subscription, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { MatFormFieldControl } from '@angular/material/form-field';
@@ -16,18 +29,17 @@ import { SaSelectConfig } from '../models/SaSelectModels';
   providers: [{ provide: MatFormFieldControl, useExisting: SaSelectComponent }]
 })
 /**
-* A searchable and paginated select component that can be
-* used when local or server-side searching and pagination
-* is needed in select elements.
-*
-* For client side data, search feature automatically works
-* on the options data model that is passed. Search term is
-* matched with any value in all keys in model.
-*
-* @type SearchableSelectOptionComponent
-*/
+ * A searchable and paginated select component that can be
+ * used when local or server-side searching and pagination
+ * is needed in select elements.
+ *
+ * For client side data, search feature automatically works
+ * on the options data model that is passed. Search term is
+ * matched with any value in all keys in model.
+ *
+ * @type SearchableSelectOptionComponent
+ */
 export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldControl<T>, ControlValueAccessor {
-
   matSelect = new FormControl();
 
   /**
@@ -50,12 +62,12 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   public selectOptions = new BehaviorSubject<T[]>([]);
 
   private didFilter = false;
-  searchTerm: string = "";
+  searchTerm: string = '';
   private searchTermSubject = new Subject<string>();
   private _isWaitingResultsCallback = false;
   public showSpinner = false;
 
-  private originalData: T[] = []
+  private originalData: T[] = [];
   private resultCallbackSubscription: Subscription = new Subscription();
   private totalRecords: number;
   page = 0;
@@ -65,29 +77,33 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   stateChanges = new Subject<void>();
   focused: boolean = false;
   errorState = false;
-  controlType = "app-searchable-select";
+  controlType = 'app-searchable-select';
   autofilled?: boolean;
   private _empty = true;
   private _disabled = false;
   id: string;
   private _required = false;
 
-  @ViewChild("matSelectRef", { static: true }) matSelectRef;
+  @ViewChild('matSelectRef', { static: true }) matSelectRef;
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
 
-  constructor(@Optional() @Self() public ngControl: NgControl, private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
+  constructor(
+    @Optional() @Self() public ngControl: NgControl,
+    private fm: FocusMonitor,
+    private elRef: ElementRef<HTMLElement>
+  ) {
     if (this.ngControl != null) {
       // Setting the value accessor directly (instead of using
       // the providers) to avoid running into a circular import.
       this.ngControl.valueAccessor = this;
     }
 
-    fm.monitor(elRef.nativeElement, true).subscribe(origin => {
+    fm.monitor(elRef.nativeElement, true).subscribe((origin) => {
       this.focused = !!origin;
       this.stateChanges.next();
     });
 
-    this._selectOptions.subscribe(x => {
+    this._selectOptions.subscribe((x) => {
       if (this.didFilter) {
         this.didFilter = false;
         this.originalData = x;
@@ -108,15 +124,16 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
 
   ngOnInit() {
     let time = this.isGetResultsCallbackNull() ? 0 : 500;
-    this.searchTermSubject.asObservable()
+    this.searchTermSubject
+      .asObservable()
       .pipe(debounceTime(time))
-      .subscribe(_ => {
+      .subscribe((_) => {
         this._isWaitingResultsCallback = false;
         this.resultCallbackSubscription.unsubscribe();
         this.getNextBatch();
       });
 
-    this.config.options.subscribe(x => {
+    this.config.options.subscribe((x) => {
       this.didFilter = true;
       this.totalRecords = x.length;
       this._selectOptions.next(x);
@@ -130,21 +147,20 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
       this.getNextBatch();
     }
 
-    this.config.onCancelled().subscribe(x => {
+    this.config.onCancelled().subscribe((x) => {
       this._isWaitingResultsCallback = false;
       this.resultCallbackSubscription.unsubscribe();
     });
 
-    this.config.onRefresh().subscribe(_ => {
-      this.searchTerm = "";
+    this.config.onRefresh().subscribe((_) => {
+      this.searchTerm = '';
       this.filterRecords();
-    })
+    });
   }
 
   clicked(event: MouseEvent): void {
     event.stopPropagation();
   }
-
 
   searchTermChanged(event: KeyboardEvent): void {
     event.stopPropagation();
@@ -176,17 +192,15 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   }
 
   getNextBatch() {
-    if (this._isWaitingResultsCallback)
-      return;
+    if (this._isWaitingResultsCallback) return;
 
     // Do not show spinner when data is client side.
     this.showSpinner = !this.isGetResultsCallbackNull();
 
     if (this.isGetResultsCallbackNull()) {
-      var filteredData = this.config.options.value.filter(x => {
+      var filteredData = this.config.options.value.filter((x) => {
         for (let key in x) {
           if (x[key] && x[key].toString().toLowerCase().indexOf(this.searchTerm) > -1) {
-
             // Check required when client side multiple select is enable to remove duplicates.
             if (this.value instanceof Array) {
               return !(this.value.indexOf(x) > -1);
@@ -204,14 +218,13 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     }
 
     this._isWaitingResultsCallback = true;
-    this.resultCallbackSubscription = this.config.getResults(this.page, this.searchTerm)
-      .subscribe(result => {
-        this.showSpinner = false;
-        this._isWaitingResultsCallback = false;
-        this._selectOptions.next(result.List);
-        this.totalRecords = result.Pager.TotalRecords;
-        this.page++;
-      });
+    this.resultCallbackSubscription = this.config.getResults(this.page, this.searchTerm).subscribe((result) => {
+      this.showSpinner = false;
+      this._isWaitingResultsCallback = false;
+      this._selectOptions.next(result.List);
+      this.totalRecords = result.Pager.TotalRecords;
+      this.page++;
+    });
   }
 
   private isGetResultsCallbackNull(): boolean {
@@ -224,7 +237,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   }
 
   selectOpenChanged(opened: boolean) {
-    if (!opened && this.searchTerm.trim() != "") {
+    if (!opened && this.searchTerm.trim() != '') {
       this.config.refresh();
     }
 
@@ -234,8 +247,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   }
 
   writeValue(value: any): void {
-    if (value != null)
-      this._empty = false;
+    if (value != null) this._empty = false;
     this.value = value;
   }
 
@@ -246,11 +258,8 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
 
   set value(val: T) {
     this._value = val;
-    if (this._value != null || (this._value != null && (<any>this._value).length > 0))
-      this._empty = false;
-    else
-      this._empty = true;
-
+    if (this._value != null || (this._value != null && (<any>this._value).length > 0)) this._empty = false;
+    else this._empty = true;
 
     this.matSelectRef.value = val;
     this.matSelect.setValue(val);
@@ -275,13 +284,12 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
     }
   }
   markAsTouched() {
-    if (this.ngControl != undefined && this.ngControl != null)
-      this.ngControl.control.markAsTouched();
+    if (this.ngControl != undefined && this.ngControl != null) this.ngControl.control.markAsTouched();
   }
   @Output() onSelection: EventEmitter<any> = new EventEmitter();
 
-  onChange = (_: any) => { };
-  onTouched = () => { };
+  onChange = (_: any) => {};
+  onTouched = () => {};
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
@@ -295,13 +303,15 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   }
 
   @Input()
-  get disabled(): boolean { return this._disabled; }
+  get disabled(): boolean {
+    return this._disabled;
+  }
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
     if (this._disabled) {
-      this.elRef.nativeElement.setAttribute("style", "pointer-events: none");
+      this.elRef.nativeElement.setAttribute('style', 'pointer-events: none');
     } else {
-      this.elRef.nativeElement.setAttribute("style", "pointer-events: auto");
+      this.elRef.nativeElement.setAttribute('style', 'pointer-events: auto');
     }
 
     this.stateChanges.next();
@@ -335,5 +345,4 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   onContainerClick(event: MouseEvent): void {
     this.focused = true;
   }
-
 }

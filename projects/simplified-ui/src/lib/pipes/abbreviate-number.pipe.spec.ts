@@ -1,4 +1,4 @@
-import { AbbreviateNumberPipe } from "./abbreviate-number.pipe";
+import { AbbreviateNumberPipe } from './abbreviate-number.pipe';
 
 describe('ShortNumberPipe', () => {
   it('create an instance', () => {

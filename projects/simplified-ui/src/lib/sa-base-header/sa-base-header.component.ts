@@ -6,7 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./sa-base-header.component.scss']
 })
 export class SaBaseHeaderComponent {
-
-  constructor() { }
-
+  constructor() {}
 }

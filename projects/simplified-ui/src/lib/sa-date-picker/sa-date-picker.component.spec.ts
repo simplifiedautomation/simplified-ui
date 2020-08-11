@@ -8,9 +8,8 @@ describe('SaDatePickerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaDatePickerComponent ]
-    })
-    .compileComponents();
+      declarations: [SaDatePickerComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

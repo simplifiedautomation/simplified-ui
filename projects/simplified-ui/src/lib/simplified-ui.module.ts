@@ -60,7 +60,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     AbbreviateNumberPipe
   ],
   imports: [
-    
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -69,28 +68,45 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FlexLayoutModule,
     QuillModule.forRoot({
       formats: [
-        'background', 'bold', 'color', 'font', 'code',
-        'italic', 'link', 'size', 'strike', 'script', 'underline',
-        'blockquote', 'header', 'indent', 'list',
-        'align', 'direction', 'code-block', 'formula'
+        'background',
+        'bold',
+        'color',
+        'font',
+        'code',
+        'italic',
+        'link',
+        'size',
+        'strike',
+        'script',
+        'underline',
+        'blockquote',
+        'header',
+        'indent',
+        'list',
+        'align',
+        'direction',
+        'code-block',
+        'formula'
       ],
-      customOptions: [{
-        import: 'formats/font',
-        whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
-      }],
-      modules: {
-          toolbar: [
-            ['bold', 'italic', 'underline', 'strike'], 
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],      
-            [{ 'indent': '-1'}, { 'indent': '+1' }],       
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-            ['link']         
-          ]
+      customOptions: [
+        {
+          import: 'formats/font',
+          whitelist: ['mirza', 'roboto', 'aref', 'serif', 'sansserif', 'monospace']
         }
+      ],
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }],
+          [{ indent: '-1' }, { indent: '+1' }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          ['link']
+        ]
+      }
     }),
     MaterialModule,
     MatFormFieldModule,
@@ -124,8 +140,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [MatProgressSpinner],
-  providers: [
-    { provide: OWL_DATE_TIME_FORMATS, useValue: MOMENT_FORMATS },
-  ]
+  providers: [{ provide: OWL_DATE_TIME_FORMATS, useValue: MOMENT_FORMATS }]
 })
-export class SimplifiedUiModule { }
+export class SimplifiedUiModule {}

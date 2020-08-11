@@ -6,13 +6,13 @@ export interface IHeaderViewModel {
   primaryButton: SaButtonConfig;
   secondaryButton: SaButtonConfig;
   moreMenu?: IMoreMenuViewModel;
-  menuTemplate?: TemplateRef<any>
-  tooltip? : string;
+  menuTemplate?: TemplateRef<any>;
+  tooltip?: string;
 }
 
 export interface IMoreMenuViewModel {
-  primaryMenu: Array<IMenuItemViewModel>,
-  secondaryMenu: Array<IMenuItemViewModel>
+  primaryMenu: Array<IMenuItemViewModel>;
+  secondaryMenu: Array<IMenuItemViewModel>;
 }
 
 export interface IMenuItemViewModel {

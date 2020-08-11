@@ -1,12 +1,12 @@
 export interface IDataFilterViewModel {
-  key: string,
-  filterType: FilterTypeEnum,
-  config: any,
-  title?: string,
-  defaults?: Date[][] | SelectDefault[]
+  key: string;
+  filterType: FilterTypeEnum;
+  config: any;
+  title?: string;
+  defaults?: Date[][] | SelectDefault[];
 }
 
-export type SelectDefault = { value: any, displayValue: string };
+export type SelectDefault = { value: any; displayValue: string };
 
 export enum FilterTypeEnum {
   select,
@@ -17,12 +17,12 @@ export enum FilterTypeEnum {
 }
 
 export interface IFilterModel {
-  keyword: string
+  keyword: string;
 }
 
 export interface IFilterChip {
-  key: string,
-  title: string,
-  value: any,
-  displayValue: string
+  key: string;
+  title: string;
+  value: any;
+  displayValue: string;
 }

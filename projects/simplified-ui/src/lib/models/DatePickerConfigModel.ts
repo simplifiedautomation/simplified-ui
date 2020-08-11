@@ -10,7 +10,7 @@ export class DatePickerConfig {
    * Set the type of the dateTime picker. 'both': show both calendar and timer;
    * 'calendar': only show calendar; 'timer': only show timer.
    */
-  pickerType?: DatePickerType = DatePickerType.both;  // both | calendar | timer
+  pickerType?: DatePickerType = DatePickerType.both; // both | calendar | timer
   /**
    * Specify the style the picker would open as.
    */
@@ -61,29 +61,29 @@ export class DatePickerConfig {
    */
   selectMode?: DatePickerSelectMode = DatePickerSelectMode.single; //'single' | 'range' | 'rangeFrom' | 'rangeTo'
 
-  placeholder: string = "Select Date";
+  placeholder: string = 'Select Date';
 
   dateFormat?: any;
 }
 
 export enum DatePickerType {
-  both = "both",
-  calendar = "calendar",
-  timer = "timer"
+  both = 'both',
+  calendar = 'calendar',
+  timer = 'timer'
 }
 
 export enum DatePickerMode {
-  popup = "popup",
-  dialog = "dialog"
+  popup = 'popup',
+  dialog = 'dialog'
 }
 export enum DatePickerStartView {
-  month = "month",
-  year = "year",
-  multiYears = "multi-years"
+  month = 'month',
+  year = 'year',
+  multiYears = 'multi-years'
 }
 export enum DatePickerSelectMode {
-  single = "single",
-  range = "range",
-  rangeFrom = "rangeFrom",
-  rangeTo="rangeTo"
+  single = 'single',
+  range = 'range',
+  rangeFrom = 'rangeFrom',
+  rangeTo = 'rangeTo'
 }

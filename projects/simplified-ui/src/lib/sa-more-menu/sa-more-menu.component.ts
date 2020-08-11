@@ -8,16 +8,11 @@ import { ActionElementConfig } from '../models/ActionElementConfig';
   styleUrls: ['./sa-more-menu.component.scss']
 })
 export class SaMoreMenuComponent implements OnInit {
-
   @Input() items: SaMoreMenuItem[] = [];
 
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }
 
-export class SaMoreMenuItem extends ActionElementConfig {
-
-}
+export class SaMoreMenuItem extends ActionElementConfig {}

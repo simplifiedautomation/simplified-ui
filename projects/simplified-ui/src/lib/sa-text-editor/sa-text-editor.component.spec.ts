@@ -8,9 +8,8 @@ describe('SaTextEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaTextEditorComponent ]
-    })
-    .compileComponents();
+      declarations: [SaTextEditorComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

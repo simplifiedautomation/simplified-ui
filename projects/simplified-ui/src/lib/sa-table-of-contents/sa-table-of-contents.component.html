@@ -1,14 +1,18 @@
 <mat-nav-list>
   <div *ngIf="primaryMenu.length > 0">
-    <mat-list-item class="menu-list" (click)="navigationItemOnClick($event.target)"
-      *ngFor="let item of primaryMenu; index as i " [ngClass]="{'selected': i==0}">
-      <a class="menu-link" href="{{href}}#{{item.route}}">{{item.name}}</a>
+    <mat-list-item
+      class="menu-list"
+      (click)="navigationItemOnClick($event.target)"
+      *ngFor="let item of primaryMenu; index as i"
+      [ngClass]="{ selected: i == 0 }"
+    >
+      <a class="menu-link" href="{{ href }}#{{ item.route }}">{{ item.name }}</a>
     </mat-list-item>
   </div>
   <mat-divider class="menu-divider" *ngIf="secondaryMenu.length > 0 && primaryMenu.length > 0"></mat-divider>
   <div *ngIf="secondaryMenu.length > 0">
     <mat-list-item class="menu-list" (click)="navigationItemOnClick($event.target)" *ngFor="let item of secondaryMenu">
-      <a class="menu-link" href="{{href}}#{{item.route}}">{{item.name}}</a>
+      <a class="menu-link" href="{{ href }}#{{ item.route }}">{{ item.name }}</a>
     </mat-list-item>
   </div>
 </mat-nav-list>

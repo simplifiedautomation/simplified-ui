@@ -16,13 +16,12 @@ import { IFilterModel } from '../models/DataFilterModels';
  */
 
 export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extends DataSource<MODEL> {
-
   /** Stream emitting render data to the table (depends on ordered data changes). */
   private readonly _renderData = new BehaviorSubject<MODEL[]>([]);
   /**
- * Subscription to the changes that should trigger an update to the table's rendered rows, such
- * as filtering, sorting, pagination, or base data changes.
- */
+   * Subscription to the changes that should trigger an update to the table's rendered rows, such
+   * as filtering, sorting, pagination, or base data changes.
+   */
   private _renderChangesSubscription = Subscription.EMPTY;
   /** mat table data source reference, used for calling helper functions defined in it */
   private _matTableDataSource = new MatTableDataSource<MODEL>();
@@ -31,7 +30,9 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    * emitted by the MatSort will trigger onFilterChanges() event, containing the updated filter value,
    * which can then be used to send updated data stream.
    */
-  public get sort(): MatSort | null { return this._sort; }
+  public get sort(): MatSort | null {
+    return this._sort;
+  }
   public set sort(sort: MatSort | null) {
     this._sort = sort;
     this._updateChangeSubscription();
@@ -47,7 +48,9 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    * e.g. `[pageLength]=100` or `[pageIndex]=1`, then be sure that the paginator's view has been
    * initialized before assigning it to this data source.
    */
-  public get paginator(): MatPaginator | null { return this._paginator; }
+  public get paginator(): MatPaginator | null {
+    return this._paginator;
+  }
   public set paginator(paginator: MatPaginator | null) {
     this._paginator = paginator;
     this._updateChangeSubscription();
@@ -62,8 +65,12 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    * @param data The array of data that should be sorted.
    * @param sort The connected MatSort that holds the current sort state.
    */
-  public get sortData(): ((data: MODEL[], sort: MatSort) => MODEL[]) { return this._matTableDataSource.sortData; }
-  public set sortData(sortingFunc) { this._matTableDataSource.sortData = sortingFunc };
+  public get sortData(): (data: MODEL[], sort: MatSort) => MODEL[] {
+    return this._matTableDataSource.sortData;
+  }
+  public set sortData(sortingFunc) {
+    this._matTableDataSource.sortData = sortingFunc;
+  }
   /**
    * Data accessor function that is used for accessing data properties for sorting through
    * the default sortData function.
@@ -73,8 +80,12 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    * @param data Data object that is being accessed.
    * @param sortHeaderId The name of the column that represents the data.
    */
-  public get sortingDataAccessor(): ((data: MODEL, sortHeaderId: string) => string | number) { return this._matTableDataSource.sortingDataAccessor; }
-  public set sortingDataAccessor(sortingAccessorFunc) { this._matTableDataSource.sortingDataAccessor = sortingAccessorFunc };
+  public get sortingDataAccessor(): (data: MODEL, sortHeaderId: string) => string | number {
+    return this._matTableDataSource.sortingDataAccessor;
+  }
+  public set sortingDataAccessor(sortingAccessorFunc) {
+    this._matTableDataSource.sortingDataAccessor = sortingAccessorFunc;
+  }
   /**
    * Event triggered when any of the sort/pagination/keyword filter changes, or
    * is triggered programmatically using triggerFilterChange() method.
@@ -86,7 +97,7 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
   private readonly _MANUAL_CHANGE_TRIGGER: string = 'manual_change_trigger';
   /**
    * Initializes a new instance of CommonTableDataSource to render the stream of data within the mat table.
-   * 
+   *
    * [Usage]
    * - Use the data stream passed in the constructor to update the rendered content within the table.
    * - Use the `isAllClientSideData` flag to control if the rendered content needs to be filtered on the client-side or not.
@@ -94,7 +105,7 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    *
    * The OnFilterChange() event is triggered once on initialization and every time a filter state is changed or triggerFilterChange() is called,
    * which can be used to pass new stream of data.
-   * 
+   *
    * @param dataStream            The stream of data that needs to be render'd within the table, and can change overtime
    * @param filter                Optional generic filter model to persist the states of sort and paginator directives,
    *                              if not provided, uses the defaultCommonTableFilter
@@ -103,11 +114,7 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    *                              the rendered records client-side. If false, no such filtering is done, as it is expected that the
    *                              filtered data would be updated through data stream.
    */
-  constructor(
-    public dataStream: Observable<MODEL[]>,
-    public filter?: FILTER,
-    public isAllClientSideData?: boolean
-  ) {
+  constructor(public dataStream: Observable<MODEL[]>, public filter?: FILTER, public isAllClientSideData?: boolean) {
     super();
     this.filter = this.filter || <FILTER>(new DefaultCommonTableFilter() as any);
     this._updateChangeSubscription();
@@ -124,15 +131,15 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
     // The `sortChange` and `pageChange` acts as a signal to the merge events below so that the
     // pipeline can progress to the next step. Note that the value from these streams are not used,
     // they purely act as a signal to progress in the pipeline.
-    const sortChange: Observable<Sort | null | void> = this._sort ?
-      merge(this._sort.sortChange, this._sort.initialized) as Observable<Sort | void> :
-      of(null);
-    const pageChange: Observable<PageEvent | null | void> = this._paginator ?
-      merge(this._paginator.page, this._paginator.initialized) as Observable<PageEvent | void> :
-      of(null);
-    const keywordChange: Observable<IFilterModel | null> = this.filter.filterModelChange ?
-      this.filter.filterModelChange :
-      of(null);
+    const sortChange: Observable<Sort | null | void> = this._sort
+      ? (merge(this._sort.sortChange, this._sort.initialized) as Observable<Sort | void>)
+      : of(null);
+    const pageChange: Observable<PageEvent | null | void> = this._paginator
+      ? (merge(this._paginator.page, this._paginator.initialized) as Observable<PageEvent | void>)
+      : of(null);
+    const keywordChange: Observable<IFilterModel | null> = this.filter.filterModelChange
+      ? this.filter.filterModelChange
+      : of(null);
     //merge all the filter change events
     const filterChange = merge(sortChange, pageChange, keywordChange, this._filterChangeTrigger).pipe(
       // populate the current state of filters on change
@@ -142,7 +149,7 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
         return {
           filter: { filterModel: this.filter.filterModel, ...(this.filter as SaCommonTableFilter) } as FILTER,
           isManualTrigger: e === this._MANUAL_CHANGE_TRIGGER
-        }
+        };
       }),
       // helps to suppress the multiple initial filter state events,
       // which can trigger if _updateChangeSubscription() is called in quick succession multiple times
@@ -151,13 +158,14 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
       tap(() => this.onFilterChange.next(this.filter))
     );
     // watch for base data stream or filter changes to provide a filtered set of data
-    const filteredData = combineLatest(this.dataStream, filterChange)
-      .pipe(map(([data]) => this._filterData(data as unknown as MODEL[])))
+    const filteredData = combineLatest(this.dataStream, filterChange).pipe(
+      map(([data]) => this._filterData((data as unknown) as MODEL[]))
+    );
     // watched for filtered data changes and send the result to the table to render.
     this._renderChangesSubscription.unsubscribe();
-    this._renderChangesSubscription = filteredData.subscribe(data =>{
+    this._renderChangesSubscription = filteredData.subscribe((data) => {
       this._renderData.next(data);
-    }) 
+    });
   }
   /**
    * Returns a filtered set of data array (for client-side data only), by applying the current state of filter
@@ -165,7 +173,8 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    * @param data  the whole set of data that needs to be filtered
    */
   private _filterData(data: MODEL[]): MODEL[] {
-    if (!this.isAllClientSideData) //skip filtering if not all client-side data
+    if (!this.isAllClientSideData)
+      //skip filtering if not all client-side data
       return data;
     //filter data using matTableDataSource native functions
     this._matTableDataSource.filter = this.filter.filterModel.keyword;
@@ -185,7 +194,9 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
     if (this.sort && e && typeof (<Sort>e).active !== 'undefined') {
       this.filter.sortCol = this.sort.active;
       this.filter.sortDir = this.sort.direction
-        ? this.sort.direction == 'asc' ? SortDirection.Asc : SortDirection.Desc
+        ? this.sort.direction == 'asc'
+          ? SortDirection.Asc
+          : SortDirection.Desc
         : SortDirection.None;
     }
     //page event
@@ -200,7 +211,9 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    */
   private _updatePaginator(filteredDataLength: number) {
     const paginator = this.paginator;
-    if (!paginator) { return; }
+    if (!paginator) {
+      return;
+    }
     paginator.length = filteredDataLength;
     // If the page index is set beyond the page, reduce it to the last page.
     if (paginator.pageIndex > 0) {
@@ -215,7 +228,7 @@ export class SaTableDataSource<MODEL, FILTER extends SaCommonTableFilter> extend
    * Used by the MatTable. Called when it connects to the data source.
    */
   connect(): Observable<MODEL[]> {
-     return this._renderData.asObservable();
+    return this._renderData.asObservable();
   }
   /**
    * Used by the MatTable. Called when it is destroyed. Performs cleanup.

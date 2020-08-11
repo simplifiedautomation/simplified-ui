@@ -4,10 +4,9 @@ import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter } fro
   selector: 'sa-stepper',
   templateUrl: './sa-stepper.component.html',
   styleUrls: ['./sa-stepper.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class SaStepperComponent implements OnInit {
-
   @Input() value: number;
   @Input() min: number;
   @Input() max: number;
@@ -15,10 +14,9 @@ export class SaStepperComponent implements OnInit {
 
   @Output() valueChanged: EventEmitter<number> = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   increment() {
     if (this.max == null || this.max == undefined || this.value < this.max) {
@@ -33,5 +31,4 @@ export class SaStepperComponent implements OnInit {
       this.valueChanged.emit(this.value);
     }
   }
-
 }

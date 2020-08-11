@@ -1,8 +1,7 @@
-import { Subject } from "rxjs";
+import { Subject } from 'rxjs';
 
 export class NavigationItem {
-
-  constructor(public name: string, public route: string, public iconUrl?: string) { }
+  constructor(public name: string, public route: string, public iconUrl?: string) {}
 
   obs = new Subject<string>();
   public obs$ = this.obs.asObservable();
@@ -14,5 +13,4 @@ export class NavigationItem {
   unsubscribeEvent() {
     this.obs.unsubscribe();
   }
-
 }

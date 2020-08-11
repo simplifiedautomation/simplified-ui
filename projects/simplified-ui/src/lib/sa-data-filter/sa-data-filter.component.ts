@@ -3,7 +3,13 @@ import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { MatOption } from '@angular/material/core';
 import { MatSelectChange } from '@angular/material/select';
-import { IDataFilterViewModel, IFilterModel, FilterTypeEnum, IFilterChip, SelectDefault } from '../models/DataFilterModels';
+import {
+  IDataFilterViewModel,
+  IFilterModel,
+  FilterTypeEnum,
+  IFilterChip,
+  SelectDefault
+} from '../models/DataFilterModels';
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
 import { SaSelectComponent } from '../sa-select/sa-select.component';
 
@@ -13,7 +19,6 @@ import { SaSelectComponent } from '../sa-select/sa-select.component';
   styleUrls: ['./sa-data-filter.component.scss']
 })
 export class SaDataFilterComponent implements OnInit {
-
   @ViewChildren('datePicker') datePickers: QueryList<SaDatePickerComponent>;
 
   @Input() filters: IDataFilterViewModel[];
@@ -26,76 +31,71 @@ export class SaDataFilterComponent implements OnInit {
 
   keyword = new FormControl('');
 
-  get filterType() { return FilterTypeEnum; }
+  get filterType() {
+    return FilterTypeEnum;
+  }
 
   chips: IFilterChip[] = [];
 
   private filterModel: IFilterModel = {
-    keyword: ""
+    keyword: ''
   };
 
   nonTextFilters: IDataFilterViewModel[];
 
   textFilters: IDataFilterViewModel[];
 
-  constructor() {
-
-  }
+  constructor() {}
 
   ngOnInit() {
+    this.nonTextFilters = this.filters.filter(
+      (x) => !(x.filterType == FilterTypeEnum.text || x.filterType == FilterTypeEnum.none)
+    );
+    this.textFilters = this.filters.filter((x) => x.filterType == FilterTypeEnum.text);
 
-    this.nonTextFilters = this.filters.filter(x => !(x.filterType == FilterTypeEnum.text || x.filterType == FilterTypeEnum.none));
-    this.textFilters = this.filters.filter(x => (x.filterType == FilterTypeEnum.text));
-
-    this.filters.forEach(x => {
+    this.filters.forEach((x) => {
       this.filterModel[x.key] = [];
     });
 
-    this.keyword.valueChanges
-      .pipe(debounceTime(500))
-      .subscribe(value => {
-        this.filterModel.keyword = value;
-        this.filterChange.emit(this.filterModel);
-      });
+    this.keyword.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
+      this.filterModel.keyword = value;
+      this.filterChange.emit(this.filterModel);
+    });
   }
 
   ngAfterViewInit() {
-    this.datePickers.forEach(x => {
-      (<HTMLElement>x.inputRef.nativeElement).style.width = "0px";
+    this.datePickers.forEach((x) => {
+      (<HTMLElement>x.inputRef.nativeElement).style.width = '0px';
     });
 
-    this.filters.forEach(x => {
+    this.filters.forEach((x) => {
       if (x.filterType == this.filterType.date && x.defaults) {
-        (x.defaults as Date[][]).forEach(y => {
+        (x.defaults as Date[][]).forEach((y) => {
           this.pushDatesToFilterModel(y, x);
-        })
+        });
       }
 
       if (x.filterType == this.filterType.select && x.defaults) {
-        (x.defaults as SelectDefault[]).forEach(y => {
+        (x.defaults as SelectDefault[]).forEach((y) => {
           this.addSelectItemToFilter(y.value, y.displayValue, x);
-        })
+        });
       }
-    })
+    });
   }
 
   onSelect(event: MatSelectChange, filter: IDataFilterViewModel) {
-    let val = event.value[filter.config.key]
+    let val = event.value[filter.config.key];
 
-    if (val == null)
-      return;
+    if (val == null) return;
 
-    this.addSelectItemToFilter(val,
-      (<MatOption>event.source.selected).viewValue.trim(),
-      filter);
+    this.addSelectItemToFilter(val, (<MatOption>event.source.selected).viewValue.trim(), filter);
 
     event.source.value = null;
   }
 
   private addSelectItemToFilter(val: any, displayValue: string, filter: IDataFilterViewModel) {
-
     let filterProperty = this.filterModel[filter.key];
-    let isExist: boolean = filterProperty.filter(x => x == val).length > 0;
+    let isExist: boolean = filterProperty.filter((x) => x == val).length > 0;
 
     if (!isExist) {
       filterProperty.push(val);
@@ -111,17 +111,18 @@ export class SaDataFilterComponent implements OnInit {
 
   removeChip(chip: IFilterChip) {
     if (chip.value instanceof Array) {
-      this.filterModel[chip.key] = this.filterModel[chip.key].filter(x => x.from != chip.value[0] || x.to != chip.value[1]);
+      this.filterModel[chip.key] = this.filterModel[chip.key].filter(
+        (x) => x.from != chip.value[0] || x.to != chip.value[1]
+      );
+    } else {
+      this.filterModel[chip.key] = this.filterModel[chip.key].filter((x) => x != chip.value);
     }
-    else {
-      this.filterModel[chip.key] = this.filterModel[chip.key].filter(x => x != chip.value);
-    }
-    this.chips = this.chips.filter(x => !(x.key == chip.key && x.value == chip.value));
+    this.chips = this.chips.filter((x) => !(x.key == chip.key && x.value == chip.value));
     this.filterChange.emit(this.filterModel);
   }
 
   dateButtonClicked(ref: SaDatePickerComponent) {
-    (<HTMLElement>ref.inputRef.nativeElement).click()
+    (<HTMLElement>ref.inputRef.nativeElement).click();
   }
 
   selectButtonClicked(ref: SaSelectComponent<any>) {
@@ -129,8 +130,7 @@ export class SaDataFilterComponent implements OnInit {
   }
 
   datePickerChange(dates: Date[], filter: IDataFilterViewModel, ref: SaDatePickerComponent) {
-    if (dates == null)
-      return;
+    if (dates == null) return;
     this.pushDatesToFilterModel(dates, filter);
 
     ref.value = null;
@@ -145,12 +145,11 @@ export class SaDataFilterComponent implements OnInit {
     });
 
     this.chips.push({
-      displayValue: dates[0] + " - " + dates[1],
+      displayValue: dates[0] + ' - ' + dates[1],
       key: filter.key,
       title: filter.title,
       value: dates
     });
     this.filterChange.emit(this.filterModel);
   }
-
 }

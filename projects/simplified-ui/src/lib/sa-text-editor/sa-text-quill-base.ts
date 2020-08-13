@@ -12,8 +12,7 @@ import {
   Renderer2,
   Self,
   Directive,
-  DoCheck,
-  OnInit
+  DoCheck
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm, Validator, FormControl } from '@angular/forms';
@@ -56,16 +55,16 @@ const _MatQuillMixinBase: CanUpdateErrorStateCtor & CanDisableCtor & typeof SaTe
 @Directive()
 export abstract class _MatQuillBase extends _MatQuillMixinBase
   implements
-    AfterViewInit,
-    CanDisable,
-    CanUpdateErrorState,
-    ControlValueAccessor,
-    HasErrorState,
-    MatFormFieldControl<any>,
-    OnChanges,
-    OnDestroy,
-    Validator,
-    DoCheck {
+  AfterViewInit,
+  CanDisable,
+  CanUpdateErrorState,
+  ControlValueAccessor,
+  HasErrorState,
+  MatFormFieldControl<any>,
+  OnChanges,
+  OnDestroy,
+  Validator,
+  DoCheck {
   abstract controlType: string;
   focused = false;
   abstract id: string;
@@ -107,6 +106,13 @@ export abstract class _MatQuillBase extends _MatQuillMixinBase
       this.stateChanges.next();
     });
   }
+  autofilled?: boolean;
+
+  async ngAfterViewInit() {
+    await super.ngAfterViewInit();
+    this.renderer.addClass(this.elementRef.nativeElement.querySelector('.ql-editor'), 'notranslate');
+  }
+
   ngDoCheck(): void {
     if (this.ngControl != null) {
       this.ngControl.control.setValidators([this.validate.bind(this)]);

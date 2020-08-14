@@ -41,7 +41,7 @@ export class DataTable<T> {
   private columnAddedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
   private columnRemovedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
   private addFilterSubject: ReplaySubject<IDataFilterViewModel> = new ReplaySubject();
-  private applyFilterSubject: ReplaySubject<[{ key: string; defaults: FilterDefaults }]> = new ReplaySubject();
+  private applyFilterSubject: ReplaySubject<{ key: string; defaults: FilterDefaults }[]> = new ReplaySubject();
 
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
 
@@ -209,11 +209,11 @@ export class DataTable<T> {
     return this.addFilterSubject.asObservable();
   }
 
-  applyFilter(filters: [{ key: string; defaults: FilterDefaults }]) {
+  applyFilter(filters: { key: string; defaults: FilterDefaults }[]) {
     this.applyFilterSubject.next(filters);
   }
 
-  onFilterApplied(): Observable<[{ key: string; defaults: FilterDefaults }]> {
+  onFilterApplied(): Observable<{ key: string; defaults: FilterDefaults }[]> {
     return this.applyFilterSubject.asObservable();
   }
 }

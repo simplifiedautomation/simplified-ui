@@ -1,6 +1,6 @@
 import { IGenericPageListViewModel } from './IPagerModel';
 import { Observable, Subject, ReplaySubject } from 'rxjs';
-import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
+import { IDataFilterViewModel, IFilterModel, FilterDefaults } from '../models/DataFilterModels';
 import { SortDirection } from './SaTableDataSource';
 import { SaButtonConfig } from '../sa-button/sa-button.component';
 import { TemplateRef, ElementRef } from '@angular/core';
@@ -41,6 +41,7 @@ export class DataTable<T> {
   private columnAddedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
   private columnRemovedSubject: ReplaySubject<IDataTableColumn> = new ReplaySubject();
   private addFilterSubject: ReplaySubject<IDataFilterViewModel> = new ReplaySubject();
+  private applyFilterSubject: ReplaySubject<{ key: string; defaults: FilterDefaults }> = new ReplaySubject();
 
   private rowAddedSubject: ReplaySubject<T> = new ReplaySubject();
 
@@ -206,5 +207,13 @@ export class DataTable<T> {
 
   onFilterAdded(): Observable<IDataFilterViewModel> {
     return this.addFilterSubject.asObservable();
+  }
+
+  applyFilter(key: string, filter: FilterDefaults) {
+    this.applyFilterSubject.next({ key: key, defaults: filter });
+  }
+
+  onFilterApplied(): Observable<{ key: string; defaults: FilterDefaults }> {
+    return this.applyFilterSubject.asObservable();
   }
 }

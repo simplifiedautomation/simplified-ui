@@ -147,14 +147,16 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       this.tableDataSource.triggerFilterChange();
     });
 
-    this.dataTable.onFilterApplied().subscribe((filter) => {
+    this.dataTable.onFilterApplied().subscribe((filters) => {
       var clone = Object.assign([], this.filterArray);
-      const index = clone.findIndex((x) => x.key == filter.key);
-      if (index != -1) {
-        clone[index].defaults = filter.defaults;
-        this.filterArray = [];
-        this.filterArray = clone;
+      for (const filter of filters) {
+        const index = clone.findIndex((x) => x.key == filter.key);
+        if (index != -1) {
+          clone[index].defaults = filter.defaults;
+        }
       }
+      this.filterArray = [];
+      this.filterArray = clone;
     });
 
     // listen to dataSource filter change

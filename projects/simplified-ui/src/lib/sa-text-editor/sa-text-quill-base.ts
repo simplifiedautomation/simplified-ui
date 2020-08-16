@@ -116,7 +116,6 @@ export abstract class _MatQuillBase extends _MatQuillMixinBase
   ngDoCheck(): void {
     if (this.ngControl != null) {
       this.ngControl.control.setValidators([this.validate.bind(this)]);
-      this.ngControl.control.updateValueAndValidity();
     }
   }
 

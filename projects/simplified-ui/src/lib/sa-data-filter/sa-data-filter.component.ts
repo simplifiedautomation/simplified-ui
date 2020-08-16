@@ -76,7 +76,7 @@ export class SaDataFilterComponent implements OnInit, OnChanges {
       (x) => !(x.filterType == FilterTypeEnum.text || x.filterType == FilterTypeEnum.none)
     );
     this.textFilters = this.filters.filter((x) => x.filterType == FilterTypeEnum.text);
-
+    this.chips = [];
     this.filters.forEach((x) => {
       this.filterModel[x.key] = [];
     });

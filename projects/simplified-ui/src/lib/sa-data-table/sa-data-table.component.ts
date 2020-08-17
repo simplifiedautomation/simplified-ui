@@ -8,7 +8,6 @@ import {
   AfterViewInit,
   OnDestroy,
   ElementRef,
-  HostListener,
   Renderer2,
   TemplateRef,
   ContentChild
@@ -146,6 +145,18 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
     this.dataTable.onRefresh().subscribe((_) => {
       this.tableDataSource.triggerFilterChange();
+    });
+
+    this.dataTable.onFilterApplied().subscribe((filters) => {
+      var clone = Object.assign([], this.filterArray);
+      for (const filter of filters) {
+        const index = clone.findIndex((x) => x.key == filter.key);
+        if (index != -1) {
+          clone[index].defaults = filter.defaults;
+        }
+      }
+      this.filterArray = [];
+      this.filterArray = clone;
     });
 
     // listen to dataSource filter change

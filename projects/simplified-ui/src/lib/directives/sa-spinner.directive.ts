@@ -54,7 +54,7 @@ export class SaSpinnerDirective {
   private addSpinner() {
     // Create Mat-Spinner
     const factory = this.componentFactoryResolver.resolveComponentFactory(MatProgressSpinner);
-    const spinner = this.viewContainerRef.createComponent(factory, 2);
+    const spinner = this.viewContainerRef.createComponent(factory);
     spinner.instance.diameter = this._diameter || 35;
     spinner.instance.mode = 'indeterminate';
     let spinnerElement = spinner.injector.get(MatProgressSpinner)._elementRef.nativeElement;

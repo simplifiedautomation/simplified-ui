@@ -26,4 +26,12 @@ export class SaNavigablePageComponent implements OnInit {
       }
     });
   }
+
+  ngDoCheck() {
+    console.log("from page", this.primaryMenu);
+
+    // let tempMenu = [...this.primaryMenu];
+    // this.primaryMenu=null;
+    // this.primaryMenu=tempMenu;
+  }
 }

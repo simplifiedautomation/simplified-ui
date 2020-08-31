@@ -27,101 +27,108 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
   }
 
   ngAfterViewInit() {
-    this.primaryMenu.forEach((menuItem) => {
-      this.primaryMenuSubscription.push(this.subscribeNavigableMenu(menuItem));
-    });
-    this.secondaryMenu.forEach((menuItem) => {
-      this.secondaryMenuSubscription.push(this.subscribeNavigableMenu(menuItem));
-    });
-
-    this.scrollDispatcher.scrolled().subscribe((x) => {
-      if (x) {
-        let itemOffsets = this.getItemOffsets();
-        let scroll_start = x['elementRef'].nativeElement.scrollTop;
-        for (let i = 0; i < itemOffsets.length; i++) {
-          if (i === itemOffsets.length - 1 && scroll_start >= itemOffsets[i].top - 66) {
-            this.triggerEvent(itemOffsets[i].route);
-          } else if (scroll_start >= itemOffsets[i].top - 66 && scroll_start < itemOffsets[i + 1].top - 66) {
-            this.triggerEvent(itemOffsets[i].route);
-          }
-        }
-      }
-    });
+    // this.primaryMenu.forEach((menuItem) => {
+    //   this.primaryMenuSubscription.push(this.subscribeNavigableMenu(menuItem));
+    // });
+    // this.secondaryMenu.forEach((menuItem) => {
+    //   this.secondaryMenuSubscription.push(this.subscribeNavigableMenu(menuItem));
+    // });
+    //
+    // this.scrollDispatcher.scrolled().subscribe((x) => {
+    //   if (x) {
+    //     let itemOffsets = this.getItemOffsets();
+    //     let scroll_start = x['elementRef'].nativeElement.scrollTop;
+    //     for (let i = 0; i < itemOffsets.length; i++) {
+    //       if (i === itemOffsets.length - 1 && scroll_start >= itemOffsets[i].top - 66) {
+    //         this.triggerEvent(itemOffsets[i].route);
+    //       } else if (scroll_start >= itemOffsets[i].top - 66 && scroll_start < itemOffsets[i + 1].top - 66) {
+    //         this.triggerEvent(itemOffsets[i].route);
+    //       }
+    //     }
+    //   }
+    // });
   }
+
+ngDoCheck(ev) {
+  // this.primaryMenu=null
+  console.log("doCheck", this.primaryMenu, ev);
+}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.primaryMenu != undefined && changes.primaryMenu != null) {
-      if (changes.primaryMenu.previousValue != undefined) {
-        changes.primaryMenu.previousValue.forEach((x: NavigationItem) => {
-          this.primaryMenuSubscription.forEach((y: Subscription) => {
-            y.unsubscribe();
-          });
-        });
-      }
+    console.log('CHANGES', changes);
 
-      changes.primaryMenu.currentValue.forEach((x: NavigationItem) => {
-        this.primaryMenuSubscription.push(this.subscribeNavigableMenu(x));
-      });
-    }
-
-    if (changes.secondaryMenu != undefined && changes.secondaryMenu != null) {
-      if (changes.secondaryMenu.previousValue != undefined) {
-        changes.secondaryMenu.previousValue.forEach((x: NavigationItem) => {
-          this.secondaryMenuSubscription.forEach((y: Subscription) => {
-            y.unsubscribe();
-          });
-        });
-      }
-      changes.secondaryMenu.currentValue.forEach((x: NavigationItem) => {
-        this.secondaryMenuSubscription.push(this.subscribeNavigableMenu(x));
-      });
-    }
+    // if (changes.primaryMenu != undefined && changes.primaryMenu != null) {
+    //   if (changes.primaryMenu.previousValue != undefined) {
+    //     changes.primaryMenu.previousValue.forEach((x: NavigationItem) => {
+    //       this.primaryMenuSubscription.forEach((y: Subscription) => {
+    //         y.unsubscribe();
+    //       });
+    //     });
+    //   }
+    //
+    //   changes.primaryMenu.currentValue.forEach((x: NavigationItem) => {
+    //     this.primaryMenuSubscription.push(this.subscribeNavigableMenu(x));
+    //   });
+    // }
+    //
+    // if (changes.secondaryMenu != undefined && changes.secondaryMenu != null) {
+    //   if (changes.secondaryMenu.previousValue != undefined) {
+    //     changes.secondaryMenu.previousValue.forEach((x: NavigationItem) => {
+    //       this.secondaryMenuSubscription.forEach((y: Subscription) => {
+    //         y.unsubscribe();
+    //       });
+    //     });
+    //   }
+    //   changes.secondaryMenu.currentValue.forEach((x: NavigationItem) => {
+    //     this.secondaryMenuSubscription.push(this.subscribeNavigableMenu(x));
+    //   });
+    // }
   }
 
-  private subscribeNavigableMenu(menuItem: NavigationItem): Subscription {
-    return menuItem.obs$.subscribe(function (result) {
-      document.getElementsByClassName('selected')[0].classList.remove('selected');
-      const menuItemElement = document.querySelector('a[href="' + window.location.pathname + '#' + result + '"]');
-      menuItemElement.closest('mat-list-item').className += ' selected';
-    });
-  }
-
-  getItemOffsets() {
-    const that = this;
-    let itemOffsets = [];
-    this.primaryMenu.forEach(function (item) {
-      var top = that.getDistanceFromTop(document.querySelector('a[name="' + item.route + '"]'));
-      let itemOffset = {
-        top: top,
-        route: item.route
-      };
-      itemOffsets.push(itemOffset);
-    });
-    this.secondaryMenu.forEach(function (item) {
-      var top = that.getDistanceFromTop(document.querySelector('a[name="' + item.route + '"]'));
-      let itemOffset = {
-        top: top,
-        route: item.route
-      };
-      itemOffsets.push(itemOffset);
-    });
-    return itemOffsets;
-  }
-
-  getDistanceFromTop(element) {
-    var top = 0;
-
-    while (element) {
-      top += element.offsetTop;
-      element = element.offsetParent;
-    }
-
-    return top;
-  }
-
-  triggerEvent(route: string) {
-    const menuItem =
-      this.primaryMenu.find((x) => x.route === route) || this.secondaryMenu.find((x) => x.route === route);
-    menuItem.triggerNext();
-  }
+  // private subscribeNavigableMenu(menuItem: NavigationItem): Subscription {
+  //   return menuItem.obs$.subscribe(function (result) {
+  //     document.getElementsByClassName('selected')[0].classList.remove('selected');
+  //     const menuItemElement = document.querySelector('a[href="' + window.location.pathname + '#' + result + '"]');
+  //     menuItemElement.closest('mat-list-item').className += ' selected';
+  //   });
+  // }
+  //
+  // getItemOffsets() {
+  //   const that = this;
+  //   let itemOffsets = [];
+  //   this.primaryMenu.forEach(function (item) {
+  //     var top = that.getDistanceFromTop(document.querySelector('a[name="' + item.route + '"]'));
+  //     let itemOffset = {
+  //       top: top,
+  //       route: item.route
+  //     };
+  //     itemOffsets.push(itemOffset);
+  //   });
+  //   this.secondaryMenu.forEach(function (item) {
+  //     var top = that.getDistanceFromTop(document.querySelector('a[name="' + item.route + '"]'));
+  //     let itemOffset = {
+  //       top: top,
+  //       route: item.route
+  //     };
+  //     itemOffsets.push(itemOffset);
+  //   });
+  //   return itemOffsets;
+  // }
+  //
+  // getDistanceFromTop(element) {
+  //   var top = 0;
+  //
+  //   while (element) {
+  //     top += element.offsetTop;
+  //     element = element.offsetParent;
+  //   }
+  //
+  //   return top;
+  // }
+  //
+  // triggerEvent(route: string) {
+  //   const menuItem =
+  //     this.primaryMenu.find((x) => x.route === route) || this.secondaryMenu.find((x) => x.route === route);
+  //   menuItem.triggerNext();
+  // }
 }

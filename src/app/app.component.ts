@@ -186,20 +186,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.quillform.controls.editor.valueChanges.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data) => {
-      // tslint:disable-next-line:no-console
-      console.log('native fromControl value changes with debounce', data);
-    });
-
-    this.editor.onContentChanged.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data: ContentChange) => {
-      // tslint:disable-next-line:no-console
-      console.log('view child + directly subscription', data);
-    });
-
-    this.matEditor.onContentChanged.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data: ContentChange) => {
-      // tslint:disable-next-line:no-console
-      console.log('view child + directly subscription', data);
-    });
+    // this.quillform.controls.editor.valueChanges.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data) => {
+    //   // tslint:disable-next-line:no-console
+    //   console.log('native fromControl value changes with debounce', data);
+    // });
+    //
+    // this.editor.onContentChanged.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data: ContentChange) => {
+    //   // tslint:disable-next-line:no-console
+    //   console.log('view child + directly subscription', data);
+    // });
+    //
+    // this.matEditor.onContentChanged.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data: ContentChange) => {
+    //   // tslint:disable-next-line:no-console
+    //   console.log('view child + directly subscription', data);
+    // });
 
     this.selectOptions.templateRef = this.selectOptionBody;
     // this.selectOptions.getResults = (page, term) => {
@@ -259,6 +259,18 @@ export class AppComponent implements OnInit {
       line: 'column 2',
       machine: 'column 3'
     });
+  }
+
+  addMenuItem() {
+    // let temp = [...this.primaryMenu];
+    // console.log("this.pir", this.primaryMenu);
+    this.primaryMenu.push(new NavigationItem('New Item', 'newItem'));
+    // this.primaryMenu=null;
+    // this.primaryMenu = temp;
+  }
+
+  removeMenuItem() {
+    this.primaryMenu.splice(0,1);
   }
 
   private setupDataTable() {

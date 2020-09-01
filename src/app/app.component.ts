@@ -85,14 +85,13 @@ export class AppComponent implements OnInit {
 
   primaryMenu: NavigationItem[] = [
     new NavigationItem('Basic Information', 'basicInformation'),
-    // new NavigationItem('5G', '5g'),
-    // new NavigationItem('MOC', 'moc'),
-    // new NavigationItem('Tools', 'tools'),
+    new NavigationItem('5G', '5g'),
+    new NavigationItem('MOC', 'moc'),
+    new NavigationItem('Tools', 'tools'),
     new NavigationItem('Team', 'team'),
-    // new NavigationItem('5W1H', '5w1h'),
+    new NavigationItem('5W1H', '5w1h'),
     new NavigationItem('Results', 'results')
   ];
-    secondaryMenu: NavigationItem[] = [new NavigationItem('Nav 1', null), new NavigationItem('Nav 2', null)];
 
   quickPrimaryMenu: NavigationItem[] = [
     new NavigationItem('Basic Information', 'basicInformation'),
@@ -118,14 +117,7 @@ export class AppComponent implements OnInit {
     new NavigationItem('Results', 'results')
   ];
 
-
-  // primaryMenu = [
-  //   new NavigationItem(this.locale.basicInformation, 'basicInformation'),
-  //   new NavigationItem(this.locale.kaizenInformation, 'kaizenInformation'),
-  //   new NavigationItem(this.locale.tools, 'tools'),
-  //   new NavigationItem(this.locale.team, 'team'),
-  //   new NavigationItem(this.locale.target, 'target')
-  // ];
+  secondaryNavMenu: NavigationItem[] = [new NavigationItem('Nav 1', null), new NavigationItem('Nav 2', null)];
 
   //example new quil
   hide = false;
@@ -186,31 +178,31 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.quillform.controls.editor.valueChanges.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data) => {
-    //   // tslint:disable-next-line:no-console
-    //   console.log('native fromControl value changes with debounce', data);
-    // });
-    //
-    // this.editor.onContentChanged.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data: ContentChange) => {
-    //   // tslint:disable-next-line:no-console
-    //   console.log('view child + directly subscription', data);
-    // });
-    //
-    // this.matEditor.onContentChanged.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data: ContentChange) => {
-    //   // tslint:disable-next-line:no-console
-    //   console.log('view child + directly subscription', data);
-    // });
+    this.quillform.controls.editor.valueChanges.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data) => {
+      // tslint:disable-next-line:no-console
+      console.log('native fromControl value changes with debounce', data);
+    });
+
+    this.editor.onContentChanged.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data: ContentChange) => {
+      // tslint:disable-next-line:no-console
+      console.log('view child + directly subscription', data);
+    });
+
+    this.matEditor.onContentChanged.pipe(debounceTime(400), distinctUntilChanged()).subscribe((data: ContentChange) => {
+      // tslint:disable-next-line:no-console
+      console.log('view child + directly subscription', data);
+    });
 
     this.selectOptions.templateRef = this.selectOptionBody;
-    // this.selectOptions.getResults = (page, term) => {
-    //   return this.client.get(`https://localhost:44386/api/v2/team/teams?term=${term}&pageNumber=${page}`).pipe(
-    //     map((x) => {
-    //       let genericList = <IGenericPageListViewModel<any>>x;
-    //       genericList.List = genericList.List.map((y) => y.name);
-    //       return genericList;
-    //     })
-    //   );
-    // };
+    this.selectOptions.getResults = (page, term) => {
+      return this.client.get(`https://localhost:44386/api/v2/team/teams?term=${term}&pageNumber=${page}`).pipe(
+        map((x) => {
+          let genericList = <IGenericPageListViewModel<any>>x;
+          genericList.List = genericList.List.map((y) => y.name);
+          return genericList;
+        })
+      );
+    };
 
     this.primarButton.type = SaButtonType.Secondary;
 
@@ -259,18 +251,6 @@ export class AppComponent implements OnInit {
       line: 'column 2',
       machine: 'column 3'
     });
-  }
-
-  addMenuItem() {
-    // let temp = [...this.primaryMenu];
-    // console.log("this.pir", this.primaryMenu);
-    this.primaryMenu.push(new NavigationItem('New Item', 'newItem'));
-    // this.primaryMenu=null;
-    // this.primaryMenu = temp;
-  }
-
-  removeMenuItem() {
-    this.primaryMenu.splice(0,1);
   }
 
   private setupDataTable() {
@@ -494,10 +474,10 @@ export class AppComponent implements OnInit {
     };
 
     this.dataTable.getResults = (requestModel) => {
-      // return this.client.post<IGenericPageListViewModel<any>>(
-      //   `https://localhost:44386/api/v2/tool/all?pageNumber=${requestModel.pageNumber}&pageSize=20`,
-      //   requestModel
-      // );
+      return this.client.post<IGenericPageListViewModel<any>>(
+        `https://localhost:44386/api/v2/tool/all?pageNumber=${requestModel.pageNumber}&pageSize=20`,
+        requestModel
+      );
 
       let res = this.json.filter((x) => x.area.includes(requestModel.filter.keyword));
 

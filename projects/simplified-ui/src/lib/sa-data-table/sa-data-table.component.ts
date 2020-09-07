@@ -148,7 +148,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     });
 
     this.dataTable.onFilterApplied().subscribe((filters) => {
-      filters.forEach((x) => (x.defaults = null));
+      this.filterArray.forEach((x) => (x.defaults = null));
       var clone = Object.assign([], this.filterArray);
       for (const filter of filters) {
         const index = clone.findIndex((x) => x.key == filter.key);

@@ -15,7 +15,7 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
   @Input() secondaryMenu: NavigationItem[] = [];
 
   navigationItemOnClick(item) {
-    document.getElementsByClassName('selected')[0].classList.remove('selected');
+    document.getElementsByClassName('selected')[0]?.classList.remove('selected');
     item.closest('mat-list-item').className += ' selected';
   }
   private primaryMenuSubscription: Subscription[] = [];
@@ -85,7 +85,7 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
 
   private subscribeNavigableMenu(menuItem: NavigationItem): Subscription {
     return menuItem.obs$.subscribe(function (result) {
-      document.getElementsByClassName('selected')[0].classList.remove('selected');
+      document.getElementsByClassName('selected')[0]?.classList.remove('selected');
       const menuItemElement = document.querySelector('a[href="' + window.location.pathname + '#' + result + '"]');
       menuItemElement.closest('mat-list-item').className += ' selected';
     });

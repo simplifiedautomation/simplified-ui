@@ -55,7 +55,7 @@ export class SaCurrencyInputComponent
     @Inject(LOCALE_ID) private locale: string
   ) {
     this.decimalSeparator = '.';
-    this.symbol = getCurrencySymbol('USD', symbolFormatEnum.narrow, this.locale);
+    this.symbol = getCurrencySymbol('USD', symbolFormatEnum.narrow);
     _focusMonitor.monitor(_elementRef, true).subscribe((origin) => {
       if (this.focused && !origin) {
         if (this.viewValue) {

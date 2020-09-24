@@ -55,14 +55,12 @@ export class SaCurrencyInputComponent
     @Inject(LOCALE_ID) private locale: string
   ) {
     this.decimalSeparator = '.';
-    this.symbol = getCurrencySymbol('USD', symbolFormatEnum.narrow, this.locale);
+    this.symbol = getCurrencySymbol('USD', symbolFormatEnum.narrow);
     _focusMonitor.monitor(_elementRef, true).subscribe((origin) => {
       if (this.focused && !origin) {
         if (this.viewValue) {
           if (this.parse(this.viewValue))
-            this.currencyValue.patchValue(
-              formatCurrency(parseFloat(this.parse(this.viewValue)), this.locale, this.symbol)
-            );
+            this.currencyValue.patchValue(formatCurrency(parseFloat(this.parse(this.viewValue)), 'en-US', this.symbol));
           else this.currencyValue.patchValue('');
         }
         this.onTouched();
@@ -161,7 +159,7 @@ export class SaCurrencyInputComponent
   writeValue(val: string | null): void {
     if (val != null) {
       this._empty = false;
-      this.currencyValue.patchValue(formatCurrency(parseFloat(val), this.locale, this.symbol));
+      this.currencyValue.patchValue(formatCurrency(parseFloat(val), 'en-US', this.symbol));
     }
     this.value = val;
   }

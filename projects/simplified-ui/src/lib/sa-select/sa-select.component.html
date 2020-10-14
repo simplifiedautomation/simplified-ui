@@ -29,7 +29,7 @@
   <mat-option *ngFor="let item of selectOptions | async" [value]="item">
     <ng-container *ngTemplateOutlet="this.config.templateRef; context: { $implicit: item }"></ng-container>
   </mat-option>
-  <mat-option class="custom-option" *ngIf="(selectOptions | async).length == 0 && !showSpinner" [value]="null">
+  <mat-option class="custom-option empty-text-option" *ngIf="(selectOptions | async).length == 0 && !showSpinner" [value]="null">
     {{ this.config.emptyResultsText }}</mat-option
   >
   <mat-option class="custom-option" *ngIf="showSpinner" [value]="null">

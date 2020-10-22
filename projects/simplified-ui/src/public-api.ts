@@ -41,6 +41,7 @@ export * from './lib/sa-navigable-page/sa-navigable-page.component';
 export * from './lib/sa-stepper/sa-stepper.component';
 export * from './lib/sa-more-menu/sa-more-menu.component';
 export * from './lib/sa-button/sa-button.component';
+export * from './lib/sa-page-header/sa-page-header.component';
 
 /*
  * Public API Surface For Pipes

@@ -32,6 +32,7 @@ import { AbbreviateNumberPipe } from './pipes/abbreviate-number.pipe';
 import Counter from './sa-text-editor/counter';
 import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from '@danielmoncada/angular-datetime-picker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { SaPageHeaderComponent } from './sa-page-header/sa-page-header.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     SaMoreMenuComponent,
     SaButtonComponent,
     SaSpinnerDirective,
-    AbbreviateNumberPipe
+    AbbreviateNumberPipe,
+    SaPageHeaderComponent
   ],
   imports: [
     CommonModule,

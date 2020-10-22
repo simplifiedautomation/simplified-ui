@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { IHeaderViewModel } from '../models/HeaderViewModels';
 
 @Component({
   selector: 'sa-page-header',
   templateUrl: './sa-page-header.component.html',
-  styleUrls: ['./sa-page-header.component.scss']
+  styleUrls: ['./sa-page-header.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SaPageHeaderComponent implements OnInit {
   @Input() header: IHeaderViewModel;

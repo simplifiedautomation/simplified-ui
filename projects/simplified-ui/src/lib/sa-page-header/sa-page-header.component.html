@@ -1,0 +1,32 @@
+<div fxLayout="column" fxLayoutGap="8px">
+  <xng-breadcrumb [autoGenerate]="false" separator=">"></xng-breadcrumb>
+
+  <div class="" fxLayout="row" fxLayoutAlign="start center">
+    <div fxLayout="row" fxLayoutGap="2px">
+      <span fxFlex="none" class="page-header-title" fxLayoutAlign="center">{{ header.title }}</span>
+      <mat-icon *ngIf="header.tooltip" fxHide.lt-md [matTooltip]="header.tooltip" matTooltipClass="multilineTooltip"
+        >info_outline</mat-icon
+      >
+    </div>
+    <span fxFlex></span>
+    <div fxFlex="nogrow" fxLayoutGap="5px">
+      <sa-button
+        class="header-button"
+        fxHide.lt-md
+        [config]="header.secondaryButton"
+        *ngIf="header.secondaryButton"
+        (onClick)="onSecodaryClick($event)"
+      ></sa-button>
+      <sa-button
+        fxHide.lt-md
+        class="header-button"
+        [config]="header.primaryButton"
+        *ngIf="header.primaryButton"
+        (onClick)="onPrimaryClick($event)"
+      ></sa-button>
+    </div>
+    <div fxFlex="nogrow" fxFlexOffset="5px" *ngIf="header.menuTemplate">
+      <ng-container *ngTemplateOutlet="header.menuTemplate"></ng-container>
+    </div>
+  </div>
+</div>

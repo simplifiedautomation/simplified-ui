@@ -1,27 +1,22 @@
-# SimplifiedUiLibrary
+# Simplified-UI Angular Material Library
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
+simplified-ui is an extension of [Angular Material Library](https://github.com/angular/components) with support for lazy loading table, lazy loaded select, currency input, secondary navigation pages and many more components.
 
-## Development server
+## Getting Started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+NPM
 
-## Code scaffolding
+```
+npm install --save simplified-ui
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Demo
 
-## Build
+Todo
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Lazy loaded Mat Table
+![](images/table.gif)
 
-## Running unit tests
+## Contributing
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Contributions are welcome. Since this is a relatively new repository, we have various issues for which we are looking for help. The first and foremost priority is to build a demo site and usage instructions. You can start by looking at issues with label `Help wanted` or creating new Issue with proposal or bug report.

@@ -14,6 +14,9 @@ npm install --save simplified-ui
 
 Todo
 
+Lazy loaded Mat Table
+![](images/table.gif)
+
 ## Contributing
 
 Contributions are welcome. Since this is a relatively new repository, we have various issues for which we are looking for help. The first and foremost priority is to build a demo site and usage instructions. You can start by looking at issues with label `Help wanted` or creating new Issue with proposal or bug report.

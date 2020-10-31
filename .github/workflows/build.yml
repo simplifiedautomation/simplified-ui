@@ -13,4 +13,4 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
       - run: npm ci
-      - run: npm run build-simplified-ui --if-present
+      - run: npm run build-simplified-ui

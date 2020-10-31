@@ -30,8 +30,14 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
-      - uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          package: ./projects/simplified-ui/package.json
-          dry-run: true
+      - name: Publish if version has been updated
+        uses: pascalgn/npm-publish-action@1.3.4
+        with: # All of theses inputs are optional
+          tag_name: 'v%s'
+          tag_message: 'v%s'
+          workspace: './projects/simplified-ui'
+          publish_command: 'yarn'
+          publish_args: '--non-interactive'
+        env: # More info about the environment variables in the README
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # You need to set this in your repo settings

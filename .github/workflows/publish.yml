@@ -4,6 +4,9 @@
 name: Node.js Package
 
 on:
+  push:
+    branches:
+      - 'ishmeet/feature/publish-ci'
   release:
     types: [created]
 

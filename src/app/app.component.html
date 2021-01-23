@@ -1,4 +1,23 @@
-<h3 style="float: right;"> Navigation Menu Component </h3>
+<sa-base-page>
+  <div class="page-header">
+    <sa-header
+      [header]="headerConfig"
+      (primaryClick)="onPrimaryClick($event)"
+      (secondaryClick)="onSecondaryClick($event)"
+    ></sa-header>
+  </div>
+</sa-base-page>
+<ng-template #myTemplate let-item>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="deleteByIndex()">Delete By Index</button>
+    <button mat-menu-item (click)="deleteByPredicate(item)">Delete By Predicate</button>
+    <button mat-menu-item (click)="deleteByObject(item)">Delete By Object Matching</button>
+  </mat-menu>
+</ng-template>
+<h3 style="float: right"> Navigation Menu Component </h3>
 <sa-navigable-page [secondaryMenu]="secondaryNavMenu">
   <h3> Header Component </h3>
   <sa-base-page>
@@ -63,7 +82,7 @@
 
   <h3> Text Editor Component </h3>
   <form [formGroup]="editorForm">
-    <mat-form-field style="width: 100%;">
+    <mat-form-field style="width: 100%">
       <mat-label>Text Editor</mat-label>
       <sa-text-editor [required]="true" formControlName="description" name="Description"></sa-text-editor>
     </mat-form-field>
@@ -73,12 +92,6 @@
   <sa-button [config]="saveButtonConfig" (onClick)="updateTable()"></sa-button>
   <button mat-raised-button (click)="refreshTable()">Refresh Table</button>
 
-  <sa-data-table [dataTable]="dataTable">
-    <ng-template #listItemTemplate let-row="row">
-      <mat-list-item>Area: {{ row.area }} Line: {{ row.line }} Machine: {{ row.machine }}</mat-list-item>
-      <mat-divider></mat-divider>
-    </ng-template>
-  </sa-data-table>
   <ng-template #selectOptionBody let-item>{{ item }}</ng-template>
 
   <ng-template #myTemplate let-item>
@@ -93,15 +106,11 @@
   </ng-template>
 
   <ng-template #colTemplate let-column="column" let-row="row">
-    <div matTooltip="my tooltip ">
-      Something very long that
-    </div>
+    <div matTooltip="my tooltip "> Something very long that </div>
   </ng-template>
   <h3 id="reactiveForms">Reactive Forms and patch value</h3>
 
-  <button type="button" (click)="hide = !!!hide">
-    hide / show
-  </button>
+  <button type="button" (click)="hide = !!!hide"> hide / show </button>
 
   <button type="button" (click)="quillform.enabled ? quillform.disable() : quillform.enable()">
     disable / enable
@@ -133,7 +142,7 @@
 
     <pre>{{ quillform.get('matEditor').value }}</pre>
     FormControl valid: {{ quillform.get('matEditor').valid }}<br />
-    <mat-form-field appearance="fill" style="display: block !important;">
+    <mat-form-field appearance="fill" style="display: block !important">
       <sa-text-editor
         #matEditor
         [style.display]="hide ? 'none' : 'block'"
@@ -156,4 +165,23 @@
     <mat-divider></mat-divider>
   </ng-template>
 </sa-data-table>
-<div style="height: 1000px;">j</div>
+
+<ng-template #titleTemplate let-column="column" let-row="row">
+  <td class="text-truncate" matTooltip="{{ row['title'] }}">
+    {{ row['title'] }}
+  </td>
+</ng-template>
+
+<ng-template #issueTemplate let-column="column" let-row="row">
+  <td class="text-truncate" matTooltip="{{ row['issue'] }}">
+    {{ row['issue'] }}
+  </td>
+</ng-template>
+
+<ng-template #statusTemplate let-column="column" let-row="row">
+  <div *ngIf="row['status']">
+    <span [ngStyle]="{ width: 'max-content' }">
+      {{ row['status'] }}
+    </span>
+  </div>
+</ng-template>

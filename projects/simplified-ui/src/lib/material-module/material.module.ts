@@ -33,6 +33,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CdkTableModule } from '@angular/cdk/table';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatToolbarModule,
     MatTooltipModule,
     MatFormFieldModule,
-    OverlayModule
+    OverlayModule,
+    PortalModule
   ],
   exports: [
     CdkTableModule,
@@ -107,7 +109,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatToolbarModule,
     MatTooltipModule,
     OverlayModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    PortalModule
   ]
 })
 export class MaterialModule {}

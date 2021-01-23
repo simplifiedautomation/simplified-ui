@@ -23,10 +23,9 @@ import {
 import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { of } from 'rxjs';
 import * as moment_ from 'moment-timezone';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { QuillEditorComponent, ContentChange, SelectionChange } from 'ngx-quill';
-
 const moment = moment_;
 
 @Component({
@@ -213,9 +212,6 @@ export class AppComponent implements OnInit {
       title: 'Created Date'
     };
 
-    this.dataFilterConfig.config.pickerType = DatePickerType.calendar;
-    this.dataFilterConfig.config.selectMode = DatePickerSelectMode.range;
-
     this.dataFilterConfigArray.push(this.dataFilterConfig);
 
     this.saveButtonConfig.isSpinning = false;
@@ -259,7 +255,7 @@ export class AppComponent implements OnInit {
     // this.dataTable.showFilters = false;
     this.dataTable.disableSorting = true;
     this.dataTable.showColumnToggle = true;
-    this.dataTable.routerLinkEnabled = false;
+    this.dataTable.routerLinkEnabled = true;
     this.dataTable.showCheckboxColumn = true;
     this.dataTable.addFilter(this.dataFilterConfig);
 
@@ -472,13 +468,8 @@ export class AppComponent implements OnInit {
 
       return (selected && selected.id == row.id) || row.id == 1;
     };
-
+    this.dataTable.showPaginator = true;
     this.dataTable.getResults = (requestModel) => {
-      return this.client.post<IGenericPageListViewModel<any>>(
-        `https://localhost:44386/api/v2/tool/all?pageNumber=${requestModel.pageNumber}&pageSize=20`,
-        requestModel
-      );
-
       let res = this.json.filter((x) => x.area.includes(requestModel.filter.keyword));
 
       return of({
@@ -488,9 +479,9 @@ export class AppComponent implements OnInit {
         Pager: {
           CurrentPage: 1,
           PagenumberToDisplay: [1],
-          PageSize: 20,
+          PageSize: 5,
           Pages: 1,
-          TotalRecords: 20,
+          TotalRecords: 100,
           UrlFormat: ''
         }
       });
@@ -580,6 +571,42 @@ export class AppComponent implements OnInit {
       area: 'Area 9',
       line: 'Line 9',
       machine: 'Machine 9'
+    },
+    {
+      key: 18,
+      area: 'Area 18',
+      line: 'Line 18',
+      machine: 'Machine 18'
+    },
+    {
+      key: 19,
+      area: 'Area 19',
+      line: 'Line 19',
+      machine: 'Machine 19'
+    },
+    {
+      key: 28,
+      area: 'Area 28',
+      line: 'Line 28',
+      machine: 'Machine 28'
+    },
+    {
+      key: 29,
+      area: 'Area 29',
+      line: 'Line 29',
+      machine: 'Machine 29'
+    },
+    {
+      key: 28,
+      area: 'Area 28',
+      line: 'Line 28',
+      machine: 'Machine 28'
+    },
+    {
+      key: 29,
+      area: 'Area 29',
+      line: 'Line 29',
+      machine: 'Machine 29'
     }
   ];
 
@@ -589,4 +616,10 @@ export class AppComponent implements OnInit {
   }
 
   areas: string[] = ['Area 1'];
+
+  //ftag datatable
+  ftagDataTable: DataTable<any> = new DataTable();
+  @ViewChild('statusTemplate', { static: true }) statusTemplate: TemplateRef<any>;
+  @ViewChild('issueTemplate', { static: true }) issueTemplate: TemplateRef<any>;
+  @ViewChild('titleTemplate', { static: true }) titleTemplate: TemplateRef<any>;
 }

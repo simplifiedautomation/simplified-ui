@@ -10,7 +10,11 @@ import {
   ElementRef,
   Renderer2,
   TemplateRef,
-  ContentChild
+  ContentChild,
+  ViewContainerRef,
+  InjectionToken,
+  Injector,
+  ChangeDetectorRef
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,13 +22,14 @@ import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { DataTable, IRequestModel, IDataTableColumn } from '../models/DataTableModel';
 import { SaTableDataSource } from '../services/sa-table-data-source.service';
-import { BehaviorSubject, Subscription, Observable } from 'rxjs';
+import { BehaviorSubject, Subscription, Observable, of } from 'rxjs';
 import { DefaultCommonTableFilter, SaCommonTableFilter } from '../models/SaTableDataSource';
 import { switchMap, tap } from 'rxjs/operators';
 import { IGenericPageListViewModel } from '../models/IPagerModel';
 import { SaButton } from '../models/SaButton';
 import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
-
+import { CdkPortalOutlet, ComponentPortal, Portal, PortalInjector, TemplatePortal } from '@angular/cdk/portal';
+export const CONTAINER_DATA = new InjectionToken<{}>('CONTAINER_DATA');
 @Component({
   selector: 'sa-data-table',
   templateUrl: './sa-data-table.component.html',
@@ -32,6 +37,11 @@ import { IDataFilterViewModel, IFilterModel } from '../models/DataFilterModels';
 })
 export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy {
   @Input() dataTable: DataTable<T>;
+  //container element
+  containerElement: BehaviorSubject<T> | null = new BehaviorSubject(null);
+  opened = false;
+
+  @ViewChild('templatePortalContent', { static: true }) templatePortalContent: TemplateRef<any>;
 
   @Output() rowClick = new EventEmitter<T>();
   @Output() rowSelect = new EventEmitter<RowSelectEventDataModel<T>>();
@@ -62,6 +72,8 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   @ViewChild('scroller_div', { static: true }) scroller_div: ElementRef;
   @ViewChild('scroll_container', { static: true }) scroll_container: ElementRef;
   @ViewChild('scroller', { static: true }) scroller: ElementRef;
+  @ViewChild('container', { read: CdkPortalOutlet })
+  virtualPotalOutlet: CdkPortalOutlet;
   scrollerContainerWidth = 150;
   scrollerWidth = 100;
 
@@ -95,7 +107,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row -`;
   }
 
-  constructor(private _renderer: Renderer2) {
+  constructor(private _renderer: Renderer2, private changeDetector: ChangeDetectorRef, private _injector: Injector) {
     this.tableDataSource = new SaTableDataSource(
       this._source.asObservable(),
       new DefaultCommonTableFilter(),
@@ -122,6 +134,10 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
       if (this.dataTable.optionsColumnRef) {
         this.columnToDisplay.push('options');
+      }
+
+      if (this.dataTable.enableDataContainer) {
+        this.columnToDisplay.push('container');
       }
 
       if (this.dataTable.showCheckboxColumn) {
@@ -238,17 +254,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       sortCol: filter.sortCol
     };
 
-    return this.dataTable.getResults(requestModel).pipe(
-      tap((i) =>
-        setTimeout(() => {
-          if (i.List.length > 10) {
-            this.initializeMinimap();
-          } else {
-            this.scroller_div.nativeElement.style.display = 'none !important';
-          }
-        }, 100)
-      )
-    );
+    return this.dataTable.getResults(requestModel);
   }
 
   filterChange(filter: IFilterModel) {
@@ -258,6 +264,39 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   dataRowClick(row: T) {
     this.rowClick.emit(row);
+  }
+
+  openContainer(ele) {
+    this.containerElement.next(ele);
+    this.opened = true;
+    this.virtualPotalOutlet.detach();
+    if (!this.dataTable.componentOrTemplateRef) {
+      let x = new TemplatePortal<T>(this.templatePortalContent, null, <any>{ $implicit: ele });
+      this.virtualPotalOutlet.attach(x);
+      return;
+    }
+    if (this.dataTable.componentOrTemplateRef instanceof TemplateRef) {
+      let portal = new TemplatePortal<T>(this.dataTable.componentOrTemplateRef, null, <any>{ $implicit: ele });
+      this.virtualPotalOutlet.attach(portal);
+    } else {
+      this.virtualPotalOutlet.detach();
+      let portal = new ComponentPortal(this.dataTable.componentOrTemplateRef, null, this.createInjector(ele));
+      this.virtualPotalOutlet.attach(portal);
+    }
+  }
+  private createInjector(dataToPass) {
+    return Injector.create({
+      parent: this._injector,
+      providers: [{ provide: CONTAINER_DATA, useValue: dataToPass }]
+    });
+  }
+  closeContainer() {
+    this.opened = false;
+    if (this.virtualPotalOutlet) this.virtualPotalOutlet.detach();
+    this.containerElement.next(null);
+  }
+  getContainerElement() {
+    return this.containerElement.asObservable();
   }
 
   openSubMenuOptions() {

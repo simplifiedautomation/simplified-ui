@@ -4,6 +4,7 @@ import { IDataFilterViewModel, IFilterModel, FilterDefaults } from '../models/Da
 import { SortDirection } from './SaTableDataSource';
 import { SaButtonConfig } from '../sa-button/sa-button.component';
 import { TemplateRef, ElementRef } from '@angular/core';
+import { ComponentType } from '@angular/cdk/portal';
 
 //data for each column in a table
 export enum DataTableColumnTypeEnum {
@@ -64,11 +65,22 @@ export class DataTable<T> {
 
   showColumnToggle?: boolean = true;
 
-  showTableMinimap?: boolean = true;
+  showTableMinimap?: boolean = false;
 
   optionsColumnRef: TemplateRef<ElementRef>;
 
   defaultPageSize?: number;
+
+  /**
+   * Enable data container on the right of data table for selected row visualization.
+   *
+   */
+  enableDataContainer?: boolean = false;
+  /**
+   * Component or template ref of data table, this works similarly to the Mat Dialog
+   * where you can get access to the selected row in the injection of the constructor
+   */
+  componentOrTemplateRef: ComponentType<T> | TemplateRef<T>;
 
   getResults?: (requestModel: IRequestModel) => Observable<IGenericPageListViewModel<T>>;
 

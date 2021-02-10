@@ -29,6 +29,7 @@ import { symbolFormatEnum } from '../pipes/sa-value-formatter.pipe';
 export class SaCurrencyInputComponent
   implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy, DoCheck {
   @ViewChild('input') inputRef: ElementRef;
+  @Input() allowNegative: boolean = true;
 
   static nextId = 0;
   private decimalSeparator: string;
@@ -141,7 +142,7 @@ export class SaCurrencyInputComponent
 
   set value(val: string | null) {
     this._value = val;
-    if (this._value != null && this._value !== '' && this._value >= 0) {
+    if (this._value != null && this._value !== '') {
       this._empty = false;
     } else {
       this._empty = true;
@@ -180,11 +181,11 @@ export class SaCurrencyInputComponent
     this.onChange(this.currencyValue.value);
   }
 
-  parse(value: string, allowNegative = false) {
+  parse(value: string) {
     let [integer, fraction = ''] = (value.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
     fraction = parseInt(fraction, 10) > 0 && 2 > 0 ? this.decimalSeparator + (fraction + '000000').substring(0, 2) : '';
-    if (allowNegative && value.startsWith('(') && value.endsWith(')')) {
+    if (this.allowNegative && value.startsWith('-')) {
       return (-1 * parseFloat(integer + fraction)).toString();
     } else {
       return integer + fraction;

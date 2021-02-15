@@ -22,6 +22,7 @@ import {
 } from '../models/DataFilterModels';
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
 import { SaSelectComponent } from '../sa-select/sa-select.component';
+import { SaSelectConfig } from '../models/SaSelectModels';
 
 @Component({
   selector: 'sa-data-filter',
@@ -126,6 +127,8 @@ export class SaDataFilterComponent implements OnInit, OnChanges {
       });
       this.filterChange.emit(this.filterModel);
     }
+
+    <SaSelectConfig<any>>this.filters.find((x) => x.key === filter.key).config.setValue(null);
   }
 
   removeChip(chip: IFilterChip) {

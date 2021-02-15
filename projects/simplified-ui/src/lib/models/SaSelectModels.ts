@@ -89,4 +89,14 @@ export class SaSelectConfig<T> {
   onRefresh(): Observable<any> {
     return this.refreshSubject.asObservable();
   }
+
+  private valueSubject: Subject<any> = new Subject();
+
+  setValue(x: any) {
+    this.valueSubject.next(x);
+  }
+
+  onValueChange(): Observable<any> {
+    return this.valueSubject.asObservable();
+  }
 }

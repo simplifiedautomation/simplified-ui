@@ -156,6 +156,10 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
       this.searchTerm = '';
       this.filterRecords();
     });
+
+    this.config.onValueChange().subscribe((x) => {
+      this.value = x;
+    });
   }
 
   clicked(event: MouseEvent): void {
@@ -263,6 +267,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
 
     this.matSelectRef.value = val;
     this.matSelect.setValue(val);
+    this.matSelectRef.writeValue(val);
 
     this.onChange(val);
     this.stateChanges.next();

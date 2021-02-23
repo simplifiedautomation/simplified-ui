@@ -55,6 +55,7 @@
       <ng-container #container cdkPortalOutlet> </ng-container>
     </mat-sidenav>
     <mat-sidenav-content class="side-container">
+      <ng-container *ngTemplateOutlet="actionsTemplate"> </ng-container>
       <div fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start stretch" class="table-container" id="table" #table>
         <div fxLayout="row" fxLayoutAlign="start stretch">
           <mat-nav-list

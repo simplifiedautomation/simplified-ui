@@ -71,6 +71,8 @@ export class DataTable<T> {
 
   defaultPageSize?: number;
 
+  actionsTemplate?: TemplateRef<any>;
+
   /**
    * Enable data container on the right of data table for selected row visualization.
    *

@@ -31,4 +31,4 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: ./projects/simplified-ui/package.json
-          dry-run: true
+          dry-run: false

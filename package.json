@@ -1,6 +1,6 @@
 {
   "name": "simplified-ui-library",
-  "version": "0.0.0",
+  "version": "0.0.103",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open --port 4200",

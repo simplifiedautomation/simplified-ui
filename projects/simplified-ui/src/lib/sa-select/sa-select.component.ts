@@ -10,10 +10,11 @@ import {
   ElementRef,
   ViewChild,
   DoCheck,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import { BehaviorSubject, Subscription, Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatSelectChange } from '@angular/material/select';
 import { NgControl, ControlValueAccessor, FormControl } from '@angular/forms';
@@ -39,7 +40,7 @@ import { SaSelectConfig } from '../models/SaSelectModels';
  *
  * @type SearchableSelectOptionComponent
  */
-export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldControl<T>, ControlValueAccessor {
+export class SaSelectComponent<T> implements OnInit, DoCheck, OnDestroy, MatFormFieldControl<T>, ControlValueAccessor {
   matSelect = new FormControl();
 
   /**
@@ -87,6 +88,8 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
   @ViewChild('matSelectRef', { static: true }) matSelectRef;
   @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
 
+  private destroyedSubject$ = new Subject();
+
   constructor(
     @Optional() @Self() public ngControl: NgControl,
     private fm: FocusMonitor,
@@ -98,12 +101,14 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
       this.ngControl.valueAccessor = this;
     }
 
-    fm.monitor(elRef.nativeElement, true).subscribe((origin) => {
-      this.focused = !!origin;
-      this.stateChanges.next();
-    });
+    fm.monitor(elRef.nativeElement, true)
+      .pipe(takeUntil(this.destroyedSubject$))
+      .subscribe((origin) => {
+        this.focused = !!origin;
+        this.stateChanges.next();
+      });
 
-    this._selectOptions.subscribe((x) => {
+    this._selectOptions.pipe(takeUntil(this.destroyedSubject$)).subscribe((x) => {
       if (this.didFilter) {
         this.didFilter = false;
         this.originalData = x;
@@ -133,7 +138,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
         this.getNextBatch();
       });
 
-    this.config.options.subscribe((x) => {
+    this.config.options.pipe(takeUntil(this.destroyedSubject$)).subscribe((x) => {
       this.didFilter = true;
       this.totalRecords = x.length;
       this._selectOptions.next(x);
@@ -147,15 +152,33 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
       this.getNextBatch();
     }
 
-    this.config.onCancelled().subscribe((x) => {
-      this._isWaitingResultsCallback = false;
-      this.resultCallbackSubscription.unsubscribe();
-    });
+    this.config
+      .onCancelled()
+      .pipe(takeUntil(this.destroyedSubject$))
+      .subscribe((x) => {
+        this._isWaitingResultsCallback = false;
+        this.resultCallbackSubscription.unsubscribe();
+      });
 
-    this.config.onRefresh().subscribe((_) => {
-      this.searchTerm = '';
-      this.filterRecords();
-    });
+    this.config
+      .onRefresh()
+      .pipe(takeUntil(this.destroyedSubject$))
+      .subscribe((_) => {
+        this.searchTerm = '';
+        this.filterRecords();
+      });
+
+    this.config
+      .onValueChange()
+      .pipe(takeUntil(this.destroyedSubject$))
+      .subscribe((x) => {
+        this.value = x;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroyedSubject$.next();
+    this.destroyedSubject$.complete();
   }
 
   clicked(event: MouseEvent): void {
@@ -263,6 +286,7 @@ export class SaSelectComponent<T> implements OnInit, DoCheck, MatFormFieldContro
 
     this.matSelectRef.value = val;
     this.matSelect.setValue(val);
+    this.matSelectRef.writeValue(val);
 
     this.onChange(val);
     this.stateChanges.next();

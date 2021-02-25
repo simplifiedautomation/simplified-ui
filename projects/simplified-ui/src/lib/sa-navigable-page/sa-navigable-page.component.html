@@ -3,7 +3,7 @@
   <div class="page-body">
     <mat-sidenav-container>
       <mat-sidenav
-        fxHide.lt-sm
+        *ngIf="(viewPortSize$ | async) != 'xs'"
         #tableOfContents
         mode="side"
         [disableClose]="true"
@@ -18,7 +18,7 @@
 
       <mat-sidenav-content>
         <div class="mdc-layout-grid">
-          <mat-accordion fxHide.gt-xs>
+          <mat-accordion *ngIf="(viewPortSize$ | async) == 'xs'">
             <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
               <mat-expansion-panel-header>
                 <mat-panel-title *ngIf="panelOpenState" class="layout-section-title">

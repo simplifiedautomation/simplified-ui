@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, OnChanges, SimpleChanges, NgZone } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { NavigationItem } from '../models/NavigationItem';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'sa-table-of-contents',
@@ -9,24 +10,30 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./sa-table-of-contents.component.scss']
 })
 export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChanges {
-  href: string = '';
-
   @Input() primaryMenu: NavigationItem[] = [];
   @Input() secondaryMenu: NavigationItem[] = [];
 
-  navigationItemOnClick(item) {
-    document.getElementsByClassName('selected')[0]?.classList.remove('selected');
-    item.closest('mat-list-item').className += ' selected';
-  }
   private primaryMenuSubscription: Subscription[] = [];
   private secondaryMenuSubscription: Subscription[] = [];
-  constructor(private scrollDispatcher: ScrollDispatcher) {}
+
+  scrollListener: Subscription;
+
+  href: string = '';
+  currentRoute: string;
+
+  constructor(private scrollDispatcher: ScrollDispatcher, private zone: NgZone, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.href = window.location.pathname;
   }
 
   ngAfterViewInit() {
+    if (this.primaryMenu.length) {
+      this.currentRoute = this.primaryMenu[0].route;
+    } else if (this.secondaryMenu.length) {
+      this.currentRoute = this.secondaryMenu[0].route;
+    }
+
     this.primaryMenu.forEach((menuItem) => {
       this.primaryMenuSubscription.push(this.subscribeNavigableMenu(menuItem));
     });
@@ -34,23 +41,26 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
       this.secondaryMenuSubscription.push(this.subscribeNavigableMenu(menuItem));
     });
 
-    this.scrollDispatcher.scrolled(25).subscribe((x) => {
+    if (this.scrollListener) this.scrollListener.unsubscribe();
+
+    this.scrollListener = this.scrollDispatcher.scrolled(25).subscribe((x) => {
       if (x) {
         let scroll_start = x['elementRef'].nativeElement.scrollTop;
-        let clientHeight = x['elementRef'].nativeElement.clientHeight;
-        let scrollHeight = scroll_start + clientHeight - 66;
+        let scrollHeight = scroll_start + 120;
 
-        let itemOffsets = this.getItemOffsets();
-
-        for (let i = 0; i < itemOffsets.length; i++) {
-          if (scroll_start <= itemOffsets[0].top - 66) {
-            this.triggerEvent(itemOffsets[0].route);
-          } else if (scrollHeight >= itemOffsets[itemOffsets.length - 1].top) {
-            this.triggerEvent(itemOffsets[itemOffsets.length - 1].route);
-          } else if (scrollHeight >= itemOffsets[i].top && scrollHeight < itemOffsets[i + 1]?.top) {
-            this.triggerEvent(itemOffsets[i].route);
+        this.zone.run((_) => {
+          let itemOffsets = this.getItemOffsets();
+          for (let i = 0; i < itemOffsets.length; i++) {
+            if (scroll_start <= itemOffsets[0].top - 66) {
+              this.triggerEvent(itemOffsets[0].route);
+            } else if (scrollHeight >= itemOffsets[itemOffsets.length - 1].top) {
+              this.triggerEvent(itemOffsets[itemOffsets.length - 1].route);
+            } else if (scrollHeight >= itemOffsets[i].top && scrollHeight < itemOffsets[i + 1]?.top) {
+              this.triggerEvent(itemOffsets[i].route);
+            }
           }
-        }}
+        });
+      }
     });
   }
 
@@ -62,6 +72,8 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
             y.unsubscribe();
           });
         });
+
+        this.primaryMenuSubscription = [];
       }
 
       changes.primaryMenu.currentValue.forEach((x: NavigationItem) => {
@@ -76,25 +88,40 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
             y.unsubscribe();
           });
         });
+
+        this.secondaryMenuSubscription = [];
       }
       changes.secondaryMenu.currentValue.forEach((x: NavigationItem) => {
         this.secondaryMenuSubscription.push(this.subscribeNavigableMenu(x));
       });
     }
+
+    if (changes.primaryMenu || changes.secondaryMenu) {
+      let route = this.route.snapshot.fragment;
+      const element = document.querySelector("a[name='" + route + "']");
+
+      if (element) {
+        this.currentRoute = route;
+        element.scrollIntoView();
+        this.triggerEvent(route);
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.scrollListener) this.scrollListener.unsubscribe();
   }
 
   private subscribeNavigableMenu(menuItem: NavigationItem): Subscription {
-    return menuItem.obs$.subscribe(function (result) {
-      document.getElementsByClassName('selected')[0]?.classList.remove('selected');
-      const menuItemElement = document.querySelector('a[href="' + window.location.pathname + '#' + result + '"]');
-      menuItemElement.closest('mat-list-item').className += ' selected';
+    return menuItem.obs$.subscribe((result) => {
+      this.currentRoute = result;
     });
   }
 
   getItemOffsets() {
     const that = this;
     let itemOffsets = [];
-    this.primaryMenu.forEach(function (item) {
+    this.primaryMenu.forEach((item) => {
       var top = that.getDistanceFromTop(document.querySelector('a[name="' + item.route + '"]'));
       let itemOffset = {
         top: top,
@@ -102,7 +129,7 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
       };
       itemOffsets.push(itemOffset);
     });
-    this.secondaryMenu.forEach(function (item) {
+    this.secondaryMenu.forEach((item) => {
       var top = that.getDistanceFromTop(document.querySelector('a[name="' + item.route + '"]'));
       let itemOffset = {
         top: top,
@@ -110,6 +137,7 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
       };
       itemOffsets.push(itemOffset);
     });
+
     return itemOffsets;
   }
 
@@ -127,6 +155,6 @@ export class SaTableOfContentsComponent implements OnInit, AfterViewInit, OnChan
   triggerEvent(route: string) {
     const menuItem =
       this.primaryMenu.find((x) => x.route === route) || this.secondaryMenu.find((x) => x.route === route);
-    menuItem.triggerNext();
+    menuItem?.triggerNext();
   }
 }

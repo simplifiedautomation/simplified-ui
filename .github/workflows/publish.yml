@@ -27,8 +27,10 @@ jobs:
         with:
           node-version: 12
       - run: npm ci
+      - run: npm run build-simplified-ui
+      - run: npm publish dist
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: ./projects/simplified-ui/package.json
-          dry-run: true
+          dry-run: false

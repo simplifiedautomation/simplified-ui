@@ -48,6 +48,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   columnToDisplay: string[] = [];
   columns: IDataTableColumn[] = [];
+  actionsTemplate: TemplateRef<any>;
 
   @ViewChild('iconSelector') iconSelector;
   filterArray: IDataFilterViewModel[] = [];
@@ -120,6 +121,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngOnInit() {
+    this.actionsTemplate = this.dataTable.actionsTemplate;
     this.dataTable.onColumnUpdated().subscribe((columns) => {
       this.filterArray = [];
       columns.forEach((z) => {

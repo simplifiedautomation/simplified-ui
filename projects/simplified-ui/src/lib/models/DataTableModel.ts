@@ -25,6 +25,7 @@ export interface IDataTableColumn {
   template?: TemplateRef<any>;
   headerTemplate?: TemplateRef<any>;
   data?: any;
+  disableSort?: boolean;
 }
 
 export interface IRequestModel {

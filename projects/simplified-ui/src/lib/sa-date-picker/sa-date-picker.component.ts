@@ -170,13 +170,21 @@ export class SaDatePickerComponent
         this.dateConfig.dateFormat = MOMENT_FORMATS.timePickerInput;
       } else if (this.dateConfig.pickerType == DatePickerType.both) {
         this.dateConfig.dateFormat = MOMENT_FORMATS.fullPickerInput;
-      }
+      } else this.dateConfig.dateFormat = MOMENT_FORMATS.full24HUTC;
     }
 
     this.dateTime.valueChanges.subscribe((x) => {
       if (x instanceof Array) {
-        this.value = x.map((date) => moment(date).format(this.dateConfig.dateFormat));
-      } else this.value = moment(x).format(this.dateConfig.dateFormat);
+        this.value = x.map((date) => {
+          let formattedDate = moment(date).format(this.dateConfig.dateFormat);
+          if (this.dateConfig.dateFormat == MOMENT_FORMATS.full24HUTC) formattedDate = moment(formattedDate).utc();
+
+          return formattedDate;
+        });
+      } else {
+        this.value = moment(x).format(this.dateConfig.dateFormat);
+        if (this.dateConfig.dateFormat == MOMENT_FORMATS.full24HUTC) this.value = moment(this.value).utc();
+      }
     });
   }
 }

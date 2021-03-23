@@ -23,6 +23,9 @@ import {
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
 import { SaSelectComponent } from '../sa-select/sa-select.component';
 import { SaSelectConfig } from '../models/SaSelectModels';
+import { MOMENT_FORMATS } from '../../public-api';
+import * as moment_ from 'moment-timezone';
+const moment = moment_;
 
 @Component({
   selector: 'sa-data-filter',
@@ -167,7 +170,10 @@ export class SaDataFilterComponent implements OnInit, OnChanges {
     });
 
     this.chips.push({
-      displayValue: dates[0] + ' - ' + dates[1],
+      displayValue:
+        moment(dates[0]).format(MOMENT_FORMATS.dateA11yLabel) +
+        ' - ' +
+        moment(dates[1]).format(MOMENT_FORMATS.dateA11yLabel),
       key: filter.key,
       title: filter.title,
       value: dates

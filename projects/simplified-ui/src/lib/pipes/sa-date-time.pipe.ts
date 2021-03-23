@@ -39,5 +39,6 @@ export const MOMENT_FORMATS = {
   timePickerInput: 'LT',
   monthYearLabel: 'MMM YYYY',
   dateA11yLabel: 'LL',
-  monthYearA11yLabel: 'MMMM YYYY'
+  monthYearA11yLabel: 'MMMM YYYY',
+  full24HUTC: 'YYYY-MM-DDTHH:mm:ssZ'
 };

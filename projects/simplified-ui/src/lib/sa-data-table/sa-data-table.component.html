@@ -126,7 +126,13 @@
               [sticky]="col.sticky"
               [stickyEnd]="col.stickyEnd"
             >
-              <th mat-header-cell *matHeaderCellDef mat-sort-header matTooltip="{{ col.title }}">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                [disabled]="col.disableSort"
+                matTooltip="{{ col.title }}"
+              >
                 <div *ngIf="!col.headerTemplate" class="truncate">{{ col.title | uppercase }}</div>
                 <div *ngIf="col.headerTemplate">
                   <ng-container *ngTemplateOutlet="col.headerTemplate; context: { column: col }"> </ng-container>

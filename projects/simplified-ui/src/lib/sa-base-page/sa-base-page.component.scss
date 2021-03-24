@@ -1,6 +1,6 @@
 ::ng-deep sa2-base-page {
   .sub-header {
-    right: 32px;
+    width: calc(100% - 32px);
   }
   .page-body {
     margin-top: 72px;

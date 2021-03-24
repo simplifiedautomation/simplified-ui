@@ -35,3 +35,13 @@ sa-data-filter {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.sub-header {
+  position: fixed;
+  background-color: #fafafa;
+  top: 64px;
+  z-index: 2;
+  left: 24px;
+  width: inherit;
+  box-sizing: border-box;
+}

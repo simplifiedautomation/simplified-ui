@@ -17,7 +17,8 @@
       </mat-sidenav>
 
       <mat-sidenav-content>
-        <div class="mdc-layout-grid">
+        <div class="mdc-layout-grid" fxLayout="column">
+          <ng-content select=".sub-header"></ng-content>
           <mat-accordion *ngIf="(viewPortSize$ | async) == 'xs'">
             <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
               <mat-expansion-panel-header>

@@ -176,14 +176,15 @@ export class SaDatePickerComponent
     this.dateTime.valueChanges.subscribe((x) => {
       if (x instanceof Array) {
         this.value = x.map((date) => {
-          let formattedDate = moment(date).format(this.dateConfig.dateFormat);
-          if (this.dateConfig.dateFormat == MOMENT_FORMATS.full24HUTC) formattedDate = moment(formattedDate).utc();
-
-          return formattedDate;
+          return this.dateConfig.dateFormat == MOMENT_FORMATS.full24HUTC
+            ? moment(date).utc().format(this.dateConfig.dateFormat)
+            : moment(date).format(this.dateConfig.dateFormat);
         });
       } else {
-        this.value = moment(x).format(this.dateConfig.dateFormat);
-        if (this.dateConfig.dateFormat == MOMENT_FORMATS.full24HUTC) this.value = moment(this.value).utc();
+        this.value =
+          this.dateConfig.dateFormat == MOMENT_FORMATS.full24HUTC
+            ? moment(x).utc().format(this.dateConfig.dateFormat)
+            : moment(x).format(this.dateConfig.dateFormat);
       }
     });
   }

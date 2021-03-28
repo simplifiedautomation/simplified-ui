@@ -169,11 +169,14 @@ export class SaDataFilterComponent implements OnInit, OnChanges {
       to: dates[1]
     });
 
-    this.chips.push({
-      displayValue:
-        moment(dates[0]).format(MOMENT_FORMATS.dateA11yLabel) +
+    let displayValue = moment(dates[0], 'YYYY-MM-DDTHH:mm:ssZ', true).isValid()
+      ? moment.tz(dates[0], moment.tz.guess()).format(MOMENT_FORMATS.dateA11yLabel) +
         ' - ' +
-        moment(dates[1]).format(MOMENT_FORMATS.dateA11yLabel),
+        moment.tz(dates[1], moment.tz.guess()).format(MOMENT_FORMATS.dateA11yLabel)
+      : dates[0] + ' - ' + dates[1];
+
+    this.chips.push({
+      displayValue: displayValue,
       key: filter.key,
       title: filter.title,
       value: dates

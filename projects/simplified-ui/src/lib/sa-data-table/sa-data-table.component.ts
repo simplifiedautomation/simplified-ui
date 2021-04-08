@@ -122,8 +122,12 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit() {
     this.actionsTemplate = this.dataTable.actionsTemplate;
+
+    this.dataTable.onColumnRemoved().subscribe(res => {
+      this.filterArray = this.filterArray.filter(x => x.key != res.filter.key)
+    });
+
     this.dataTable.onColumnUpdated().subscribe((columns) => {
-      this.filterArray = [];
       columns.forEach((z) => {
         if (z.filter != null) this.filterArray.push(z.filter);
       });

@@ -30,7 +30,11 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { AbbreviateNumberPipe } from './pipes/abbreviate-number.pipe';
 import Counter from './sa-text-editor/counter';
-import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from '@danielmoncada/angular-datetime-picker';
+import {
+  OwlDateTimeModule,
+  OWL_DATE_TIME_FORMATS,
+  OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS
+} from '@danielmoncada/angular-datetime-picker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SaPageHeaderComponent } from './sa-page-header/sa-page-header.component';
 
@@ -142,6 +146,6 @@ import { SaPageHeaderComponent } from './sa-page-header/sa-page-header.component
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [MatProgressSpinner],
-  providers: [{ provide: OWL_DATE_TIME_FORMATS, useValue: MOMENT_FORMATS }]
+  providers: [{ provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
 })
 export class SimplifiedUiModule {}

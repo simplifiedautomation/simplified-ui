@@ -62,8 +62,6 @@ export class DatePickerConfig {
   selectMode?: DatePickerSelectMode = DatePickerSelectMode.single; //'single' | 'range' | 'rangeFrom' | 'rangeTo'
 
   placeholder: string = 'Select Date';
-
-  dateFormat?: any;
 }
 
 export enum DatePickerType {

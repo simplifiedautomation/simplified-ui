@@ -16,8 +16,7 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { DatePickerConfig, DatePickerType, DatePickerSelectMode } from '../models/DatePickerConfigModel';
-
+import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigModel';
 import * as moment_ from 'moment-timezone';
 const moment = moment_;
 import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
@@ -46,9 +45,11 @@ export class SaDatePickerComponent
     this._empty = false;
     this.dateTime.patchValue(date);
   }
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
@@ -161,31 +162,31 @@ export class SaDatePickerComponent
   }
 
   ngOnInit() {
-    if (!this.dateConfig.dateFormat) {
-      if (this.dateConfig.selectMode == DatePickerSelectMode.range) {
-        this.dateConfig.dateFormat = MOMENT_FORMATS.dateA11yLabel;
-      } else if (this.dateConfig.pickerType == DatePickerType.calendar) {
-        this.dateConfig.dateFormat = MOMENT_FORMATS.datePickerInput;
-      } else if (this.dateConfig.pickerType == DatePickerType.timer) {
-        this.dateConfig.dateFormat = MOMENT_FORMATS.timePickerInput;
-      } else if (this.dateConfig.pickerType == DatePickerType.both) {
-        this.dateConfig.dateFormat = MOMENT_FORMATS.fullPickerInput;
-      } else this.dateConfig.dateFormat = MOMENT_FORMATS.full24HUTC;
-    }
-
     this.dateTime.valueChanges.subscribe((x) => {
       if (x instanceof Array) {
-        this.value = x.map((date) => {
-          return this.dateConfig.dateFormat == MOMENT_FORMATS.full24HUTC
-            ? moment(date).utc().format(this.dateConfig.dateFormat)
-            : moment(date).format(this.dateConfig.dateFormat);
-        });
+        this.value = x.map((date) => this.formatDate(date));
       } else {
-        this.value =
-          this.dateConfig.dateFormat == MOMENT_FORMATS.full24HUTC
-            ? moment(x).utc().format(this.dateConfig.dateFormat)
-            : moment(x).format(this.dateConfig.dateFormat);
+        this.value = this.formatDate(x);
       }
     });
+  }
+
+  private formatDate(date: Date): Date {
+    let formattedDate: Date;
+
+    switch (this.dateConfig.pickerType) {
+      case DatePickerType.calendar:
+        formattedDate = moment(date).format(MOMENT_FORMATS.dateA11yLabel);
+        break;
+      case DatePickerType.timer:
+        formattedDate = moment(date).format(MOMENT_FORMATS.timePickerInput);
+        break;
+      case DatePickerType.both:
+      default:
+        formattedDate = moment(date).utc().format(MOMENT_FORMATS.full24HUTC);
+        break;
+    }
+
+    return formattedDate;
   }
 }

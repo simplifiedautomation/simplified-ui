@@ -23,7 +23,7 @@ import {
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
 import { SaSelectComponent } from '../sa-select/sa-select.component';
 import { SaSelectConfig } from '../models/SaSelectModels';
-import { MOMENT_FORMATS } from '../../public-api';
+import { MOMENT_FORMATS, DatePickerConfig, DatePickerType } from '../../public-api';
 import * as moment_ from 'moment-timezone';
 const moment = moment_;
 
@@ -169,11 +169,8 @@ export class SaDataFilterComponent implements OnInit, OnChanges {
       to: dates[1]
     });
 
-    let displayValue = moment(dates[0], 'YYYY-MM-DDTHH:mm:ssZ', true).isValid()
-      ? moment.tz(dates[0], moment.tz.guess()).format(MOMENT_FORMATS.dateA11yLabel) +
-        ' - ' +
-        moment.tz(dates[1], moment.tz.guess()).format(MOMENT_FORMATS.dateA11yLabel)
-      : dates[0] + ' - ' + dates[1];
+    let displayValue =
+      this.getDateDisplayValue(dates[0], filter.config) + ' - ' + this.getDateDisplayValue(dates[1], filter.config);
 
     this.chips.push({
       displayValue: displayValue,
@@ -182,5 +179,11 @@ export class SaDataFilterComponent implements OnInit, OnChanges {
       value: dates
     });
     this.filterChange.emit(this.filterModel);
+  }
+
+  private getDateDisplayValue(date: Date, filterConfig: DatePickerConfig): Date {
+    return filterConfig.pickerType == DatePickerType.both
+      ? moment.tz(date, moment.tz.guess()).format(MOMENT_FORMATS.dateA11yLabel)
+      : date;
   }
 }

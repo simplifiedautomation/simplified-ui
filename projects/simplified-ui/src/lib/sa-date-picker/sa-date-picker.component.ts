@@ -36,6 +36,7 @@ export class SaDatePickerComponent
   dateTime = new FormControl();
 
   @Output() onSelection: EventEmitter<any> = new EventEmitter();
+  @Output() click: EventEmitter<MouseEvent> = new EventEmitter();
 
   id: string;
   onChange = (_: any) => {};
@@ -93,6 +94,7 @@ export class SaDatePickerComponent
   private _placeholder: string;
 
   onContainerClick(event: MouseEvent): void {
+    if (!this.disabled) this.click.emit(event);
     this.focused = true;
   }
 

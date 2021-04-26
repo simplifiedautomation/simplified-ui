@@ -4,6 +4,7 @@
     overflow: auto;
     flex-basis: 0% !important;
     height: calc(100vh - 155px);
+    max-height: calc(100vh - 155px);
   }
 }
 

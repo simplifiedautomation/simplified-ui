@@ -126,11 +126,18 @@ export class DataTable<T> {
    * @param index Index at which the column should be added.
    */
   addColumn(column: IDataTableColumn, index?: number): void {
-    if (index) {
-      this.columns.splice(index, 0, column);
+    // updates the existing column when key is same
+    if (this.columns.some(i => i.key == column.key)) {
+      var prevColumnIndex = this.columns.findIndex(i => i.key == column.key);
+      this.columns[prevColumnIndex] = column;
     } else {
-      this.columns.push(column);
+      if (index) {
+        this.columns.splice(index, 0, column);
+      } else {
+        this.columns.push(column);
+      }
     }
+
     this.columnAddedSubject.next(column);
     this.columnsUpdatedSubject.next(this.columns);
   }

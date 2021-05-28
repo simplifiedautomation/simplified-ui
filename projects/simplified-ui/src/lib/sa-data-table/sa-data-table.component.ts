@@ -122,14 +122,15 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit() {
     this.actionsTemplate = this.dataTable.actionsTemplate;
+    this.dataTable.onColumnAdded().subscribe((column) => {
+      if (column.filter) this.filterArray.push(column.filter);
+    });
+    this.dataTable.onColumnRemoved().subscribe((column) => {
+      this.filterArray =
+        column.filter != null ? this.filterArray.filter((x) => x.key != column.filter.key) : this.filterArray;
+    });
     this.dataTable.onColumnUpdated().subscribe((columns) => {
-      this.filterArray = [];
-      columns.forEach((z) => {
-        if (z.filter != null) this.filterArray.push(z.filter);
-      });
-
       this.columns = columns;
-
       this.columnToDisplay = columns.map((z) => {
         return z.key;
       });
@@ -185,29 +186,26 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
         // which also discards any pending subscription if a new filter change event is emitted
         // while the previous request hasn't been completed
         .pipe(switchMap((filter) => this._getRecords(filter)))
-        .subscribe(
-          (res) => {
-            this.totalCount = res.Pager.TotalRecords;
-            this.sourceList = res.List;
-            this.isRender = true;
-            this.showFilter = true;
+        .subscribe((res) => {
+          this.totalCount = res.Pager.TotalRecords;
+          this.sourceList = res.List;
+          this.isRender = true;
+          this.showFilter = true;
 
-            if (this.dataTable.selectedRowPredicate) {
-              res.List.forEach((row) => {
-                if (!this.selection.isSelected(row) && this.dataTable.selectedRowPredicate(row)) {
-                  this.selection.select(row);
+          if (this.dataTable.selectedRowPredicate) {
+            res.List.forEach((row) => {
+              if (!this.selection.isSelected(row) && this.dataTable.selectedRowPredicate(row)) {
+                this.selection.select(row);
+              }
+
+              this.selection.selected.forEach((selected) => {
+                if (!this.dataTable.selectedRowPredicate(selected)) {
+                  this.selection.deselect(selected);
                 }
-
-                this.selection.selected.forEach((selected) => {
-                  if (!this.dataTable.selectedRowPredicate(selected)) {
-                    this.selection.deselect(selected);
-                  }
-                });
               });
-            }
-          },
-          (e) => console.log(e)
-        )
+            });
+          }
+        })
     );
 
     this.subs.push(

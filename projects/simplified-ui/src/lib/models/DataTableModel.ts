@@ -155,7 +155,7 @@ export class DataTable<T> {
       removedColumn = this.columns.pop();
     }
     if (typeof keyOrIndex === 'string') {
-      removedColumn = this.columns.find((x) => x.key != keyOrIndex);
+      removedColumn = this.columns.find((x) => x.key == keyOrIndex);
       this.columns = this.columns.filter((x) => x.key != keyOrIndex);
     }
     if (typeof keyOrIndex === 'number') {

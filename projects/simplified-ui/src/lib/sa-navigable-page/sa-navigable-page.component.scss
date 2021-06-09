@@ -8,8 +8,8 @@ mat-expansion-panel {
   margin: 0 0 16px 0 !important;
 }
 
-::ng-deep sa2-navigable-page {
+::ng-deep sa-navigable-page {
   .sub-header {
-    width: calc(100% - 16.6667% - 32px);
+    width: calc(100% - 16.6667% - 32px) !important;
   }
 }

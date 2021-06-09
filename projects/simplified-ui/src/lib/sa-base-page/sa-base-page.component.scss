@@ -1,8 +1,11 @@
-::ng-deep sa2-base-page {
+::ng-deep sa-base-page {
   .sub-header {
-    width: calc(100% - 32px);
+    width: calc(100% - 24px);
   }
   .page-body {
     margin-top: 72px;
+    &.no-sub-header {
+      margin-top: 0;
+    }
   }
 }

@@ -122,35 +122,43 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit() {
     this.actionsTemplate = this.dataTable.actionsTemplate;
-    this.dataTable.onColumnAdded().subscribe((column) => {
-      if (column.filter) this.filterArray.push(column.filter);
-    });
-    this.dataTable.onColumnRemoved().subscribe((column) => {
-      this.filterArray =
-        column.filter != null ? this.filterArray.filter((x) => x.key != column.filter.key) : this.filterArray;
-    });
-    this.dataTable.onColumnUpdated().subscribe((columns) => {
-      this.columns = columns;
-      this.columnToDisplay = columns.map((z) => {
-        return z.key;
-      });
+    this.subs.push(
+      this.dataTable.onColumnAdded().subscribe((column) => {
+        if (column.filter) this.filterArray.push(column.filter);
+      })
+    );
+    this.subs.push(
+      this.dataTable.onColumnRemoved().subscribe((column) => {
+        this.filterArray =
+          column.filter != null ? this.filterArray.filter((x) => x.key != column.filter.key) : this.filterArray;
+      })
+    );
+    this.subs.push(
+      this.dataTable.onColumnUpdated().subscribe((columns) => {
+        this.columns = columns;
+        this.columnToDisplay = columns.map((z) => {
+          return z.key;
+        });
 
-      if (this.dataTable.optionsColumnRef) {
-        this.columnToDisplay.push('options');
-      }
+        if (this.dataTable.optionsColumnRef) {
+          this.columnToDisplay.push('options');
+        }
 
-      if (this.dataTable.enableDataContainer) {
-        this.columnToDisplay.push('container');
-      }
+        if (this.dataTable.enableDataContainer) {
+          this.columnToDisplay.push('container');
+        }
 
-      if (this.dataTable.showCheckboxColumn) {
-        this.columnToDisplay.unshift('select');
-      }
-    });
+        if (this.dataTable.showCheckboxColumn) {
+          this.columnToDisplay.unshift('select');
+        }
+      })
+    );
 
-    this.dataTable.onFilterAdded().subscribe((filter) => {
-      this.filterArray.push(filter);
-    });
+    this.subs.push(
+      this.dataTable.onFilterAdded().subscribe((filter) => {
+        this.filterArray.push(filter);
+      })
+    );
 
     this.dataTable.onRowDelete().subscribe((itemOrIndexOrPredicate) => {
       if (typeof itemOrIndexOrPredicate == 'function') {
@@ -166,18 +174,20 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       this.tableDataSource.triggerFilterChange();
     });
 
-    this.dataTable.onFilterApplied().subscribe((filters) => {
-      this.filterArray.forEach((x) => (x.defaults = null));
-      var clone = Object.assign([], this.filterArray);
-      for (const filter of filters) {
-        const index = clone.findIndex((x) => x.key == filter.key);
-        if (index != -1) {
-          clone[index].defaults = filter.defaults;
+    this.subs.push(
+      this.dataTable.onFilterApplied().subscribe((filters) => {
+        this.filterArray.forEach((x) => (x.defaults = null));
+        var clone = Object.assign([], this.filterArray);
+        for (const filter of filters) {
+          const index = clone.findIndex((x) => x.key == filter.key);
+          if (index != -1) {
+            clone[index].defaults = filter.defaults;
+          }
         }
-      }
-      this.filterArray = [];
-      this.filterArray = clone;
-    });
+        this.filterArray = [];
+        this.filterArray = clone;
+      })
+    );
 
     // listen to dataSource filter change
     this.subs.push(

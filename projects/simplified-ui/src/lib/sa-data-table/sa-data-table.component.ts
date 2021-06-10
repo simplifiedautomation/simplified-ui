@@ -122,61 +122,76 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   ngOnInit() {
     this.actionsTemplate = this.dataTable.actionsTemplate;
-    this.dataTable.onColumnUpdated().subscribe((columns) => {
-      this.filterArray = [];
-      columns.forEach((z) => {
-        if (z.filter != null) this.filterArray.push(z.filter);
-      });
+    this.subs.push(
+      this.dataTable.onColumnAdded().subscribe((column) => {
+        if (column.filter) this.filterArray.push(column.filter);
+      })
+    );
+    this.subs.push(
+      this.dataTable.onColumnRemoved().subscribe((column) => {
+        this.filterArray =
+          column.filter != null ? this.filterArray.filter((x) => x.key != column.filter.key) : this.filterArray;
+      })
+    );
+    this.subs.push(
+      this.dataTable.onColumnUpdated().subscribe((columns) => {
+        this.columns = columns;
+        this.columnToDisplay = columns.map((z) => {
+          return z.key;
+        });
 
-      this.columns = columns;
-
-      this.columnToDisplay = columns.map((z) => {
-        return z.key;
-      });
-
-      if (this.dataTable.optionsColumnRef) {
-        this.columnToDisplay.push('options');
-      }
-
-      if (this.dataTable.enableDataContainer) {
-        this.columnToDisplay.push('container');
-      }
-
-      if (this.dataTable.showCheckboxColumn) {
-        this.columnToDisplay.unshift('select');
-      }
-    });
-
-    this.dataTable.onFilterAdded().subscribe((filter) => {
-      this.filterArray.push(filter);
-    });
-
-    this.dataTable.onRowDelete().subscribe((itemOrIndexOrPredicate) => {
-      if (typeof itemOrIndexOrPredicate == 'function') {
-        this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList);
-      } else if (typeof itemOrIndexOrPredicate == 'number') {
-        this.sourceList = this.sourceList.filter((_, i) => i != itemOrIndexOrPredicate);
-      } else {
-        this.sourceList = this.sourceList.filter((x) => x != itemOrIndexOrPredicate);
-      }
-    });
-
-    this.dataTable.onRefresh().subscribe((_) => {
-      this.tableDataSource.triggerFilterChange();
-    });
-
-    this.dataTable.onFilterApplied().subscribe((filters) => {
-      this.filterArray.forEach((x) => (x.defaults = null));
-      var clone = Object.assign([], this.filterArray);
-      for (const filter of filters) {
-        const index = clone.findIndex((x) => x.key == filter.key);
-        if (index != -1) {
-          clone[index].defaults = filter.defaults;
+        if (this.dataTable.optionsColumnRef) {
+          this.columnToDisplay.push('options');
         }
-      }
-      this.filterArray = [];
-      this.filterArray = clone;
-    });
+
+        if (this.dataTable.enableDataContainer) {
+          this.columnToDisplay.push('container');
+        }
+
+        if (this.dataTable.showCheckboxColumn) {
+          this.columnToDisplay.unshift('select');
+        }
+      })
+    );
+
+    this.subs.push(
+      this.dataTable.onFilterAdded().subscribe((filter) => {
+        this.filterArray.push(filter);
+      })
+    );
+
+    this.subs.push(
+      this.dataTable.onRowDelete().subscribe((itemOrIndexOrPredicate) => {
+        if (typeof itemOrIndexOrPredicate == 'function') {
+          this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList);
+        } else if (typeof itemOrIndexOrPredicate == 'number') {
+          this.sourceList = this.sourceList.filter((_, i) => i != itemOrIndexOrPredicate);
+        } else {
+          this.sourceList = this.sourceList.filter((x) => x != itemOrIndexOrPredicate);
+        }
+      })
+    );
+
+    this.subs.push(
+      this.dataTable.onRefresh().subscribe((_) => {
+        this.tableDataSource.triggerFilterChange();
+      })
+    );
+
+    this.subs.push(
+      this.dataTable.onFilterApplied().subscribe((filters) => {
+        this.filterArray.forEach((x) => (x.defaults = null));
+        var clone = Object.assign([], this.filterArray);
+        for (const filter of filters) {
+          const index = clone.findIndex((x) => x.key == filter.key);
+          if (index != -1) {
+            clone[index].defaults = filter.defaults;
+          }
+        }
+        this.filterArray = [];
+        this.filterArray = clone;
+      })
+    );
 
     // listen to dataSource filter change
     this.subs.push(
@@ -185,29 +200,26 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
         // which also discards any pending subscription if a new filter change event is emitted
         // while the previous request hasn't been completed
         .pipe(switchMap((filter) => this._getRecords(filter)))
-        .subscribe(
-          (res) => {
-            this.totalCount = res.Pager.TotalRecords;
-            this.sourceList = res.List;
-            this.isRender = true;
-            this.showFilter = true;
+        .subscribe((res) => {
+          this.totalCount = res.Pager.TotalRecords;
+          this.sourceList = res.List;
+          this.isRender = true;
+          this.showFilter = true;
 
-            if (this.dataTable.selectedRowPredicate) {
-              res.List.forEach((row) => {
-                if (!this.selection.isSelected(row) && this.dataTable.selectedRowPredicate(row)) {
-                  this.selection.select(row);
+          if (this.dataTable.selectedRowPredicate) {
+            res.List.forEach((row) => {
+              if (!this.selection.isSelected(row) && this.dataTable.selectedRowPredicate(row)) {
+                this.selection.select(row);
+              }
+
+              this.selection.selected.forEach((selected) => {
+                if (!this.dataTable.selectedRowPredicate(selected)) {
+                  this.selection.deselect(selected);
                 }
-
-                this.selection.selected.forEach((selected) => {
-                  if (!this.dataTable.selectedRowPredicate(selected)) {
-                    this.selection.deselect(selected);
-                  }
-                });
               });
-            }
-          },
-          (e) => console.log(e)
-        )
+            });
+          }
+        })
     );
 
     this.subs.push(

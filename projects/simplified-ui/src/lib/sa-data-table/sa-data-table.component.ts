@@ -160,19 +160,23 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       })
     );
 
-    this.dataTable.onRowDelete().subscribe((itemOrIndexOrPredicate) => {
-      if (typeof itemOrIndexOrPredicate == 'function') {
-        this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList);
-      } else if (typeof itemOrIndexOrPredicate == 'number') {
-        this.sourceList = this.sourceList.filter((_, i) => i != itemOrIndexOrPredicate);
-      } else {
-        this.sourceList = this.sourceList.filter((x) => x != itemOrIndexOrPredicate);
-      }
-    });
+    this.subs.push(
+      this.dataTable.onRowDelete().subscribe((itemOrIndexOrPredicate) => {
+        if (typeof itemOrIndexOrPredicate == 'function') {
+          this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList);
+        } else if (typeof itemOrIndexOrPredicate == 'number') {
+          this.sourceList = this.sourceList.filter((_, i) => i != itemOrIndexOrPredicate);
+        } else {
+          this.sourceList = this.sourceList.filter((x) => x != itemOrIndexOrPredicate);
+        }
+      })
+    );
 
-    this.dataTable.onRefresh().subscribe((_) => {
-      this.tableDataSource.triggerFilterChange();
-    });
+    this.subs.push(
+      this.dataTable.onRefresh().subscribe((_) => {
+        this.tableDataSource.triggerFilterChange();
+      })
+    );
 
     this.subs.push(
       this.dataTable.onFilterApplied().subscribe((filters) => {

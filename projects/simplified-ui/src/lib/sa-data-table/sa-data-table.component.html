@@ -137,7 +137,12 @@
               </div>
             </th>
             <ng-container *ngIf="col.template">
-              <td mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
+              <td
+                mat-cell
+                [style.min-width]="col.width ? col.width : 'initial'"
+                (click)="dataRowClick(element)"
+                *matCellDef="let element"
+              >
                 <div class="cell-container" *ngIf="dataTable.routerLinkEnabled">
                   <a [routerLink]="[element['route']]" fxFlexFill fxLayoutAlign="start center">
                     <ng-container *ngTemplateOutlet="col.template; context: { column: col, row: element }">
@@ -152,7 +157,12 @@
             </ng-container>
 
             <ng-container *ngIf="!col.template">
-              <td mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
+              <td
+                mat-cell
+                [style.min-width]="col.width ? col.width : 'initial'"
+                (click)="dataRowClick(element)"
+                *matCellDef="let element"
+              >
                 <div class="cell-container" *ngIf="dataTable.routerLinkEnabled">
                   <a [routerLink]="[element['route']]" fxFlexFill fxLayoutAlign="start center">
                     <span matTooltip="{{ element[col.key] | valueFormatter: col.type }}" class="truncate">

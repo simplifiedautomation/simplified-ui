@@ -1,0 +1,8 @@
+<div style='padding: 20px'>
+  <mat-form-field>
+    <mat-label>Date Picker</mat-label>
+    <sa-date-picker [dateConfig]='dateConfig' [formControl]='formControl' (onSelection)='onDateSelection($event)' ></sa-date-picker>
+  </mat-form-field>
+  <button mat-button (click)='toggleState()'>{{this.formControl.disabled ? "Enable" : "Disable"}}</button>
+  <button mat-button (click)='resetValue()'>Reset</button>
+</div>

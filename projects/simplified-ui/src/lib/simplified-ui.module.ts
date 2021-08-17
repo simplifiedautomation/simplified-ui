@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { SimplifiedUiComponent } from './simplified-ui.component';
 import { MaterialModule } from './material-module/material.module';
 import { SaPrimaryButtonComponent } from './sa-primary-button/sa-primary-button.component';
@@ -146,6 +146,6 @@ import { SaPageHeaderComponent } from './sa-page-header/sa-page-header.component
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [MatProgressSpinner],
-  providers: [{ provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
+  providers: [{ provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } }, { provide: LOCALE_ID, useValue: 'en-IN' }]   // Override LOCALE_ID to test currency input for INR
 })
 export class SimplifiedUiModule {}

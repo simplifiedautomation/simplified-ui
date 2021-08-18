@@ -18,8 +18,8 @@ import { debounceTime } from 'rxjs/operators';
 import {
   CurrencyPipe,
   getLocaleCurrencyCode, getLocaleCurrencySymbol,
-  getLocaleNumberFormat,
-  NumberFormatStyle,
+  getLocaleNumberFormat, getLocaleNumberSymbol,
+  NumberFormatStyle, NumberSymbol,
   registerLocaleData
 } from '@angular/common';
 import { MatFormFieldControl } from '@angular/material/form-field';
@@ -63,8 +63,8 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
 
   constructor(private _focusMonitor: FocusMonitor, private _elementRef: ElementRef<HTMLElement>, @Optional() @Self() public ngControl: NgControl, @Inject(LOCALE_ID) private locale: string,private currencyPipe: CurrencyPipe) {
 
-    this.groupSeparator = Intl.NumberFormat(this.locale).formatToParts(100000.123)[1].value;
-    this.decimalSeparator = Intl.NumberFormat(this.locale).formatToParts(100000.123)[3].value;
+    this.groupSeparator = getLocaleNumberSymbol(this.locale, NumberSymbol.CurrencyGroup);
+    this.decimalSeparator = getLocaleNumberSymbol(this.locale, NumberSymbol.CurrencyDecimal);
 
     _focusMonitor.monitor(_elementRef, true).subscribe((origin) => {
 

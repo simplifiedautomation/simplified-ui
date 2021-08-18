@@ -57,7 +57,7 @@ import { TextEditorComponent } from './examples/text-editor/text-editor.componen
     SimplifiedUiModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }, { provide: LOCALE_ID, useValue: 'en-IN' }],   // Override LOCALE_ID to test currency input for INR,
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

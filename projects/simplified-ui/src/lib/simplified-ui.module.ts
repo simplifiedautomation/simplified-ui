@@ -146,6 +146,6 @@ import { SaPageHeaderComponent } from './sa-page-header/sa-page-header.component
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [MatProgressSpinner],
-  providers: [{ provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } }, { provide: LOCALE_ID, useValue: 'en-IN' }]   // Override LOCALE_ID to test currency input for INR
+  providers: [{ provide: OWL_MOMENT_DATE_TIME_ADAPTER_OPTIONS, useValue: { useUtc: true } }]
 })
 export class SimplifiedUiModule {}

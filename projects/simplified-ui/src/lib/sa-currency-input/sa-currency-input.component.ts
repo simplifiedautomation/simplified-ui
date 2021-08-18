@@ -188,7 +188,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
   parse(value: string, allowNegative = false) {
     let [integer, fraction = ''] = (value.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
-    integer = integer.replaceAll(this.groupSeparator,'');
+    integer = integer.replaceAll(this.groupSeparator, '');
     fraction = parseInt(fraction, 10) > 0 && 2 > 0 ? this.decimalSeparator + (fraction + '000000').substring(0, 2) : '';
     if (allowNegative && value.startsWith('(') && value.endsWith(')')) {
       return (-1 * parseFloat(integer + fraction)).toString();

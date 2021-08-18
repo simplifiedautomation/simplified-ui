@@ -1,0 +1,9 @@
+<div>
+  <mat-form-field style="width: 100%">
+    <mat-label>Text Editor</mat-label>
+    <sa-text-editor [required]="true" [formControl]="formControl" name="Text Editor"></sa-text-editor>
+  </mat-form-field>
+  <button mat-button (click)='toggleState()'>{{this.formControl.disabled ? "Enable" : "Disable"}}</button>
+  <button mat-button (click)='reset()'>Reset</button>
+</div>
+

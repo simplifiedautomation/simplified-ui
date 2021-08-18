@@ -63,10 +63,6 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
 
   constructor(private _focusMonitor: FocusMonitor, private _elementRef: ElementRef<HTMLElement>, @Optional() @Self() public ngControl: NgControl, @Inject(LOCALE_ID) private locale: string,private currencyPipe: CurrencyPipe) {
 
-    console.log('Locale : ', this.locale);
-    console.log('Currency Code : ', getLocaleCurrencyCode(this.locale));
-    console.log('Data : ', Intl.NumberFormat(this.locale).formatToParts(100000.123));
-
     this.groupSeparator = Intl.NumberFormat(this.locale).formatToParts(100000.123)[1].value;
     this.decimalSeparator = Intl.NumberFormat(this.locale).formatToParts(100000.123)[3].value;
 
@@ -190,12 +186,9 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
   }
 
   parse(value: string, allowNegative = false) {
-    console.log("Value : ", value);
-    console.log("Value Contains : ", value.includes(','));
     let [integer, fraction = ''] = (value.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
     integer = integer.replaceAll(this.groupSeparator,'');
-    console.log('Fraction : ', fraction);
     fraction = parseInt(fraction, 10) > 0 && 2 > 0 ? this.decimalSeparator + (fraction + '000000').substring(0, 2) : '';
     if (allowNegative && value.startsWith('(') && value.endsWith(')')) {
       return (-1 * parseFloat(integer + fraction)).toString();

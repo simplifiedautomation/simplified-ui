@@ -41,10 +41,12 @@ registerLocaleData(localeEs);
 export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy, DoCheck {
   @ViewChild('input') inputRef: ElementRef;
 
+  @Input()allowNegative: boolean = true;
+
   static nextId = 0;
 
-  private decimalSeparator;
-  private groupSeparator;
+  private decimalSeparator: string;
+  private groupSeparator: string;
 
   public currencyValue = new FormControl();
   stateChanges = new Subject<void>();
@@ -106,7 +108,10 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
   }
 
   get shouldLabelFloat() {
-    return this.focused || !this.empty;
+    if (!this.focused) {
+      return this.currencyValue.value !== null;
+    }
+    return true;
   }
 
   @Input()
@@ -185,12 +190,12 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
     this.onChange(this.currencyValue.value);
   }
 
-  parse(value: string, allowNegative = false) {
+  parse(value: string) {
     let [integer, fraction = ''] = (value.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
-    integer = integer.replaceAll(this.groupSeparator, '');
+    integer = integer.replace(this.groupSeparator, '');
     fraction = parseInt(fraction, 10) > 0 && 2 > 0 ? this.decimalSeparator + (fraction + '000000').substring(0, 2) : '';
-    if (allowNegative && value.startsWith('(') && value.endsWith(')')) {
+    if (this.allowNegative && (value.toString() || '').startsWith('-')) {
       return (-1 * parseFloat(integer + fraction)).toString();
     } else {
       return integer + fraction;

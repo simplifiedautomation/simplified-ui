@@ -25,9 +25,11 @@ import {
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
 
+/*
+// Register the locale data in the module/component class where this component will be used.
 import localeEs from '@angular/common/locales/es';
-
 registerLocaleData(localeEs);
+ */
 
 @Component({
   selector: 'sa-currency-input',
@@ -38,10 +40,10 @@ registerLocaleData(localeEs);
     { provide: MatFormFieldControl, useExisting: SaCurrencyInputComponent },
   ]
 })
-export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy, DoCheck {
+export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnDestroy, DoCheck {
   @ViewChild('input') inputRef: ElementRef;
 
-  @Input()allowNegative: boolean = true;
+  @Input() allowNegative: boolean = true;
 
   static nextId = 0;
 
@@ -72,7 +74,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
 
       if(this.currencyValue.value != null) {
         if (origin) {
-          this.currencyValue.setValue(this.parse(this.currencyValue.value.replace(getLocaleCurrencySymbol(this.locale), '')));
+          this.currencyValue.setValue(this.parse(this.currencyValue.value));
         }
         else {
           this.currencyValue.setValue(currencyPipe.transform(this.parse(this.currencyValue.value), getLocaleCurrencyCode(this.locale)));
@@ -85,10 +87,6 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
-  }
-
-  ngOnInit() {
-    this.currencyValue.valueChanges.pipe(debounceTime(200)).subscribe((num) => {});
   }
 
   ngDoCheck(): void {
@@ -151,11 +149,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
 
   set value(val: string | null) {
     this._value = val;
-    if (this._value != null && this._value !== '' && this._value >= 0) {
-      this._empty = false;
-    } else {
-      this._empty = true;
-    }
+    this._empty = !(this._value != null && this._value !== '');
     this.onChange(this._value);
     this.stateChanges.next();
   }
@@ -191,11 +185,12 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
   }
 
   parse(value: string) {
-    let [integer, fraction = ''] = (value.toString() || '').split(this.decimalSeparator);
+    const temp = value.replace(getLocaleCurrencySymbol(this.locale), '')
+    let [integer, fraction = ''] = (temp.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
     integer = integer.replace(this.groupSeparator, '');
     fraction = parseInt(fraction, 10) > 0 && 2 > 0 ? this.decimalSeparator + (fraction + '000000').substring(0, 2) : '';
-    if (this.allowNegative && (value.toString() || '').startsWith('-')) {
+    if (this.allowNegative && (temp.toString() || '').startsWith('-')) {
       return (-1 * parseFloat(integer + fraction)).toString();
     } else {
       return integer + fraction;

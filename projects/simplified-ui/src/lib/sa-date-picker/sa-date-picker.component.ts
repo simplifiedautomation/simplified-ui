@@ -9,7 +9,7 @@ import {
   HostBinding,
   ViewChild,
   Output,
-  EventEmitter, LOCALE_ID, Inject
+  EventEmitter
 } from '@angular/core';
 import { ControlValueAccessor, NgControl, FormControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
@@ -20,7 +20,6 @@ import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigMode
 import * as moment_ from 'moment-timezone';
 const moment = moment_;
 import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
-import { DateTimeAdapter } from '@danielmoncada/angular-datetime-picker';
 
 @Component({
   selector: 'sa-date-picker',
@@ -150,11 +149,8 @@ export class SaDatePickerComponent
   constructor(
     @Optional() @Self() public ngControl: NgControl,
     private fm: FocusMonitor,
-    private elRef: ElementRef<HTMLElement>,
-    @Inject(LOCALE_ID) private locale: string,                /// Getting LOCALE_ID of our app. (manually set to 'en-IN' in app.module for testing)
-    dateTimeAdapter: DateTimeAdapter<any>                     /// Injecting DateTimeAdapter to change date time picker's locale
+    private elRef: ElementRef<HTMLElement>
   ) {
-    dateTimeAdapter.setLocale(this.locale);                  // Setting our app's LOCALE_ID as date time picker's locale.
     if (this.ngControl != null) {
       // Setting the value accessor directly (instead of using
       // the providers) to avoid running into a circular import.

@@ -192,7 +192,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
   }
 
   parse(value: string) {
-    const temp = value.toString().replace(getLocaleCurrencySymbol(this.locale), '');
+    const temp =  value.toString().replace(getLocaleCurrencySymbol(this.locale), '');
     let [integer, fraction = ''] = (temp.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
     integer = integer.replace(this.groupSeparator, '');

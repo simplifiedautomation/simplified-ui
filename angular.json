@@ -185,8 +185,5 @@
       }
     }
   },
-  "defaultProject": "simplified-ui-library",
-  "cli": {
-    "analytics": "cb8df5c8-539c-4c04-bbee-3864e14c6b3a"
-  }
+  "defaultProject": "simplified-ui-library"
 }

@@ -40,7 +40,7 @@ registerLocaleData(localeEs);
     { provide: MatFormFieldControl, useExisting: SaCurrencyInputComponent },
   ]
 })
-export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnDestroy, DoCheck {
+export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy, DoCheck {
   @ViewChild('input') inputRef: ElementRef;
 
   @Input() allowNegative: boolean = true;
@@ -101,6 +101,12 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
     this._focusMonitor.stopMonitoring(this._elementRef);
   }
 
+  ngOnInit() {
+    this.currencyValue.valueChanges.pipe(debounceTime(200)).subscribe((num) => {
+      this.value = this.parse(num);
+    });
+  }
+
   get empty() {
     return this._empty;
   }
@@ -130,6 +136,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
     this._required = coerceBooleanProperty(value);
     this.stateChanges.next();
   }
+
   private _required = false;
 
   @Input()
@@ -185,7 +192,7 @@ export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFi
   }
 
   parse(value: string) {
-    const temp = value.replace(getLocaleCurrencySymbol(this.locale), '')
+    const temp = value.replace(getLocaleCurrencySymbol(this.locale), '');
     let [integer, fraction = ''] = (temp.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
     integer = integer.replace(this.groupSeparator, '');

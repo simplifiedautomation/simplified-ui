@@ -41,6 +41,8 @@ export class AppComponent implements OnInit {
 
   dateFormats = DateFormats;
 
+  formControl: FormControl = new FormControl(1234);
+
   date = moment.tz(moment(), moment.tz.guess()); //current timezone
   date1 = moment.tz(moment(), 'America/Toronto'); //string timezone
   date2 = moment.tz(); //UTC timezone

@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SimplifiedUiComponent } from './simplified-ui.component';
 import { MaterialModule } from './material-module/material.module';
 import { SaPrimaryButtonComponent } from './sa-primary-button/sa-primary-button.component';

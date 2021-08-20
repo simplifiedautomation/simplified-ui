@@ -1,73 +1,83 @@
 import {
   Component,
-  OnDestroy,
-  ViewChild,
+  DoCheck,
   ElementRef,
+  Inject,
   Input,
+  LOCALE_ID,
+  OnDestroy,
+  OnInit,
   Optional,
   Self,
-  OnInit,
-  Inject,
-  LOCALE_ID,
-  DoCheck
+  ViewChild
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { debounceTime } from 'rxjs/operators';
-import { formatCurrency, getCurrencySymbol } from '@angular/common';
+import {
+  CurrencyPipe,
+  getLocaleCurrencyCode, getLocaleCurrencySymbol,
+  getLocaleNumberFormat, getLocaleNumberSymbol,
+  NumberFormatStyle, NumberSymbol,
+  registerLocaleData
+} from '@angular/common';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { ControlValueAccessor, FormControl, NgControl, Validators } from '@angular/forms';
-import { symbolFormatEnum } from '../pipes/sa-value-formatter.pipe';
+import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+
+/*
+// Register the locale data in the module/component class where this component will be used.
+import localeEs from '@angular/common/locales/es';
+registerLocaleData(localeEs);
+ */
 
 @Component({
   selector: 'sa-currency-input',
   templateUrl: './sa-currency-input.component.html',
   styleUrls: ['./sa-currency-input.component.scss'],
-  providers: [{ provide: MatFormFieldControl, useExisting: SaCurrencyInputComponent }]
+  providers: [
+    CurrencyPipe,
+    { provide: MatFormFieldControl, useExisting: SaCurrencyInputComponent },
+  ]
 })
-export class SaCurrencyInputComponent
-  implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy, DoCheck {
+export class SaCurrencyInputComponent implements ControlValueAccessor, MatFormFieldControl<any>, OnInit, OnDestroy, DoCheck {
   @ViewChild('input') inputRef: ElementRef;
+
   @Input() allowNegative: boolean = true;
 
   static nextId = 0;
+
   private decimalSeparator: string;
+  private groupSeparator: string;
+
   public currencyValue = new FormControl();
   stateChanges = new Subject<void>();
   private _value: any;
-  private viewValue: string;
   focused = false;
   errorState = false;
   controlType = 'currency-input';
   id = `currency-input-${SaCurrencyInputComponent.nextId++}`;
   describedBy = '';
-  onChange = (_: any) => {};
-  onTouched = () => {};
   private _empty = true;
-  private symbol: string;
   private _disabled = false;
   private _placeholder: string;
 
-  constructor(
-    private _focusMonitor: FocusMonitor,
-    private _elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() public ngControl: NgControl,
-    @Inject(LOCALE_ID) private locale: string
-  ) {
-    this.decimalSeparator = '.';
-    this.symbol = getCurrencySymbol('USD', symbolFormatEnum.narrow);
+  onChange = (_: any) => {};
+  onTouched = () => {};
+
+  constructor(private _focusMonitor: FocusMonitor, private _elementRef: ElementRef<HTMLElement>, @Optional() @Self() public ngControl: NgControl, @Inject(LOCALE_ID) private locale: string,private currencyPipe: CurrencyPipe) {
+
+    this.groupSeparator = getLocaleNumberSymbol(this.locale, NumberSymbol.CurrencyGroup);
+    this.decimalSeparator = getLocaleNumberSymbol(this.locale, NumberSymbol.CurrencyDecimal);
+
     _focusMonitor.monitor(_elementRef, true).subscribe((origin) => {
-      if (this.focused && !origin) {
-        if (this.viewValue) {
-          if (this.parse(this.viewValue))
-            this.currencyValue.patchValue(formatCurrency(parseFloat(this.parse(this.viewValue)), 'en-US', this.symbol));
-          else this.currencyValue.patchValue('');
+
+      if(this.currencyValue.value != null) {
+        if (origin) {
+          this.currencyValue.setValue(this.parse(this.currencyValue.value));
         }
-        this.onTouched();
-      } else {
-        if (this._value) {
-          this.currencyValue.patchValue(this.parse(this._value));
+        else {
+          this.currencyValue.setValue(currencyPipe.transform(this.parse(this.currencyValue.value), getLocaleCurrencyCode(this.locale)));
         }
       }
       this.focused = !!origin;
@@ -77,13 +87,6 @@ export class SaCurrencyInputComponent
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
-  }
-
-  ngOnInit() {
-    this.currencyValue.valueChanges.pipe(debounceTime(200)).subscribe((num) => {
-      this.viewValue = num;
-      this.value = this.parse(num);
-    });
   }
 
   ngDoCheck(): void {
@@ -98,12 +101,21 @@ export class SaCurrencyInputComponent
     this._focusMonitor.stopMonitoring(this._elementRef);
   }
 
+  ngOnInit() {
+    this.currencyValue.valueChanges.pipe(debounceTime(200)).subscribe((num) => {
+      this.value = this.parse(num);
+    });
+  }
+
   get empty() {
     return this._empty;
   }
 
   get shouldLabelFloat() {
-    return this.focused || !this.empty;
+    if (!this.focused) {
+      return this.currencyValue.value !== null;
+    }
+    return true;
   }
 
   @Input()
@@ -119,10 +131,12 @@ export class SaCurrencyInputComponent
   get required(): boolean {
     return this._required;
   }
+
   set required(value: boolean) {
     this._required = coerceBooleanProperty(value);
     this.stateChanges.next();
   }
+
   private _required = false;
 
   @Input()
@@ -142,11 +156,7 @@ export class SaCurrencyInputComponent
 
   set value(val: string | null) {
     this._value = val;
-    if (this._value != null && this._value !== '') {
-      this._empty = false;
-    } else {
-      this._empty = true;
-    }
+    this._empty = !(this._value != null && this._value !== '');
     this.onChange(this._value);
     this.stateChanges.next();
   }
@@ -160,7 +170,7 @@ export class SaCurrencyInputComponent
   writeValue(val: string | null): void {
     if (val != null) {
       this._empty = false;
-      this.currencyValue.patchValue(formatCurrency(parseFloat(val), 'en-US', this.symbol));
+      this.currencyValue.setValue(this.currencyPipe.transform(this.parse(val),getLocaleCurrencyCode(this.locale)))
     }
     this.value = val;
   }
@@ -182,10 +192,12 @@ export class SaCurrencyInputComponent
   }
 
   parse(value: string) {
-    let [integer, fraction = ''] = (value.toString() || '').split(this.decimalSeparator);
+    const temp =  value.toString().replace(getLocaleCurrencySymbol(this.locale), '');
+    let [integer, fraction = ''] = (temp.toString() || '').split(this.decimalSeparator);
     integer = integer.replace(new RegExp(/[^\d\.]/, 'g'), '');
+    integer = integer.replace(this.groupSeparator, '');
     fraction = parseInt(fraction, 10) > 0 && 2 > 0 ? this.decimalSeparator + (fraction + '000000').substring(0, 2) : '';
-    if (this.allowNegative && (value.toString() || '').startsWith('-')) {
+    if (this.allowNegative && (temp.toString() || '').startsWith('-')) {
       return (-1 * parseFloat(integer + fraction)).toString();
     } else {
       return integer + fraction;

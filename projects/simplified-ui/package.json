@@ -11,6 +11,7 @@
     "@angular/forms": "~9.1.9",
     "@angular/material": "9.2.4",
     "@nguniversal/module-map-ngfactory-loader": "^7.1.1",
+    "@juggle/resize-observer": "3.3.1",
     "ng-mat-select-infinite-scroll": "^2.0.0",
     "@danielmoncada/angular-datetime-picker": "^9.3.1",
     "ngx-mat-select-search": "^1.7.5",

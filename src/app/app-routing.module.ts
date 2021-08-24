@@ -18,7 +18,7 @@ const routes: Routes = [
   {path: 'buttons',component: ButtonsComponent},
   {path: 'currency-input',component: CurrencyInputComponent},
   {path: 'stepper',component: StepperComponent},
-  {path: 'data-filter',component: DataFilterComponent},
+  //{path: 'data-filter',component: DataFilterComponent},
   {path: 'more-menu',component: MoreMenuComponent},
   {path: 'date-picker',component: DatePickerComponent},
   {path: 'select',component: SelectComponent},

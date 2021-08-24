@@ -39,7 +39,7 @@ import { TextEditorComponent } from './examples/text-editor/text-editor.componen
     TableOfContentsComponent,
     TextEditorComponent,
     PageHeaderComponent,
-    DataTableComponent
+    DataTableComponent,
   ],
   imports: [
     BrowserModule,

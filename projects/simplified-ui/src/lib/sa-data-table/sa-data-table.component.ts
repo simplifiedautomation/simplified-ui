@@ -85,6 +85,11 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   totalCount: number;
   selection = new SelectionModel<T>(true, []);
 
+  private resizeStartX: number;
+  private resizeStartWidth: number;
+  isResizing: boolean;
+  private resizeIndex: number;
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -120,7 +125,27 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     button.triggerNext(evt);
   }
 
+  onColumnResize = (event: MouseEvent, index: number, header) => {
+    this.isResizing = true;
+    this.resizeStartX = event.pageX;
+    this.resizeIndex = index;
+    this.resizeStartWidth = header._elementRef.nativeElement.clientWidth;
+  };
+
+  onMouseMove = (event: MouseEvent) => {
+    if (this.isResizing) {
+      let width = this.resizeStartWidth + (event.pageX - this.resizeStartX);
+      this.columns[this.resizeIndex].width = `${width}px`;
+    }
+  };
+
+  onMouseUp = () => {
+    this.isResizing = false;
+  };
+
   ngOnInit() {
+    this._renderer.listen('document', 'mouseup', this.onMouseUp);
+
     this.actionsTemplate = this.dataTable.actionsTemplate;
     this.subs.push(
       this.dataTable.onColumnAdded().subscribe((column) => {

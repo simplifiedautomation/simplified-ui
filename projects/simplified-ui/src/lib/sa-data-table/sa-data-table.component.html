@@ -72,7 +72,9 @@
           [dataSource]="tableDataSource"
           matSort
           fxShow
+          [ngClass]="{ 'cursor-resize': isResizing }"
           [fxHide.lt-md]="listItemTemplateRef != null && listItemTemplateRef != undefined"
+          (mousemove)="onMouseMove($event)"
         >
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select" sticky="true">
@@ -118,7 +120,7 @@
 
           <!-- Sliced 1 to not to reinitilize the select controller-->
           <ng-container
-            *ngFor="let col of columns"
+            *ngFor="let col of columns; let i = index"
             matColumnDef="{{ col }}"
             [matColumnDef]="col.key"
             [sticky]="col.sticky"
@@ -130,14 +132,22 @@
               mat-sort-header
               [disabled]="col.disableSort"
               matTooltip="{{ col.title }}"
+              #tableHeader
             >
               <div *ngIf="!col.headerTemplate" class="truncate">{{ col.title | uppercase }}</div>
               <div *ngIf="col.headerTemplate">
                 <ng-container *ngTemplateOutlet="col.headerTemplate; context: { column: col }"> </ng-container>
               </div>
+
+              <span class="resize-handle" (mousedown)="onColumnResize($event, i, tableHeader)"></span>
             </th>
             <ng-container *ngIf="col.template">
-              <td mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
+              <td
+                mat-cell
+                [style.min-width]="col.width ? col.width : 'initial'"
+                (click)="dataRowClick(element)"
+                *matCellDef="let element"
+              >
                 <div class="cell-container" *ngIf="dataTable.routerLinkEnabled">
                   <a [routerLink]="[element['route']]" fxFlexFill fxLayoutAlign="start center">
                     <ng-container *ngTemplateOutlet="col.template; context: { column: col, row: element }">
@@ -152,7 +162,12 @@
             </ng-container>
 
             <ng-container *ngIf="!col.template">
-              <td mat-cell (click)="dataRowClick(element)" *matCellDef="let element">
+              <td
+                mat-cell
+                [style.min-width]="col.width ? col.width : 'initial'"
+                (click)="dataRowClick(element)"
+                *matCellDef="let element"
+              >
                 <div class="cell-container" *ngIf="dataTable.routerLinkEnabled">
                   <a [routerLink]="[element['route']]" fxFlexFill fxLayoutAlign="start center">
                     <span matTooltip="{{ element[col.key] | valueFormatter: col.type }}" class="truncate">

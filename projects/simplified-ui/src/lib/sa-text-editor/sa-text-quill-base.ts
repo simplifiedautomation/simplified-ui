@@ -53,18 +53,20 @@ const _MatQuillMixinBase: CanUpdateErrorStateCtor & CanDisableCtor & typeof SaTe
   mixinDisabled(SaTextQuillBase)
 );
 @Directive()
-export abstract class _MatQuillBase extends _MatQuillMixinBase
+export abstract class _MatQuillBase
+  extends _MatQuillMixinBase
   implements
-  AfterViewInit,
-  CanDisable,
-  CanUpdateErrorState,
-  ControlValueAccessor,
-  HasErrorState,
-  MatFormFieldControl<any>,
-  OnChanges,
-  OnDestroy,
-  Validator,
-  DoCheck {
+    AfterViewInit,
+    CanDisable,
+    CanUpdateErrorState,
+    ControlValueAccessor,
+    HasErrorState,
+    MatFormFieldControl<any>,
+    OnChanges,
+    OnDestroy,
+    Validator,
+    DoCheck
+{
   abstract controlType: string;
   focused = false;
   abstract id: string;
@@ -119,47 +121,13 @@ export abstract class _MatQuillBase extends _MatQuillMixinBase
     }
   }
 
-  /*
-   * GETTERS & SETTERS
-   */
-  @Input()
-  get disabled(): boolean {
-    if (this.ngControl && this.ngControl.disabled !== null) {
-      return this.ngControl.disabled;
-    }
-    return this._disabled;
-  }
-  set disabled(value: boolean) {
-    this._disabled = coerceBooleanProperty(value);
-    // Browsers may not fire the blur event if the input is disabled too quickly.
-    // Reset from here to ensure that the element doesn't become stuck.
-    if (this.focused) {
-      this.focused = false;
-      this.stateChanges.next();
-    }
-  }
-  protected _disabled = false;
+  disabled = false;
   private _empty = false;
   get empty() {
     return this._empty;
   }
-  @Input()
-  get placeholder(): string {
-    return this._placeholder;
-  }
-  set placeholder(value: string) {
-    this._placeholder = value;
-    this.stateChanges.next();
-  }
-  protected _placeholder: string;
-  @Input()
-  get required(): boolean {
-    return this._required;
-  }
-  set required(value: boolean) {
-    this._required = coerceBooleanProperty(value);
-  }
-  protected _required = false;
+  placeholder: string;
+  required = false;
   @HostBinding('class.floating')
   get shouldLabelFloat() {
     return this.focused || !this.empty;

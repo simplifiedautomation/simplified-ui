@@ -15,13 +15,11 @@ import {
   DoCheck
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm, Validator, FormControl } from '@angular/forms';
+import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm, Validator } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { QuillEditorBase, QuillService } from 'ngx-quill';
 import {
-  CanDisableCtor,
-  CanUpdateErrorStateCtor,
   mixinDisabled,
   mixinErrorState,
   CanDisable,
@@ -30,7 +28,6 @@ import {
 } from '@angular/material/core';
 import { HasErrorState } from '@angular/material/core/common-behaviors/error-state';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 class SaTextQuillBase extends QuillEditorBase {
   constructor(
@@ -49,9 +46,7 @@ class SaTextQuillBase extends QuillEditorBase {
     super(elementRef, domSanitizer, doc, platformId, renderer, zone, service);
   }
 }
-const _MatQuillMixinBase: CanUpdateErrorStateCtor & CanDisableCtor & typeof SaTextQuillBase = mixinErrorState(
-  mixinDisabled(SaTextQuillBase)
-);
+const _MatQuillMixinBase = mixinErrorState(mixinDisabled(SaTextQuillBase));
 @Directive()
 export abstract class _MatQuillBase
   extends _MatQuillMixinBase

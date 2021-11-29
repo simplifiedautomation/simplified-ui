@@ -23,8 +23,9 @@ import {
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
 import { SaSelectComponent } from '../sa-select/sa-select.component';
 import { SaSelectConfig } from '../models/SaSelectModels';
-import { MOMENT_FORMATS, DatePickerConfig, DatePickerType } from '../../public-api';
 import * as moment_ from 'moment-timezone';
+import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigModel';
+import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
 const moment = moment_;
 
 @Component({

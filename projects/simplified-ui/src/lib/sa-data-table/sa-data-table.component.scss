@@ -106,6 +106,7 @@
   .mat-sort-header-container,
   .mat-sort-header-container .mat-sort-header-button {
     overflow: hidden;
+    position: unset;
   }
 }
 
@@ -172,4 +173,42 @@
 
 mat-nav-list {
   background-color: #fff;
+}
+
+table th {
+  position: relative;
+}
+
+table th:hover .resize-handle::after {
+  opacity: 1;
+  transition: 0.3s ease-in-out;
+}
+
+.resize-handle {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: -10px;
+  height: 100%;
+  cursor: col-resize;
+  width: 20px;
+}
+
+.resize-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 8px;
+  width: 2px;
+  height: 80%;
+  background-color: lightgray;
+  opacity: 0;
+}
+
+.cursor-resize {
+  cursor: col-resize;
+  ::ng-deep .mat-sort-header-container {
+    cursor: col-resize;
+  }
 }

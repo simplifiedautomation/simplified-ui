@@ -17,7 +17,7 @@ export class AbbreviateNumberPipe implements PipeTransform {
       currencySymbol = getCurrencySymbol('USD', symbolFormatEnum.narrow, this.locale);
       number = Number(
         value
-          .toString()
+          ?.toString()
           .replace(currencySymbol, '')
           .match(/[+-]?\d+(?:\.\d+)?/g)
           .join('')

@@ -5,7 +5,8 @@ export class NavigationItem {
     public name: string,
     public route: string,
     public iconUrl?: string,
-    public badge: Observable<string> = null
+    public badge: Observable<string> = null,
+    public isSvgIcon?: boolean
   ) {}
 
   obs = new Subject<string>();

@@ -1,3 +1,8 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css';
 @import '../projects/simplified-ui/src/lib/styles/simplified-ui.scss';
+
+
+body {
+  margin: 0;
+}

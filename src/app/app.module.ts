@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,9 +12,35 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from './examples/home/home.component';
+import { CurrencyInputComponent } from './examples/currency-input/currency-input.component';
+import { ButtonsComponent } from './examples/buttons/buttons.component';
+import { DataFilterComponent } from './examples/data-filter/data-filter.component';
+import { SelectComponent } from './examples/select/select.component';
+import { StepperComponent } from './examples/stepper/stepper.component';
+import { DatePickerComponent } from './examples/date-picker/date-picker.component';
+import { MoreMenuComponent } from './examples/more-menu/more-menu.component';
+import { TableOfContentsComponent } from './examples/table-of-contents/table-of-contents.component';
+import { DataTableComponent } from './examples/data-table/data-table.component';
+import { PageHeaderComponent } from './examples/page-header/page-header.component';
+import { TextEditorComponent } from './examples/text-editor/text-editor.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    ButtonsComponent,
+    CurrencyInputComponent,
+    StepperComponent,
+    DataFilterComponent,
+    MoreMenuComponent,
+    DatePickerComponent,
+    SelectComponent,
+    TableOfContentsComponent,
+    TextEditorComponent,
+    PageHeaderComponent,
+    DataTableComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -28,7 +54,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     MatFormFieldModule,
     QuillModule,
-    SimplifiedUiModule
+    SimplifiedUiModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],

@@ -38,6 +38,7 @@
     "quill-image-resize-module": "^3.0.0",
     "quill-mention": "^2.2.5",
     "rxjs": "~6.5.5",
+    "simplified-ui": "^1.0.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
   },

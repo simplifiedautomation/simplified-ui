@@ -130,7 +130,8 @@
               mat-header-cell
               *matHeaderCellDef
               mat-sort-header
-              [disabled]="col.disableSort"
+              [ngClass]="{ 'disable-sort': col.disableSort || isResizing }"
+              [disabled]="col.disableSort || isResizing"
               matTooltip="{{ col.title }}"
               #tableHeader
             >
@@ -138,13 +139,13 @@
               <div *ngIf="col.headerTemplate">
                 <ng-container *ngTemplateOutlet="col.headerTemplate; context: { column: col }"> </ng-container>
               </div>
-
+              <div class="sort-arrow-placeholder"></div>
               <span class="resize-handle" (mousedown)="onColumnResize($event, i, tableHeader)"></span>
             </th>
             <ng-container *ngIf="col.template">
               <td
                 mat-cell
-                [style.min-width]="col.width ? col.width : 'initial'"
+                [style.min-width]="col.width ? col.width : '120px'"
                 (click)="dataRowClick(element)"
                 *matCellDef="let element"
               >
@@ -164,7 +165,7 @@
             <ng-container *ngIf="!col.template">
               <td
                 mat-cell
-                [style.min-width]="col.width ? col.width : 'initial'"
+                [style.min-width]="col.width ? col.width : '120px'"
                 (click)="dataRowClick(element)"
                 *matCellDef="let element"
               >

@@ -48,6 +48,7 @@
   .mat-cell {
     height: 100%;
     position: relative;
+    transition: min-width 0.1s linear;
 
     .cell-container {
       height: 100%;
@@ -210,5 +211,12 @@ table th:hover .resize-handle::after {
   cursor: col-resize;
   ::ng-deep .mat-sort-header-container {
     cursor: col-resize;
+  }
+}
+
+.disable-sort {
+  pointer-events: none;
+  .sort-arrow-placeholder {
+    width: 18px;
   }
 }

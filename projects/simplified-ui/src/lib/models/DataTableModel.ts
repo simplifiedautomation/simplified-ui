@@ -51,6 +51,7 @@ export class DataTable<T> {
   private deleteRowSubect: ReplaySubject<T | number | ((sourceList: T[]) => T[])> = new ReplaySubject();
 
   private refreshTableSubject: Subject<any> = new Subject();
+  private toggleCheckboxColumnSubject: Subject<boolean> = new Subject();
   mainActionMenu: SaButtonConfig[] = [];
 
   routerLinkEnabled: boolean = false;
@@ -190,6 +191,10 @@ export class DataTable<T> {
     return this.refreshTableSubject.asObservable();
   }
 
+  onCheckboxColumnToggle(): Observable<boolean> {
+    return this.toggleCheckboxColumnSubject.asObservable();
+  }
+
   /**
    * Deletes the row by matching object reference
    * @param item Item to be deleted
@@ -211,6 +216,10 @@ export class DataTable<T> {
 
   refresh() {
     this.refreshTableSubject.next();
+  }
+
+  toggleCheckboxColumn(value = null) {
+    this.toggleCheckboxColumnSubject.next(value);
   }
 
   /**

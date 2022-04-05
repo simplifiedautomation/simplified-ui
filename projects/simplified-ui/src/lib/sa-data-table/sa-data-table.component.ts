@@ -225,8 +225,6 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
     this.subs.push(
       this.dataTable.onFilterApplied().subscribe((filters) => {
-        console.log('applying', this.filterArray);
-
         this.filterArray.forEach((x) => (x.defaults = null));
         var clone = Object.assign([], this.filterArray);
         for (const filter of filters) {

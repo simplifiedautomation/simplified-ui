@@ -14,7 +14,8 @@ import {
   ViewContainerRef,
   InjectionToken,
   Injector,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  SimpleChanges
 } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
@@ -45,6 +46,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
 
   @Output() rowClick = new EventEmitter<T>();
   @Output() rowSelect = new EventEmitter<RowSelectEventDataModel<T>>();
+  @Output() selectionChange = new EventEmitter<T[]>();
 
   columnToDisplay: string[] = [];
   columns: IDataTableColumn[] = [];
@@ -94,7 +96,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     if (this.tableDataSource.dataStream != null) {
-      return numSelected === this.tableDataSource.filter.pageSize;
+      return numSelected === this.sourceList.length;
     }
     return false;
   }
@@ -104,6 +106,8 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     this.isAllSelected()
       ? this.selection.clear()
       : this.tableDataSource.dataStream.subscribe((row) => row.forEach((r) => this.selection.select(r)));
+
+    this.selectionChange.next(this.selection.selected);
   }
 
   checkboxLabel(row?: T): string {
@@ -188,7 +192,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     this.subs.push(
       this.dataTable.onRowDelete().subscribe((itemOrIndexOrPredicate) => {
         if (typeof itemOrIndexOrPredicate == 'function') {
-          this.sourceList = (<Function>itemOrIndexOrPredicate)(this.sourceList);
+          this.sourceList = (itemOrIndexOrPredicate as Function)(this.sourceList);
         } else if (typeof itemOrIndexOrPredicate == 'number') {
           this.sourceList = this.sourceList.filter((_, i) => i != itemOrIndexOrPredicate);
         } else {
@@ -200,6 +204,22 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     this.subs.push(
       this.dataTable.onRefresh().subscribe((_) => {
         this.tableDataSource.triggerFilterChange();
+      })
+    );
+
+    this.subs.push(
+      this.dataTable.onCheckboxColumnToggle().subscribe((value) => {
+        if (value === null) {
+          this.dataTable.showCheckboxColumn = !this.dataTable.showCheckboxColumn;
+        } else {
+          this.dataTable.showCheckboxColumn = value;
+        }
+
+        if (this.dataTable.showCheckboxColumn) {
+          this.columnToDisplay.unshift('select');
+        } else {
+          this.columnToDisplay = this.columnToDisplay.filter((x) => x != 'select');
+        }
       })
     );
 
@@ -310,12 +330,12 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
     this.opened = true;
     this.virtualPotalOutlet.detach();
     if (!this.dataTable.componentOrTemplateRef) {
-      let x = new TemplatePortal<T>(this.templatePortalContent, null, <any>{ $implicit: ele });
+      let x = new TemplatePortal<T>(this.templatePortalContent, null, { $implicit: ele } as any);
       this.virtualPotalOutlet.attach(x);
       return;
     }
     if (this.dataTable.componentOrTemplateRef instanceof TemplateRef) {
-      let portal = new TemplatePortal<T>(this.dataTable.componentOrTemplateRef, null, <any>{ $implicit: ele });
+      let portal = new TemplatePortal<T>(this.dataTable.componentOrTemplateRef, null, { $implicit: ele } as any);
       this.virtualPotalOutlet.attach(portal);
     } else {
       this.virtualPotalOutlet.detach();
@@ -361,6 +381,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       rowData: row
     };
     this.rowSelect.emit(eventdata);
+    this.selectionChange.next(this.selection.selected);
   }
 
   initializeMinimap() {
@@ -443,7 +464,7 @@ export class SaDataTableComponent<T> implements OnInit, AfterViewInit, OnDestroy
       });
 
       this._renderer.listen(this.scroll_container.nativeElement, 'click', (e) => {
-        if (!isDown && (<HTMLElement>e.target).id == 'scroll-container') {
+        if (!isDown && (e.target as HTMLElement).id == 'scroll-container') {
           var clickOffsetLeft = e.clientX;
 
           this.table.nativeElement.scrollLeft += (clickOffsetLeft - this.scrollerWidth) * ratio;

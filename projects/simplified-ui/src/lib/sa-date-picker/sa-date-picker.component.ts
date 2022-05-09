@@ -17,8 +17,7 @@ import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigModel';
-import * as moment_ from 'moment-timezone';
-const moment = moment_;
+import moment from 'moment-timezone';
 import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
 
 @Component({
@@ -28,7 +27,8 @@ import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
   providers: [{ provide: MatFormFieldControl, useExisting: SaDatePickerComponent }]
 })
 export class SaDatePickerComponent
-  implements ControlValueAccessor, MatFormFieldControl<Date | Date[]>, OnDestroy, OnInit {
+  implements ControlValueAccessor, MatFormFieldControl<Date | Date[]>, OnDestroy, OnInit
+{
   @ViewChild('input', { static: true }) inputRef: ElementRef;
 
   @Input() dateConfig: DatePickerConfig;

@@ -22,11 +22,10 @@ import {
 } from 'projects/simplified-ui/src/public-api';
 import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { of } from 'rxjs';
-import * as moment_ from 'moment-timezone';
+import moment from 'moment-timezone';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { QuillEditorComponent, ContentChange, SelectionChange } from 'ngx-quill';
-const moment = moment_;
 
 @Component({
   selector: 'app-root',
@@ -41,7 +40,7 @@ export class AppComponent implements OnInit {
 
   dateFormats = DateFormats;
 
-  date = moment.tz(moment(), moment.tz.guess()); //current timezone
+  date = moment.tz(moment(), moment.tz?.guess()); //current timezone
   date1 = moment.tz(moment(), 'America/Toronto'); //string timezone
   date2 = moment.tz(); //UTC timezone
 

@@ -23,10 +23,9 @@ import {
 import { SaDatePickerComponent } from '../sa-date-picker/sa-date-picker.component';
 import { SaSelectComponent } from '../sa-select/sa-select.component';
 import { SaSelectConfig } from '../models/SaSelectModels';
-import * as moment_ from 'moment-timezone';
+import moment from 'moment-timezone';
 import { DatePickerConfig, DatePickerType } from '../models/DatePickerConfigModel';
 import { MOMENT_FORMATS } from '../pipes/sa-date-time.pipe';
-const moment = moment_;
 
 @Component({
   selector: 'sa-data-filter',
@@ -184,7 +183,7 @@ export class SaDataFilterComponent implements OnInit, OnChanges {
 
   private getDateDisplayValue(date: Date, filterConfig: DatePickerConfig): Date {
     return filterConfig.pickerType == DatePickerType.both
-      ? moment.tz(date, moment.tz.guess()).format(MOMENT_FORMATS.dateA11yLabel)
+      ? moment.tz(date, moment.tz?.guess()).format(MOMENT_FORMATS.dateA11yLabel)
       : date;
   }
 }
